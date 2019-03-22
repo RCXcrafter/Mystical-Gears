@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mystgears",
+  "name": "Mystical Gears",
+  "description": "Adds more gears to Mystical Mechanics.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["RCXcrafter"],
+  "credits": "Elucent and Daedalus for making Mystical Mechanics",
+  "logoFile": "/mystgears_logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

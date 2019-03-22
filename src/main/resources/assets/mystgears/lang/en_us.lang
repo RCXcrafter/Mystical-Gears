@@ -1,0 +1,14 @@
+# Items
+
+item.mystgears.gear.name=@material Gear
+
+material.wood.name=Wooden
+material.cosmicneutronium.name=Neutronium
+material.elvenelementium.name=Elementium
+
+
+# descriptions
+
+desc.gear.name=Can be used in a gearbox
+desc.gear.max.name=Max power: @power
+desc.gear.transfer.name=Power transfer: @transferx
