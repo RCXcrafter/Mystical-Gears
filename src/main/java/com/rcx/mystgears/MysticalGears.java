@@ -1,11 +1,9 @@
 package com.rcx.mystgears;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -29,7 +27,7 @@ public class MysticalGears {
 	public static CommonProxy proxy;
 	public static final String MODID = "mystgears";
 	public static final String NAME = "Mystical Gears";
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.0.1";
 
 	public static List<ItemGear> items = new ArrayList<ItemGear>();
 
@@ -60,11 +58,5 @@ public class MysticalGears {
 	@SubscribeEvent
 	public void itemRegistry(final RegistryEvent.Register<Item> event) {
 		proxy.registerItems(event);
-	}
-
-	@SubscribeEvent
-	public void tooltipEvent(ItemTooltipEvent event) {
-		if (ConfigHandler.tooltips)
-		proxy.tooltipEvent(event);
 	}
 }

@@ -1,7 +1,5 @@
 package com.rcx.mystgears.proxy;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -12,11 +10,9 @@ import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 
-import morph.avaritia.init.AvaritiaTextures;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
-import mysticalmechanics.apiimpl.MysticalMechanicsAPIImpl;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,9 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -313,9 +307,5 @@ public class CommonProxy {
 			event.getRegistry().register(item);
 			item.registerOredict();
 		}
-	}
-
-	public void tooltipEvent(ItemTooltipEvent event) {
-
 	}
 }

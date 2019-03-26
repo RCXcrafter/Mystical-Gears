@@ -4,17 +4,13 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.rcx.mystgears.proxy.CommonProxy;
-
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraftforge.fml.common.Loader;
 import teamroots.embers.particle.ParticleUtil;
 
 public class GearBehaviorRegular implements IGearBehavior {

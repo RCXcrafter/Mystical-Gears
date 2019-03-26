@@ -1,32 +1,19 @@
 package com.rcx.mystgears.item;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.rcx.mystgears.MysticalGears;
-import com.rcx.mystgears.GearBehaviorRegular;
-
 import codechicken.lib.model.ModelRegistryHelper;
 import codechicken.lib.util.TransformUtils;
 import morph.avaritia.api.IHaloRenderItem;
 import morph.avaritia.client.render.item.HaloRenderItem;
 import morph.avaritia.entity.EntityImmortalItem;
 import morph.avaritia.init.AvaritiaTextures;
-import mysticalmechanics.api.IGearBehavior;
-import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemGearAvaritia extends ItemGear implements IHaloRenderItem {
 
@@ -46,6 +33,7 @@ public class ItemGearAvaritia extends ItemGear implements IHaloRenderItem {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerModel() {
 		super.registerModel();
 		final ModelResourceLocation location = new ModelResourceLocation(this.getRegistryName(), "inventory");

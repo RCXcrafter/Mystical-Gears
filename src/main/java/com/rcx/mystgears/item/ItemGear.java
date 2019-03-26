@@ -4,9 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.ConfigHandler;
-import com.rcx.mystgears.GearBehaviorRegular;
-import com.rcx.mystgears.proxy.CommonProxy;
-
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -18,9 +15,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 import teamroots.embers.ConfigManager;
@@ -52,6 +49,7 @@ public class ItemGear extends Item {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
 		String material = name;
 		if(I18n.canTranslate("material." + name.toLowerCase() + ".name")) {

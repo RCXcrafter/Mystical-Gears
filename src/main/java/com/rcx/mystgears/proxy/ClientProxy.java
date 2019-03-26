@@ -8,20 +8,22 @@ import com.rcx.mystgears.item.ItemGear;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
+		if (ConfigHandler.tooltips)
+			MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -43,8 +45,8 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
+	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
-		super.tooltipEvent(event);
 		if (MysticalMechanicsAPI.IMPL.isValidGear(event.getItemStack())) {
 			IGearBehavior behavior = MysticalMechanicsAPI.IMPL.getGearBehavior(event.getItemStack());
 
