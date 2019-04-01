@@ -2,6 +2,7 @@ package com.rcx.mystgears;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.proxy.CommonProxy;
 
-@Mod(modid = MysticalGears.MODID, name = MysticalGears.NAME, version = MysticalGears.VERSION, dependencies = "required-after:mysticalmechanics;after:embers")
+@Mod(modid = MysticalGears.MODID, name = MysticalGears.NAME, version = MysticalGears.VERSION, dependencies = "required-after:mysticalmechanics;after:embers;after:botania")
 public class MysticalGears {
 
 	@SidedProxy(clientSide = "com.rcx.mystgears.proxy.ClientProxy", serverSide = "com.rcx.mystgears.proxy.CommonProxy")
@@ -30,6 +31,7 @@ public class MysticalGears {
 	public static final String VERSION = "1.0.1";
 
 	public static List<ItemGear> items = new ArrayList<ItemGear>();
+	public static List<ItemBlock> blocks = new ArrayList<ItemBlock>();
 
 	public static Logger logger;
 

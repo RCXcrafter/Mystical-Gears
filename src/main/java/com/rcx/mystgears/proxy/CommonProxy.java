@@ -6,6 +6,9 @@ import javax.annotation.Nullable;
 
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.block.BlockGearanium;
+import com.rcx.mystgears.block.SubTileGearanium;
+import com.rcx.mystgears.block.TileEntityGearanium;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
@@ -15,6 +18,7 @@ import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +37,8 @@ import teamroots.embers.RegistryManager;
 import teamroots.embers.particle.ParticleUtil;
 import teamroots.embers.recipe.ItemStampingRecipe;
 import teamroots.embers.recipe.RecipeRegistry;
+import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.subtile.signature.BasicSignature;
 import vazkii.botania.common.Botania;
 
 public class CommonProxy {
@@ -220,6 +226,14 @@ public class CommonProxy {
 					}
 				}
 			}));
+			
+			
+			
+			
+			ItemBlock block = new ItemBlock(new BlockGearanium());
+			MysticalGears.blocks.add((ItemBlock) block.setRegistryName(block.getBlock().getRegistryName()));
+			
+			
 		}
 	}
 
@@ -292,6 +306,12 @@ public class CommonProxy {
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
+		
+		
+		GameRegistry.registerTileEntity(TileEntityGearanium.class, new ResourceLocation(MysticalGears.MODID, SubTileGearanium.SUBTILE_GEARANIUM));
+		
+		
+		
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
@@ -299,7 +319,9 @@ public class CommonProxy {
 	}
 
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
-
+		for (ItemBlock block : MysticalGears.blocks) {
+			event.getRegistry().register(block.getBlock());
+		}
 	}
 
 	public void registerItems(RegistryEvent.Register<Item> event) {
@@ -307,5 +329,17 @@ public class CommonProxy {
 			event.getRegistry().register(item);
 			item.registerOredict();
 		}
+		for (ItemBlock block : MysticalGears.blocks) {
+			event.getRegistry().register(block);
+		}
+
+		/*BotaniaAPI.registerSubTile(SubTileGearanium.SUBTILE_GEARANIUM, SubTileGearanium.class);
+		BotaniaAPI.registerSubTileSignature(SubTileGearanium.class, new BasicSignature(SubTileGearanium.SUBTILE_GEARANIUM) {
+            @Override
+            public String getUnlocalizedLoreTextForStack(ItemStack stack) {
+                return "desc.gearanium.name";
+            }
+		});
+		BotaniaAPI.addSubTileToCreativeMenu(SubTileGearanium.SUBTILE_GEARANIUM);*/
 	}
 }
