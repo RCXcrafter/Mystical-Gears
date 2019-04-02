@@ -1,5 +1,6 @@
 package com.rcx.mystgears.block;
 
+import java.awt.Color;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -10,6 +11,7 @@ import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,12 +22,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.internal.IManaNetwork;
 import vazkii.botania.api.lexicon.LexiconEntry;
+import vazkii.botania.api.mana.IManaPool;
 import vazkii.botania.api.subtile.ISubTileSlowableContainer;
 import vazkii.botania.api.subtile.SubTileEntity;
 import vazkii.botania.api.wand.IWandBindable;
@@ -49,10 +56,31 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			source.markDirty();
 		}
 	};
+
+	public static final int LINK_RANGE = 10;
+
+	private static final String TAG_MANA = "mana";
+
+	private static final String TAG_POOL_X = "poolX";
+	private static final String TAG_POOL_Y = "poolY";
+	private static final String TAG_POOL_Z = "poolZ";
 	
+
+	public static final int ROTATION_POWER = 50;
+	public static final int MANA_USAGE = 50;
+
+	public int mana = 0;
+
+	public int redstoneSignal = 0;
+
+	int sizeLastCheck = -1;
+	TileEntity linkedPool = null;
+	public int knownMana = -1;
+
+	BlockPos cachedPoolCoordinates = null;
+
 	Boolean overgrowth = false;
 	Boolean overgrowthBoost = false;
-	
 
 	public TileEntityGearanium(){
 		super();
@@ -63,26 +91,22 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		return oldState.getBlock() != newState.getBlock();
 	}
 
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	public boolean isOnSpecialSoil() {
 		return world.getBlockState(pos.down()).getBlock() == ModBlocks.enchantedSoil;
 	}
 
-	public LexiconEntry getEntry() {
+	/*public LexiconEntry getEntry() {
 		return null;
 	}
 
-	public boolean onWanded(ItemStack wand, EntityPlayer player) {
-		return false;
-	}
-
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack stack) {
-		
+
 	}
 
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -90,69 +114,157 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	}
 
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		
+
 	}
 
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-		
+
 	}
 
 	public List<ItemStack> getDrops(List<ItemStack> list) {
 		return list;
+	}*/
+
+	public void linkPool() {
+		boolean needsNew = false;
+		if(linkedPool == null) {
+			needsNew = true;
+
+			if(cachedPoolCoordinates != null) {
+				needsNew = false;
+				if(getWorld().isBlockLoaded(cachedPoolCoordinates)) {
+					needsNew = true;
+					TileEntity tileAt = getWorld().getTileEntity(cachedPoolCoordinates);
+					if(tileAt != null && tileAt instanceof IManaPool && !tileAt.isInvalid()) {
+						linkedPool = tileAt;
+						needsNew = false;
+					}
+					cachedPoolCoordinates = null;
+				}
+			}
+		} else {
+			TileEntity tileAt = getWorld().getTileEntity(linkedPool.getPos());
+			if(tileAt != null && tileAt instanceof IManaPool)
+				linkedPool = tileAt;
+		}
+
+		if(needsNew && ticksExisted == 1) { // Only for new flowers
+			IManaNetwork network = BotaniaAPI.internalHandler.getManaNetworkInstance();
+			int size = network.getAllPoolsInWorld(getWorld()).size();
+			if(BotaniaAPI.internalHandler.shouldForceCheck() || size != sizeLastCheck) {
+				linkedPool = network.getClosestPool(getPos(), getWorld(), LINK_RANGE);
+				sizeLastCheck = size;
+			}
+		}
 	}
 
-	@Override
-	public boolean receiveClientEvent(int id, int param) {
-		return super.receiveClientEvent(id, param);
+	public void linkToForcefully(TileEntity pool) {
+		linkedPool = pool;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void renderHUD(Minecraft mc, ScaledResolution res) {
-		
+	public void addMana(int mana) {
+		this.mana = Math.min(getMaxMana(), this.mana + mana);
 	}
+
+	public boolean removeMana(int mana) {
+		if (this.mana < mana)
+			return false;
+		this.mana -= mana;
+		return true;
+	}
+
+	public boolean onWanded(ItemStack wand, EntityPlayer player) {
+		if(player == null)
+			return false;
+
+		knownMana = mana;
+		SoundEvent evt = ForgeRegistries.SOUND_EVENTS.getValue(SubTileEntity.DING_SOUND_EVENT);
+		if(evt != null)
+			player.playSound(evt, 0.1F, 1F);
+
+		return false;
+	}
+
+	public int getMaxMana() {
+		return 1000;
+	}
+
+	public int getColor() {
+		return 0x7130FF;
+	}
+
+
 
 	@Override
 	public BlockPos getBinding() {
+		if(linkedPool == null)
 			return null;
+		return linkedPool.getPos();
 	}
 
 	@Override
 	public boolean canSelect(EntityPlayer player, ItemStack wand, BlockPos pos, EnumFacing side) {
-			return false;
+		return true;
 	}
 
 	@Override
 	public boolean bindTo(EntityPlayer player, ItemStack wand, BlockPos pos, EnumFacing side) {
-			return false;
+		int range = 10;
+		range *= range;
+
+		double dist = pos.distanceSq(getPos());
+		if(range >= dist) {
+			TileEntity tile = player.world.getTileEntity(pos);
+			if(tile instanceof IManaPool) {
+				linkedPool = tile;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
-	public int getLightValue() {
-			return 0;
+	public boolean isValidBinding() {
+		return linkedPool != null && linkedPool.hasWorld() && !linkedPool.isInvalid() && getWorld().isBlockLoaded(linkedPool.getPos(), false) && getWorld().getTileEntity(linkedPool.getPos()) == linkedPool;
 	}
 
-	public int getComparatorInputOverride() {
-			return 0;
+	@SideOnly(Side.CLIENT)
+	//@Override
+	public void renderHUD(Minecraft mc, ScaledResolution res) {
+		String name = I18n.format("tile.flower.gearanium.name");
+		int color = getColor();
+		BotaniaAPI.internalHandler.drawComplexManaHUD(color, knownMana, getMaxMana(), name, res, new ItemStack(ModBlocks.pool), isValidBinding());
 	}
+	
+	
+	
+	
+	
+	
 
-	public int getPowerLevel(EnumFacing side) {
-			return 0;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag){
 		super.writeToNBT(tag);
 		tag.setDouble("mech_power", capability.power);
 		//tag.setInteger("level", wantedPowerIndex);
+		
+		tag.setInteger(TAG_MANA, mana);
+
+		if(cachedPoolCoordinates != null) {
+			tag.setInteger(TAG_POOL_X, cachedPoolCoordinates.getX());
+			tag.setInteger(TAG_POOL_Y, cachedPoolCoordinates.getY());
+			tag.setInteger(TAG_POOL_Z, cachedPoolCoordinates.getZ());
+		} else {
+			int x = linkedPool == null ? 0 : linkedPool.getPos().getX();
+			int y = linkedPool == null ? -1 : linkedPool.getPos().getY();
+			int z = linkedPool == null ? 0 : linkedPool.getPos().getZ();
+
+			tag.setInteger(TAG_POOL_X, x);
+			tag.setInteger(TAG_POOL_Y, y);
+			tag.setInteger(TAG_POOL_Z, z);
+		}
 		return tag;
 	}
 
@@ -163,6 +275,14 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			capability.power = tag.getDouble("mech_power");
 		}
 		//wantedPowerIndex = tag.getInteger("level") % wantedPower.length;
+
+		mana = tag.getInteger(TAG_MANA);
+
+		int x = tag.getInteger(TAG_POOL_X);
+		int y = tag.getInteger(TAG_POOL_Y);
+		int z = tag.getInteger(TAG_POOL_Z);
+
+		cachedPoolCoordinates = y < 0 ? null : new BlockPos(x, y, z);
 	}
 
 	@Override
@@ -216,40 +336,86 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 
 	@Override
 	public void update() {
+		TileEntity tileBelow = world.getTileEntity(pos.down());
+		if(tileBelow instanceof TileRedStringRelay) {
+			BlockPos coords = ((TileRedStringRelay) tileBelow).getBinding();
+			if(coords != null) {
+				BlockPos currPos = pos;
+				setPos(coords);
+				updateThings();
+				setPos(currPos);
+
+				return;
+			}
+		}
+
+		if(isOnSpecialSoil()) {
+			this.overgrowth = true;
+			this.overgrowthBoost = true;
+		} else {
+			this.overgrowth = false;
+			this.overgrowthBoost = false;
+		}
+
+		updateThings();
+	}
+
+	public void updateThings() {
 		ticksExisted++;
-		double wantedPower = 80;//this.wantedPower[wantedPowerIndex];
+		linkPool();
+
+		if(linkedPool != null && isValidBinding()) {
+			IManaPool pool = (IManaPool) linkedPool;
+			int manaInPool = pool.getCurrentMana();
+			int manaMissing = getMaxMana() - mana;
+			int manaToRemove = Math.min(manaMissing, manaInPool);
+			pool.recieveMana(-manaToRemove);
+			addMana(manaToRemove);
+		}
+
+		redstoneSignal = 0;
+		for(EnumFacing dir : EnumFacing.VALUES) {
+			int redstoneSide = getWorld().getRedstonePower(getPos().offset(dir), dir);
+			redstoneSignal = Math.max(redstoneSignal, redstoneSide);
+		}
+
+
+		if(getWorld().isRemote) {
+			double particleChance = 1F - (double) mana / (double) getMaxMana() / 3.5F;
+			Color color = new Color(getColor());
+			if(Math.random() > particleChance)
+				BotaniaAPI.internalHandler.sparkleFX(getWorld(), getPos().getX() + 0.3 + Math.random() * 0.5, getPos().getY() + 0.5 + Math.random()  * 0.5, getPos().getZ() + 0.3 + Math.random() * 0.5, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, (float) Math.random(), 5);
+		}
+
+		boolean success = false;
+		if (overgrowthBoost) {
+			success = removeMana(MANA_USAGE * 2);
+		} else {
+			success = removeMana(MANA_USAGE);
+		}
+		
+		double wantedPower = overgrowthBoost ? ROTATION_POWER * 2 : ROTATION_POWER;//this.wantedPower[wantedPowerIndex];
+		if (!success)
+			wantedPower = 0;
+
+		int connections = 0;
+		
+		IBlockState state = getWorld().getBlockState(getPos());
+		
+		state.getProperties().containsKey(null);
+		
+		
+		
+		
+		
+		
 		if (capability.getPower(null) != wantedPower){
 			capability.setPower(wantedPower,null);
 			markDirty();
 		}
+
+		
+
 		updateNeighbors();
-		
-		
-		
-		if("subtile" != null) {
-			TileEntity tileBelow = world.getTileEntity(pos.down());
-			if(tileBelow instanceof TileRedStringRelay) {
-				BlockPos coords = ((TileRedStringRelay) tileBelow).getBinding();
-				if(coords != null) {
-					BlockPos currPos = pos;
-					setPos(coords);
-					//subTile.onUpdate();
-					setPos(currPos);
-
-					return;
-				}
-			}
-
-			boolean special = isOnSpecialSoil();
-			if(special) {
-				this.overgrowth = true;
-				//subTile.onUpdate();
-				this.overgrowthBoost = true;
-				
-			}
-			//subTile.onUpdate();
-			this.overgrowth = false;
-			this.overgrowthBoost = false;
-		}
 	}
 }

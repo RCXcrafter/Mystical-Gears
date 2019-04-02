@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -56,14 +57,22 @@ import vazkii.botania.common.block.ModBlocks;
 import vazkii.botania.common.core.BotaniaCreativeTab;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
+import vazkii.botania.common.lexicon.LexiconData;
 
 public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWandable, ILexiconable, IWandHUD {
 
-	static final AxisAlignedBB AABB = new AxisAlignedBB(0.3, 0, 0.3, 0.8, 1, 0.8);
+	public static final PropertyBool NORTH = PropertyBool.create("north");
+	public static final PropertyBool EAST = PropertyBool.create("east");
+	public static final PropertyBool SOUTH = PropertyBool.create("south");
+	public static final PropertyBool WEST = PropertyBool.create("west");
+	public static final PropertyBool UP = PropertyBool.create("up");
+	public static final PropertyBool DOWN = PropertyBool.create("down");
+	
+	static final AxisAlignedBB AABB = new AxisAlignedBB(0.25, 0, 0.25, 0.75, 1, 0.75);
 
 	public BlockGearanium() {
 		//super();
-		setDefaultState(blockState.getBaseState().withProperty(BotaniaStateProps.COLOR, EnumDyeColor.WHITE).withProperty(type, EnumFlowerType.POPPY));
+		setDefaultState(blockState.getBaseState().withProperty(BotaniaStateProps.COLOR, EnumDyeColor.WHITE).withProperty(type, EnumFlowerType.POPPY).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)).withProperty(UP, Boolean.valueOf(false)).withProperty(DOWN, Boolean.valueOf(false)));
 		this.hasTileEntity = true;
 		setRegistryName(MysticalGears.MODID, "gearanium");
 		setUnlocalizedName("flower.gearanium");
@@ -89,13 +98,25 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	@Nonnull
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { getTypeProperty(), BotaniaStateProps.COLOR } );
+		return new BlockStateContainer(this, new IProperty[] { BotaniaStateProps.COLOR, getTypeProperty(), NORTH, EAST, SOUTH, WEST, UP, DOWN } );
 	}
-
-	@Nonnull
+	
 	@Override
-	public IExtendedBlockState getExtendedState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
-		return (IExtendedBlockState) state;
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		Boolean down = isAxle(worldIn, pos, EnumFacing.DOWN);
+		Boolean up = isAxle(worldIn, pos, EnumFacing.UP);
+		Boolean north = isAxle(worldIn, pos, EnumFacing.NORTH);
+		Boolean east = isAxle(worldIn, pos, EnumFacing.EAST);
+		Boolean south = isAxle(worldIn, pos, EnumFacing.SOUTH);
+		Boolean west = isAxle(worldIn, pos, EnumFacing.WEST);
+		return state.withProperty(DOWN, down).withProperty(UP, up).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
+	}
+	
+	public boolean isAxle(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		TileEntity tile = worldIn.getTileEntity(pos.offset(facing));
+		if (tile == null)
+			return false;
+		return tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing.getOpposite());
 	}
 
 	@Override
@@ -112,20 +133,20 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		return getDefaultState().withProperty(BotaniaStateProps.COLOR, EnumDyeColor.byMetadata(meta));
 	}
 
-	@Override
+	/*@Override
 	public int getLightValue(@Nonnull IBlockState state, IBlockAccess world, @Nonnull BlockPos pos) {
 		if(world.getBlockState(pos).getBlock() != this)
 			return world.getBlockState(pos).getLightValue(world, pos);
 
 		return world.getTileEntity(pos) == null ? 0 : ((TileEntityGearanium) world.getTileEntity(pos)).getLightValue();
-	}
+	}*/
 
 	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		return ((TileEntityGearanium) world.getTileEntity(pos)).getComparatorInputOverride();
 	}
@@ -138,7 +159,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	@Override
 	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return getWeakPower(state, world, pos, side);
-	}
+	}*/
 
 	@Override
 	public boolean canProvidePower(IBlockState state) {
@@ -225,22 +246,12 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 
 	@Override
 	public LexiconEntry getEntry(World world, BlockPos pos, EntityPlayer player, ItemStack lexicon) {
-		return ((TileEntityGearanium) world.getTileEntity(pos)).getEntry();
+		return LexiconData.pureDaisy;
 	}
 
 	@Override
 	public boolean onUsedByWand(EntityPlayer player, ItemStack stack, World world, BlockPos pos, EnumFacing side) {
 		return ((TileEntityGearanium) world.getTileEntity(pos)).onWanded(stack, player);
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack stack) {
-		((TileEntityGearanium) world.getTileEntity(pos)).onBlockPlacedBy(world, pos, state, entity, stack);
-	}
-
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		((TileEntityGearanium) world.getTileEntity(pos)).onBlockAdded(world, pos, state);
 	}
 
 	@Override
@@ -254,7 +265,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 			return true;
 		}
 
-		return ((TileEntityGearanium) world.getTileEntity(pos)).onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
+		return false;//((TileEntityGearanium) world.getTileEntity(pos)).onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
 	}
 
 	@SideOnly(Side.CLIENT)

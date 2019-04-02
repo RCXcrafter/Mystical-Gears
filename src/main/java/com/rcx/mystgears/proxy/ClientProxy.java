@@ -2,7 +2,6 @@ package com.rcx.mystgears.proxy;
 
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
-import com.rcx.mystgears.block.SubTileGearanium;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 
@@ -11,8 +10,10 @@ import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -51,6 +52,9 @@ public class ClientProxy extends CommonProxy {
 	public void registerModels(ModelRegistryEvent event) {
 		for (ItemGear item : MysticalGears.items) {
 			item.registerModel();
+		}
+		for (ItemBlock item : MysticalGears.blocks) {
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 		//BotaniaAPIClient.registerSubtileModel(SubTileGearanium.class, new ModelResourceLocation(MysticalGears.MODID + ":" + SubTileGearanium.SUBTILE_GEARANIUM));
 	}

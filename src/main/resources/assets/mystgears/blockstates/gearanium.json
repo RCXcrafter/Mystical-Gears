@@ -1,18 +1,76 @@
 {
-  "forge_marker": 1,
-  "variants": {
-    "normal": [{
-      "model": "mystgears:gearanium",
-      "textures": {
-        "cross": "mystgears:blocks/flower_func_gearanium"
-      }
-    }],
-    "inventory": [{
-      "model": "builtin/generated",
-      "transform": "forge:default-item",
-      "textures": {
-        "layer0": "mystgears:blocks/flower_func_gearanium"
-      }
-    }]
-  }
+	"forge_marker": 1,
+	"defaults": {
+		"model": "mystgears:gearanium",
+		"textures": {
+			"full": "mystgears:blocks/flower_func_gearanium",
+			"stem_up": "mystgears:blocks/flower_func_gearanium_stem_up",
+			"stem_side": "mystgears:blocks/flower_func_gearanium_stem_side",
+			"flower": "mystgears:blocks/flower_func_gearanium_flower",
+			"particle": "#full"
+		}
+	},
+	"variants": {
+		"inventory":  {
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "mystgears:blocks/flower_func_gearanium"
+			}
+		},
+		"up": {
+			"true": { "model": "mystgears:gearanium_stem_top" },
+			"false": { "model": "mystgears:gearanium" }
+		},
+		"down": {
+			"true": {},
+			"false": {}
+		},
+		"north": {
+			"true": { "submodel": "mystgears:gearanium_stem_side", "y": 270 },
+			"false": {}
+		},
+		"east": {
+			"true": { "submodel": "mystgears:gearanium_stem_side" },
+			"false": {}
+		},
+		"south": {
+			"true": { "submodel": "mystgears:gearanium_stem_side", "y": 90 },
+			"false": {}
+		},
+		"west": {
+			"true": { "submodel": "mystgears:gearanium_stem_side", "y": 180 },
+			"false": {}
+		},
+		"color": {
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
+		},
+		"type": {
+			"dandelion": {},
+			"poppy": {},
+			"blue_orchid": {},
+			"allium": {},
+			"houstonia": {},
+			"red_tulip": {},
+			"orange_tulip": {},
+			"white_tulip": {},
+			"pink_tulip": {},
+			"oxeye_daisy": {}
+		}
+	}
 }

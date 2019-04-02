@@ -7,9 +7,9 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockGearanium;
-import com.rcx.mystgears.block.SubTileGearanium;
 import com.rcx.mystgears.block.TileEntityGearanium;
 import com.rcx.mystgears.GearBehaviorRegular;
+import com.rcx.mystgears.item.ItemBlockGearanium;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 
@@ -230,7 +230,7 @@ public class CommonProxy {
 			
 			
 			
-			ItemBlock block = new ItemBlock(new BlockGearanium());
+			ItemBlock block = new ItemBlockGearanium(new BlockGearanium());
 			MysticalGears.blocks.add((ItemBlock) block.setRegistryName(block.getBlock().getRegistryName()));
 			
 			
@@ -308,7 +308,7 @@ public class CommonProxy {
 		});
 		
 		
-		GameRegistry.registerTileEntity(TileEntityGearanium.class, new ResourceLocation(MysticalGears.MODID, SubTileGearanium.SUBTILE_GEARANIUM));
+		GameRegistry.registerTileEntity(TileEntityGearanium.class, new ResourceLocation(MysticalGears.MODID, "gearanium"));
 		
 		
 		
