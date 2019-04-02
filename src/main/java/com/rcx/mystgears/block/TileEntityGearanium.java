@@ -6,8 +6,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableMap;
+
 import mysticalmechanics.api.DefaultMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -41,6 +44,7 @@ import vazkii.botania.common.block.tile.TileSpecialFlower;
 import vazkii.botania.common.block.tile.string.TileRedStringRelay;
 
 public class TileEntityGearanium extends TileEntity implements IWandBindable, ITickable {
+
 	int ticksExisted = 0;
 	public DefaultMechCapability capability = new DefaultMechCapability(){
 		@Override
@@ -64,7 +68,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	private static final String TAG_POOL_X = "poolX";
 	private static final String TAG_POOL_Y = "poolY";
 	private static final String TAG_POOL_Z = "poolZ";
-	
 
 	public static final int ROTATION_POWER = 50;
 	public static final int MANA_USAGE = 50;
@@ -91,38 +94,12 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		return oldState.getBlock() != newState.getBlock();
 	}
 
-
-
-
-
-
-
 	public boolean isOnSpecialSoil() {
 		return world.getBlockState(pos.down()).getBlock() == ModBlocks.enchantedSoil;
 	}
 
-	/*public LexiconEntry getEntry() {
-		return null;
-	}
+	/*public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
 
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack stack) {
-
-	}
-
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		return false;
-	}
-
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-
-	}
-
-	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-
-	}
-
-	public List<ItemStack> getDrops(List<ItemStack> list) {
-		return list;
 	}*/
 
 	public void linkPool() {
@@ -166,13 +143,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		this.mana = Math.min(getMaxMana(), this.mana + mana);
 	}
 
-	public boolean removeMana(int mana) {
-		if (this.mana < mana)
-			return false;
-		this.mana -= mana;
-		return true;
-	}
-
 	public boolean onWanded(ItemStack wand, EntityPlayer player) {
 		if(player == null)
 			return false;
@@ -192,8 +162,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	public int getColor() {
 		return 0x7130FF;
 	}
-
-
 
 	@Override
 	public BlockPos getBinding() {
@@ -229,27 +197,17 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	}
 
 	@SideOnly(Side.CLIENT)
-	//@Override
 	public void renderHUD(Minecraft mc, ScaledResolution res) {
 		String name = I18n.format("tile.flower.gearanium.name");
 		int color = getColor();
 		BotaniaAPI.internalHandler.drawComplexManaHUD(color, knownMana, getMaxMana(), name, res, new ItemStack(ModBlocks.pool), isValidBinding());
 	}
-	
-	
-	
-	
-	
-	
-
-
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag){
+	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
 		tag.setDouble("mech_power", capability.power);
-		//tag.setInteger("level", wantedPowerIndex);
-		
+
 		tag.setInteger(TAG_MANA, mana);
 
 		if(cachedPoolCoordinates != null) {
@@ -269,12 +227,11 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag){
+	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		if (tag.hasKey("mech_power")){
 			capability.power = tag.getDouble("mech_power");
 		}
-		//wantedPowerIndex = tag.getInteger("level") % wantedPower.length;
 
 		mana = tag.getInteger(TAG_MANA);
 
@@ -302,7 +259,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing){
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY){
 			return true;
 		}
@@ -310,7 +267,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing){
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY){
 			return (T)this.capability;
 		}
@@ -322,8 +279,8 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		updateNeighbors();
 	}
 
-	public void updateNeighbors(){
-		for (EnumFacing f : EnumFacing.values()){
+	public void updateNeighbors() {
+		for (EnumFacing f : EnumFacing.values()) {
 			TileEntity t = world.getTileEntity(getPos().offset(f));
 			if (t != null){
 				if (t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite())){
@@ -379,7 +336,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			redstoneSignal = Math.max(redstoneSignal, redstoneSide);
 		}
 
-
 		if(getWorld().isRemote) {
 			double particleChance = 1F - (double) mana / (double) getMaxMana() / 3.5F;
 			Color color = new Color(getColor());
@@ -387,34 +343,51 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 				BotaniaAPI.internalHandler.sparkleFX(getWorld(), getPos().getX() + 0.3 + Math.random() * 0.5, getPos().getY() + 0.5 + Math.random()  * 0.5, getPos().getZ() + 0.3 + Math.random() * 0.5, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, (float) Math.random(), 5);
 		}
 
-		boolean success = false;
-		if (overgrowthBoost) {
-			success = removeMana(MANA_USAGE * 2);
-		} else {
-			success = removeMana(MANA_USAGE);
-		}
-		
+		boolean success = redstoneSignal == 0;
+		if (success)
+			if (overgrowthBoost) {
+				success &= mana >= MANA_USAGE * 2;
+			} else {
+				success &= mana >= MANA_USAGE;
+			}
+
 		double wantedPower = overgrowthBoost ? ROTATION_POWER * 2 : ROTATION_POWER;//this.wantedPower[wantedPowerIndex];
-		if (!success)
-			wantedPower = 0;
 
 		int connections = 0;
-		
+
 		IBlockState state = getWorld().getBlockState(getPos());
-		
-		state.getProperties().containsKey(null);
-		
-		
-		
-		
-		
-		
+		state = state.getBlock().getActualState(state, getWorld(), getPos());
+		if (success) {
+			if (state.getValue(BlockGearanium.DOWN).booleanValue())
+				connections += 1;
+			if (state.getValue(BlockGearanium.UP).booleanValue())
+				connections += 1;
+			if (state.getValue(BlockGearanium.NORTH).booleanValue())
+				connections += 1;
+			if (state.getValue(BlockGearanium.EAST).booleanValue())
+				connections += 1;
+			if (state.getValue(BlockGearanium.SOUTH).booleanValue())
+				connections += 1;
+			if (state.getValue(BlockGearanium.WEST).booleanValue())
+				connections += 1;
+			success &= connections > 0;
+		}
+		if (!success)
+			wantedPower = 0;
+		else
+			if (overgrowthBoost) {
+				mana -= MANA_USAGE * 2;
+			} else {
+				mana -= MANA_USAGE;
+			}
+
+		if (wantedPower > 0 && connections > 0)
+			wantedPower /= connections;
+
 		if (capability.getPower(null) != wantedPower){
 			capability.setPower(wantedPower,null);
 			markDirty();
 		}
-
-		
 
 		updateNeighbors();
 	}

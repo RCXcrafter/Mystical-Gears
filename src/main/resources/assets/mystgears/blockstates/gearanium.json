@@ -42,6 +42,20 @@
 			"true": { "submodel": "mystgears:gearanium_stem_side", "y": 180 },
 			"false": {}
 		},
+		"active": {
+			"true": {
+				"textures": {
+					"full": "mystgears:blocks/flower_func_gearanium_active",
+					"flower": "mystgears:blocks/flower_func_gearanium_flower_active"
+				}
+			},
+			"false": {
+				"textures": {
+					"full": "mystgears:blocks/flower_func_gearanium",
+					"flower": "mystgears:blocks/flower_func_gearanium_flower"
+				}
+			}
+		},
 		"color": {
 			"white": {},
 			"orange": {},

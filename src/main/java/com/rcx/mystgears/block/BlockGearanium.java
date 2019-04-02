@@ -67,11 +67,11 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	public static final PropertyBool WEST = PropertyBool.create("west");
 	public static final PropertyBool UP = PropertyBool.create("up");
 	public static final PropertyBool DOWN = PropertyBool.create("down");
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	static final AxisAlignedBB AABB = new AxisAlignedBB(0.25, 0, 0.25, 0.75, 1, 0.75);
 
 	public BlockGearanium() {
-		//super();
 		setDefaultState(blockState.getBaseState().withProperty(BotaniaStateProps.COLOR, EnumDyeColor.WHITE).withProperty(type, EnumFlowerType.POPPY).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)).withProperty(UP, Boolean.valueOf(false)).withProperty(DOWN, Boolean.valueOf(false)));
 		this.hasTileEntity = true;
 		setRegistryName(MysticalGears.MODID, "gearanium");
@@ -93,12 +93,10 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		return Block.EnumOffsetType.NONE;
 	}
 
-
-
 	@Nonnull
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { BotaniaStateProps.COLOR, getTypeProperty(), NORTH, EAST, SOUTH, WEST, UP, DOWN } );
+		return new BlockStateContainer(this, new IProperty[] { BotaniaStateProps.COLOR, getTypeProperty(), NORTH, EAST, SOUTH, WEST, UP, DOWN, ACTIVE } );
 	}
 	
 	@Override
@@ -109,7 +107,11 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		Boolean east = isAxle(worldIn, pos, EnumFacing.EAST);
 		Boolean south = isAxle(worldIn, pos, EnumFacing.SOUTH);
 		Boolean west = isAxle(worldIn, pos, EnumFacing.WEST);
-		return state.withProperty(DOWN, down).withProperty(UP, up).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
+		Boolean active = false;
+		TileEntity tile = worldIn.getTileEntity(pos);
+			if (tile != null && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP))
+				active = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP).getPower(EnumFacing.UP) > 0;
+		return state.withProperty(DOWN, down).withProperty(UP, up).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west).withProperty(ACTIVE, active);
 	}
 	
 	public boolean isAxle(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
@@ -133,33 +135,10 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		return getDefaultState().withProperty(BotaniaStateProps.COLOR, EnumDyeColor.byMetadata(meta));
 	}
 
-	/*@Override
-	public int getLightValue(@Nonnull IBlockState state, IBlockAccess world, @Nonnull BlockPos pos) {
-		if(world.getBlockState(pos).getBlock() != this)
-			return world.getBlockState(pos).getLightValue(world, pos);
-
-		return world.getTileEntity(pos) == null ? 0 : ((TileEntityGearanium) world.getTileEntity(pos)).getLightValue();
-	}*/
-
 	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
-
-	/*@Override
-	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
-		return ((TileEntityGearanium) world.getTileEntity(pos)).getComparatorInputOverride();
-	}
-
-	@Override
-	public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return ((TileEntityGearanium) world.getTileEntity(pos)).getPowerLevel(side);
-	}
-
-	@Override
-	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return getWeakPower(state, world, pos, side);
-	}*/
 
 	@Override
 	public boolean canProvidePower(IBlockState state) {
@@ -185,40 +164,12 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).getBlock() == ModBlocks.redStringRelay
-				|| world.getBlockState(pos.down()).getBlock() == Blocks.MYCELIUM
-				|| super.canPlaceBlockAt(world, pos);
+		return world.getBlockState(pos.down()).getBlock() == ModBlocks.redStringRelay || world.getBlockState(pos.down()).getBlock() == Blocks.MYCELIUM || super.canPlaceBlockAt(world, pos);
 	}
 
 	@Override
 	protected boolean canSustainBush(IBlockState state) {
-		return state.getBlock() == ModBlocks.redStringRelay
-				|| state.getBlock() == Blocks.MYCELIUM
-				|| super.canSustainBush(state);
-	}
-
-	/*@Override
-	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-		((TileSpecialFlower) world.getTileEntity(pos)).onBlockHarvested(world, pos, state, player);
-	}*/
-
-	@Override
-	public boolean removedByPlayer(@Nonnull IBlockState state, World world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player, boolean willHarvest) {
-		if (willHarvest) {
-			// Copy of super.removedByPlayer but don't set to air yet
-			// This is so getDrops below will have a TE to work with
-			onBlockHarvested(world, pos, state, player);
-			return true;
-		} else {
-			return super.removedByPlayer(state, world, pos, player, willHarvest);
-		}
-	}
-
-	@Override
-	public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity te, ItemStack stack) {
-		super.harvestBlock(world, player, pos, state, te, stack);
-		// Now delete the block and TE
-		world.setBlockToAir(pos);
+		return state.getBlock() == ModBlocks.redStringRelay || state.getBlock() == Blocks.MYCELIUM || super.canSustainBush(state);
 	}
 
 	@Override
@@ -232,17 +183,6 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		TileEntity tileentity = world.getTileEntity(pos);
 		return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
 	}
-
-	/*@Override
-	public boolean hasTileEntity(IBlockState state) {
-		return true;
-	}
-
-	@Nonnull
-	@Override
-	public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-		return new TileSpecialFlower();
-	}*/
 
 	@Override
 	public LexiconEntry getEntry(World world, BlockPos pos, EntityPlayer player, ItemStack lexicon) {
@@ -264,8 +204,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 				world.setBlockState(pos, state.withProperty(BotaniaStateProps.COLOR, newColor), 1 | 2);
 			return true;
 		}
-
-		return false;//((TileEntityGearanium) world.getTileEntity(pos)).onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -273,17 +212,6 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	public void renderHUD(Minecraft mc, ScaledResolution res, World world, BlockPos pos) {
 		((TileEntityGearanium) world.getTileEntity(pos)).renderHUD(mc, res);
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
