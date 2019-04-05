@@ -3,9 +3,9 @@ package com.rcx.mystgears.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.MysticalGears;
 
-import mysticalmechanics.api.DefaultMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
@@ -16,15 +16,11 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -32,32 +28,18 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.ILexiconable;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.state.BotaniaStateProps;
 import vazkii.botania.api.subtile.ISpecialFlower;
 import vazkii.botania.api.wand.IWandHUD;
 import vazkii.botania.api.wand.IWandable;
-import vazkii.botania.client.core.handler.ModelHandler;
-import vazkii.botania.client.render.IModelRegister;
-import vazkii.botania.common.block.BlockSpecialFlower;
 import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.core.BotaniaCreativeTab;
 import vazkii.botania.common.item.ModItems;
-import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
-import vazkii.botania.common.lexicon.LexiconData;
 
 public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWandable, ILexiconable, IWandHUD {
 
@@ -68,7 +50,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	public static final PropertyBool UP = PropertyBool.create("up");
 	public static final PropertyBool DOWN = PropertyBool.create("down");
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
-	
+
 	static final AxisAlignedBB AABB = new AxisAlignedBB(0.25, 0, 0.25, 0.75, 1, 0.75);
 
 	public BlockGearanium() {
@@ -98,7 +80,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	public BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { BotaniaStateProps.COLOR, getTypeProperty(), NORTH, EAST, SOUTH, WEST, UP, DOWN, ACTIVE } );
 	}
-	
+
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		Boolean down = isAxle(worldIn, pos, EnumFacing.DOWN);
@@ -109,16 +91,16 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		Boolean west = isAxle(worldIn, pos, EnumFacing.WEST);
 		Boolean active = false;
 		TileEntity tile = worldIn.getTileEntity(pos);
-			if (tile != null && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP))
-				active = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP).getPower(EnumFacing.UP) > 0;
-		return state.withProperty(DOWN, down).withProperty(UP, up).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west).withProperty(ACTIVE, active);
+		if (tile != null && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP))
+			active = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, EnumFacing.UP).getPower(EnumFacing.UP) > 0;
+			return state.withProperty(DOWN, down).withProperty(UP, up).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west).withProperty(ACTIVE, active);
 	}
-	
+
 	public boolean isAxle(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
 		TileEntity tile = worldIn.getTileEntity(pos.offset(facing));
 		if (tile == null)
 			return false;
-		return tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing.getOpposite());
+		return tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing.getOpposite()) && tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing.getOpposite()).isInput(facing.getOpposite());
 	}
 
 	@Override
@@ -164,12 +146,26 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).getBlock() == ModBlocks.redStringRelay || world.getBlockState(pos.down()).getBlock() == Blocks.MYCELIUM || super.canPlaceBlockAt(world, pos);
+		return world.getBlockState(pos.down()).getBlock() == ModBlocks.redStringRelay || world.getBlockState(pos.down()).getBlock() == Blocks.MYCELIUM || this.isAxle(world, pos, EnumFacing.DOWN) || super.canPlaceBlockAt(world, pos);
 	}
 
 	@Override
 	protected boolean canSustainBush(IBlockState state) {
 		return state.getBlock() == ModBlocks.redStringRelay || state.getBlock() == Blocks.MYCELIUM || super.canSustainBush(state);
+	}
+
+	@Override
+	protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state) {
+		if (!this.canBlockStay(worldIn, pos, state)) {
+			this.dropBlockAsItem(worldIn, pos, state, 0);
+			((TileEntityGearanium) worldIn.getTileEntity(pos)).breakBlock(worldIn, pos, state, null);
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+		}
+	}
+
+	@Override
+	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+		return super.canBlockStay(worldIn, pos, state) || isAxle(worldIn, pos, EnumFacing.DOWN);
 	}
 
 	@Override
@@ -181,12 +177,13 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 	public boolean eventReceived(IBlockState state, World world, BlockPos pos, int par5, int par6) {
 		super.eventReceived(state, world, pos, par5, par6);
 		TileEntity tileentity = world.getTileEntity(pos);
+		state = this.getActualState(state, world, pos);
 		return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
 	}
 
 	@Override
 	public LexiconEntry getEntry(World world, BlockPos pos, EntityPlayer player, ItemStack lexicon) {
-		return LexiconData.pureDaisy;
+		return BotaniaCompat.gearaniumEntry;
 	}
 
 	@Override
@@ -226,7 +223,6 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
-		TileEntityGearanium p = (TileEntityGearanium)world.getTileEntity(pos);
-		p.breakBlock(world,pos,state,player);
+		((TileEntityGearanium)world.getTileEntity(pos)).breakBlock(world,pos,state,player);
 	}
 }

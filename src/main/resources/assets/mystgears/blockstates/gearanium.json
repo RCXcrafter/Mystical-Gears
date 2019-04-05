@@ -55,36 +55,6 @@
 					"flower": "mystgears:blocks/flower_func_gearanium_flower"
 				}
 			}
-		},
-		"color": {
-			"white": {},
-			"orange": {},
-			"magenta": {},
-			"light_blue": {},
-			"yellow": {},
-			"lime": {},
-			"pink": {},
-			"gray": {},
-			"silver": {},
-			"cyan": {},
-			"purple": {},
-			"blue": {},
-			"brown": {},
-			"green": {},
-			"red": {},
-			"black": {}
-		},
-		"type": {
-			"dandelion": {},
-			"poppy": {},
-			"blue_orchid": {},
-			"allium": {},
-			"houstonia": {},
-			"red_tulip": {},
-			"orange_tulip": {},
-			"white_tulip": {},
-			"pink_tulip": {},
-			"oxeye_daisy": {}
 		}
 	}
 }

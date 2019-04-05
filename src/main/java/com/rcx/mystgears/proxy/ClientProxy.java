@@ -1,5 +1,6 @@
 package com.rcx.mystgears.proxy;
 
+import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.GearBehaviorRegular;
@@ -17,11 +18,11 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import vazkii.botania.api.BotaniaAPIClient;
 
 public class ClientProxy extends CommonProxy {
 
@@ -56,7 +57,9 @@ public class ClientProxy extends CommonProxy {
 		for (ItemBlock item : MysticalGears.blocks) {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
-		//BotaniaAPIClient.registerSubtileModel(SubTileGearanium.class, new ModelResourceLocation(MysticalGears.MODID + ":" + SubTileGearanium.SUBTILE_GEARANIUM));
+
+		if (Loader.isModLoaded("botania"))
+			BotaniaCompat.registerModels();
 	}
 
 	public static class TooltipHandler {

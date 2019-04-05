@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.TileEntityGearanium;
 
 import net.minecraft.block.Block;
@@ -21,10 +20,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.botania.api.lexicon.IRecipeKeyProvider;
 import vazkii.botania.common.core.handler.ConfigHandler;
 
-public class ItemBlockGearanium extends ItemBlock implements IRecipeKeyProvider {
+public class ItemBlockGearanium extends ItemBlock {
 
 	public ItemBlockGearanium(Block block) {
 		super(block);
@@ -36,9 +34,6 @@ public class ItemBlockGearanium extends ItemBlock implements IRecipeKeyProvider 
 		if(placed) {
 			TileEntity te = world.getTileEntity(pos);
 			if(te instanceof TileEntityGearanium) {
-				TileEntityGearanium tile = (TileEntityGearanium) te;
-				//tile.onBlockAdded(world, pos, newState);
-				//tile.onBlockPlacedBy(world, pos, newState, player, stack);
 				if(!world.isRemote)
 					world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 8);
 			}
@@ -53,11 +48,5 @@ public class ItemBlockGearanium extends ItemBlock implements IRecipeKeyProvider 
 		if(ConfigHandler.referencesEnabled) {
 			tooltip.add(TextFormatting.ITALIC + I18n.format("desc.gearanium.name"));
 		}
-		tooltip.add(TextFormatting.ITALIC + "[" + MysticalGears.NAME + "]");
-	}
-
-	@Override
-	public String getKey(ItemStack arg0) {
-		return "flower.gearanium";
 	}
 }

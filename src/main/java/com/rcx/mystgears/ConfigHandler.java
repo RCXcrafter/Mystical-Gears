@@ -42,6 +42,7 @@ public class ConfigHandler {
 	public static Boolean manasteel = true;
 	public static Boolean terrasteel = true;
 	public static Boolean elementium = true;
+	public static Boolean gearanium = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -132,6 +133,8 @@ public class ConfigHandler {
 
 		botania = Loader.isModLoaded("botania") && config.getBoolean("botania", compat, botania, "Whether compatibility for Botania should be loaded.");
 
+		gearanium = botania && config.getBoolean("gearanium", compat, gearanium, "Enable/disable the gearanium flower.");
+		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 
 		wood = config.getBoolean("wood", gears, wood, "Enable/disable the wooden gear.");

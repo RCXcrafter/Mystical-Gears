@@ -43,8 +43,8 @@ public class GearBehaviorRegular implements IGearBehavior {
 		//	power = base.transformPower(tile, facing, gear, power);
 		if (power > maxPower && maxPower != 0)
 			return maxPower * powerTransfer + Math.log10(power - maxPower + Math.log10(Math.exp(1)) / powerTransfer) - Math.log10(Math.log10(Math.exp(1)) / powerTransfer);
-		else
-			return power * powerTransfer;
+
+		return power * powerTransfer;
 	}
 
 	@Override

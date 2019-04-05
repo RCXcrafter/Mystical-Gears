@@ -1,21 +1,15 @@
 package com.rcx.mystgears.block;
 
 import java.awt.Color;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableMap;
-
 import mysticalmechanics.api.DefaultMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +17,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -34,14 +27,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.internal.IManaNetwork;
-import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.mana.IManaPool;
-import vazkii.botania.api.subtile.ISubTileSlowableContainer;
 import vazkii.botania.api.subtile.SubTileEntity;
 import vazkii.botania.api.wand.IWandBindable;
 import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.block.tile.TileSpecialFlower;
-import vazkii.botania.common.block.tile.string.TileRedStringRelay;
 
 public class TileEntityGearanium extends TileEntity implements IWandBindable, ITickable {
 
@@ -59,6 +48,11 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			source.updateNeighbors();
 			source.markDirty();
 		}
+
+		@Override
+		public boolean isInput(EnumFacing from) {
+			return false;
+		}
 	};
 
 	public static final int LINK_RANGE = 10;
@@ -69,8 +63,8 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	private static final String TAG_POOL_Y = "poolY";
 	private static final String TAG_POOL_Z = "poolZ";
 
-	public static final int ROTATION_POWER = 50;
-	public static final int MANA_USAGE = 50;
+	public static final int ROTATION_POWER = 30;
+	public static final int MANA_USAGE = 10;
 
 	public int mana = 0;
 
@@ -81,6 +75,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	public int knownMana = -1;
 
 	BlockPos cachedPoolCoordinates = null;
+	BlockPos spoofLocation = null;
 
 	Boolean overgrowth = false;
 	Boolean overgrowthBoost = false;
@@ -293,19 +288,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 
 	@Override
 	public void update() {
-		TileEntity tileBelow = world.getTileEntity(pos.down());
-		if(tileBelow instanceof TileRedStringRelay) {
-			BlockPos coords = ((TileRedStringRelay) tileBelow).getBinding();
-			if(coords != null) {
-				BlockPos currPos = pos;
-				setPos(coords);
-				updateThings();
-				setPos(currPos);
-
-				return;
-			}
-		}
-
 		if(isOnSpecialSoil()) {
 			this.overgrowth = true;
 			this.overgrowthBoost = true;
@@ -314,21 +296,8 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			this.overgrowthBoost = false;
 		}
 
-		updateThings();
-	}
-
-	public void updateThings() {
 		ticksExisted++;
 		linkPool();
-
-		if(linkedPool != null && isValidBinding()) {
-			IManaPool pool = (IManaPool) linkedPool;
-			int manaInPool = pool.getCurrentMana();
-			int manaMissing = getMaxMana() - mana;
-			int manaToRemove = Math.min(manaMissing, manaInPool);
-			pool.recieveMana(-manaToRemove);
-			addMana(manaToRemove);
-		}
 
 		redstoneSignal = 0;
 		for(EnumFacing dir : EnumFacing.VALUES) {
@@ -351,7 +320,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 				success &= mana >= MANA_USAGE;
 			}
 
-		double wantedPower = overgrowthBoost ? ROTATION_POWER * 2 : ROTATION_POWER;//this.wantedPower[wantedPowerIndex];
+		double wantedPower = overgrowthBoost ? ROTATION_POWER * 2 : ROTATION_POWER;
 
 		int connections = 0;
 
@@ -385,10 +354,20 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 			wantedPower /= connections;
 
 		if (capability.getPower(null) != wantedPower){
-			capability.setPower(wantedPower,null);
+			capability.setPower(wantedPower, null);
 			markDirty();
+			getWorld().setBlockState(getPos(), state, 2);
 		}
 
 		updateNeighbors();
+
+		if(linkedPool != null && isValidBinding()) {
+			IManaPool pool = (IManaPool) linkedPool;
+			int manaInPool = pool.getCurrentMana();
+			int manaMissing = getMaxMana() - mana;
+			int manaToRemove = Math.min(manaMissing, manaInPool);
+			pool.recieveMana(-manaToRemove);
+			addMana(manaToRemove);
+		}
 	}
 }

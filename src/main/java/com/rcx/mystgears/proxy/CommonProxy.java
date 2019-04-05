@@ -4,12 +4,10 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
-import com.rcx.mystgears.block.BlockGearanium;
-import com.rcx.mystgears.block.TileEntityGearanium;
 import com.rcx.mystgears.GearBehaviorRegular;
-import com.rcx.mystgears.item.ItemBlockGearanium;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 
@@ -26,6 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -38,7 +37,6 @@ import teamroots.embers.particle.ParticleUtil;
 import teamroots.embers.recipe.ItemStampingRecipe;
 import teamroots.embers.recipe.RecipeRegistry;
 import vazkii.botania.api.BotaniaAPI;
-import vazkii.botania.api.subtile.signature.BasicSignature;
 import vazkii.botania.common.Botania;
 
 public class CommonProxy {
@@ -173,7 +171,12 @@ public class CommonProxy {
 							}
 					}
 				}
-			}));
+			}) {
+				public void registerRecipe() {
+					super.registerRecipe();
+					BotaniaAPI.registerManaInfusionRecipe(new ItemStack(this, 1), "gearIron", 12333);
+				}
+			});
 			if (ConfigHandler.terrasteel) MysticalGears.items.add(new ItemGear("Terrasteel", new GearBehaviorRegular(0, 1) {
 				@Override
 				public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
@@ -225,15 +228,13 @@ public class CommonProxy {
 							}
 					}
 				}
-			}));
-			
-			
-			
-			
-			ItemBlock block = new ItemBlockGearanium(new BlockGearanium());
-			MysticalGears.blocks.add((ItemBlock) block.setRegistryName(block.getBlock().getRegistryName()));
-			
-			
+			}) {
+				public void registerRecipe() {
+					super.registerRecipe();
+					BotaniaAPI.registerElvenTradeRecipe(new ItemStack(this, 1), "gearManasteel", "gearManasteel");
+				}
+			});
+			BotaniaCompat.preInit();
 		}
 	}
 
@@ -306,12 +307,10 @@ public class CommonProxy {
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
-		
-		
-		GameRegistry.registerTileEntity(TileEntityGearanium.class, new ResourceLocation(MysticalGears.MODID, "gearanium"));
-		
-		
-		
+
+		if (Loader.isModLoaded("botania")) {
+			BotaniaCompat.init();
+		}
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
@@ -332,14 +331,5 @@ public class CommonProxy {
 		for (ItemBlock block : MysticalGears.blocks) {
 			event.getRegistry().register(block);
 		}
-
-		/*BotaniaAPI.registerSubTile(SubTileGearanium.SUBTILE_GEARANIUM, SubTileGearanium.class);
-		BotaniaAPI.registerSubTileSignature(SubTileGearanium.class, new BasicSignature(SubTileGearanium.SUBTILE_GEARANIUM) {
-            @Override
-            public String getUnlocalizedLoreTextForStack(ItemStack stack) {
-                return "desc.gearanium.name";
-            }
-		});
-		BotaniaAPI.addSubTileToCreativeMenu(SubTileGearanium.SUBTILE_GEARANIUM);*/
 	}
 }

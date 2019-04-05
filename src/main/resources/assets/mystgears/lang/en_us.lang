@@ -17,4 +17,12 @@ tile.flower.gearanium.name=Gearanium
 desc.gear.name=Can be used in a gearbox
 desc.gear.max.name=Max power: @power
 desc.gear.transfer.name=Power transfer: @transferx
-desc.gearanium.name=Insert pun here
+desc.gearanium.name=You spin me right round
+
+
+# Lexicon
+
+botania.entry.gearanium=Gearanium
+botania.tagline.gearanium=Converts mana to rotational energy
+botania.page.gearanium0=The &1Gearanium&0 produces &4Mechanical Energy&0 at the cost of &4Mana&0. This energy can be taken out by connecting the flower to any mechanical input such as an &1Axle&0. Connecting the flower to multiple inputs will divide the power between them like a &1Gearbox&0. This flower can also be planted on mechanical inputs to output power from the bottom.
+botania.page.gearanium1=&oThe wheels on the bus go round and round.
