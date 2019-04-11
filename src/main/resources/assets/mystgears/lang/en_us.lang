@@ -5,11 +5,13 @@ item.mystgears.gear.name=@material Gear
 material.wood.name=Wooden
 material.cosmicneutronium.name=Neutronium
 material.elvenelementium.name=Elementium
+material.void.name=Void Metal
 
 
 # Blocks
 
 tile.flower.gearanium.name=Gearanium
+tile.bellows_mechanical.name=Mechanical Bellows
 
 
 # Descriptions
@@ -26,3 +28,8 @@ botania.entry.gearanium=Gearanium
 botania.tagline.gearanium=Converts mana to rotational energy
 botania.page.gearanium0=The &1Gearanium&0 produces &4Mechanical Energy&0 at the cost of &4Mana&0. This energy can be taken out by connecting the flower to any mechanical input such as an &1Axle&0. Connecting the flower to multiple inputs will divide the power between them like a &1Gearbox&0. This flower can also be planted on mechanical inputs to output power from the bottom.
 botania.page.gearanium1=&oThe wheels on the bus go round and round.
+
+botania.entry.bellows_mechanical=Mechanical Bellows
+botania.tagline.bellows_mechanical=Speeds up furnaces with mechanical power
+botania.page.bellows_mechanical0=The &1Mechanical Bellows&0 are an upgraded version of the &1Manatide Bellows&0 that use &4Mechanical Energy&0 to pump autonomously. With this, they lose their ability to speed up the transfer rate of &1Mana Pools&0 since the mechanism prevents the bellows from moving magically. They can still speed up furnaces however.
+botania.page.bellows_mechanical1=&oFeed the fire. Break your vision.

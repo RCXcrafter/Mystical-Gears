@@ -7,6 +7,8 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.block.BlockRedstoneDynamo;
+import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
@@ -42,6 +44,7 @@ import vazkii.botania.common.Botania;
 public class CommonProxy {
 
 	static Random random = new Random();
+	public static ItemBlock dynamo;
 
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
@@ -236,6 +239,13 @@ public class CommonProxy {
 			});
 			BotaniaCompat.preInit();
 		}
+		if (ConfigHandler.thaumcraft) {
+			if (ConfigHandler.brass) MysticalGears.items.add(new ItemGear("Brass"));
+			if (ConfigHandler.thaumium) MysticalGears.items.add(new ItemGear("Thaumium"));
+			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
+		}
+		dynamo = new ItemBlock(new BlockRedstoneDynamo());
+		MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -311,6 +321,9 @@ public class CommonProxy {
 		if (Loader.isModLoaded("botania")) {
 			BotaniaCompat.init();
 		}
+
+		GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
+		GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"GA ", "AB ", 'G', "gearIron", 'A', "gearGold", 'B', "gearDiamond"});
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

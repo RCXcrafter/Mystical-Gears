@@ -23,6 +23,7 @@ public class ConfigHandler {
 	public static Boolean soot = true;
 	public static Boolean avaritia = true;
 	public static Boolean botania = true;
+	public static Boolean thaumcraft = true;
 
 	public static Boolean wood = true;
 	public static Boolean stone = true;
@@ -42,7 +43,12 @@ public class ConfigHandler {
 	public static Boolean manasteel = true;
 	public static Boolean terrasteel = true;
 	public static Boolean elementium = true;
+	public static Boolean brass = true;
+	public static Boolean thaumium = true;
+	public static Boolean voidmetal = true;
+
 	public static Boolean gearanium = true;
+	public static Boolean bellows = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -67,11 +73,11 @@ public class ConfigHandler {
 			"Manasteel:120:1",
 			"Terrasteel:740:1",
 			"ElvenElementium:620:1",
-			"Emerald:600:1",
-			"Obsidian:580:0.9",
 			"Brass:85:1",
 			"Thaumium:160:1",
-			"Void:640:0.8",
+			"Void:70:1.1",
+			"Emerald:600:1",
+			"Obsidian:580:0.9",
 			"Platinum:620:1",
 			"Iridium:710:1",
 			"Mithril:560:1",
@@ -134,6 +140,10 @@ public class ConfigHandler {
 		botania = Loader.isModLoaded("botania") && config.getBoolean("botania", compat, botania, "Whether compatibility for Botania should be loaded.");
 
 		gearanium = botania && config.getBoolean("gearanium", compat, gearanium, "Enable/disable the gearanium flower.");
+
+		bellows = botania && config.getBoolean("bellows", compat, bellows, "Enable/disable the mechanical bellows.");
+
+		thaumcraft = Loader.isModLoaded("thaumcraft") && config.getBoolean("thaumcraft", compat, thaumcraft, "Whether compatibility for Thaumcraft should be loaded.");
 		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 
@@ -161,6 +171,11 @@ public class ConfigHandler {
 			manasteel = config.getBoolean("manasteel", gears, manasteel, "Enable/disable the manasteel gear.");
 			terrasteel = config.getBoolean("terrasteel", gears, terrasteel, "Enable/disable the terrasteel gear.");
 			elementium = config.getBoolean("elementium", gears, elementium, "Enable/disable the elementium gear.");
+		}
+		if (thaumcraft) {
+			brass = config.getBoolean("brass", gears, brass, "Enable/disable the brass gear.");
+			thaumium = config.getBoolean("thaumium", gears, thaumium, "Enable/disable the thaumium gear.");
+			voidmetal = config.getBoolean("voidmetal", gears, voidmetal, "Enable/disable the void metal gear.");
 		}
 
 		if(config.hasChanged())

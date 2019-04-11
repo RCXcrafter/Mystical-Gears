@@ -93,10 +93,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		return world.getBlockState(pos.down()).getBlock() == ModBlocks.enchantedSoil;
 	}
 
-	/*public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-
-	}*/
-
 	public void linkPool() {
 		boolean needsNew = false;
 		if(linkedPool == null) {
