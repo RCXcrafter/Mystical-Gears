@@ -2,7 +2,7 @@
 {
   "modid": "mystgears",
   "name": "Mystical Gears",
-  "description": "Adds more gears to Mystical Mechanics.",
+  "description": "Adds more gears and other stuff to Mystical Mechanics.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
