@@ -14,6 +14,7 @@ public class ConfigHandler {
 	public static String general = "General settings";
 	public static String gears = "Gears";
 	public static String compat = "Compatibility";
+	public static String misc = "Miscellaneous";
 
 	// Options
 	public static Boolean smoke = true;
@@ -47,6 +48,7 @@ public class ConfigHandler {
 	public static Boolean thaumium = true;
 	public static Boolean voidmetal = true;
 
+	public static Boolean dynamo = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
 
@@ -139,11 +141,15 @@ public class ConfigHandler {
 
 		botania = Loader.isModLoaded("botania") && config.getBoolean("botania", compat, botania, "Whether compatibility for Botania should be loaded.");
 
-		gearanium = botania && config.getBoolean("gearanium", compat, gearanium, "Enable/disable the gearanium flower.");
-
-		bellows = botania && config.getBoolean("bellows", compat, bellows, "Enable/disable the mechanical bellows.");
-
 		thaumcraft = Loader.isModLoaded("thaumcraft") && config.getBoolean("thaumcraft", compat, thaumcraft, "Whether compatibility for Thaumcraft should be loaded.");
+		
+		config.setCategoryComment(misc, "Not gear features that can also be disabled");
+
+		dynamo = config.getBoolean("dynamo", misc, dynamo, "Enable/disable the redstone dynamo.");
+
+		gearanium = botania && config.getBoolean("gearanium", misc, gearanium, "Enable/disable the gearanium flower.");
+
+		bellows = botania && config.getBoolean("bellows", misc, bellows, "Enable/disable the mechanical bellows.");
 		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 

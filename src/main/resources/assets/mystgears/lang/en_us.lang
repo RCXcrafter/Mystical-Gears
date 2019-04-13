@@ -12,6 +12,7 @@ material.void.name=Void Metal
 
 tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
+tile.redstone_dynamo.name=Redstone Dynamo
 
 
 # Descriptions

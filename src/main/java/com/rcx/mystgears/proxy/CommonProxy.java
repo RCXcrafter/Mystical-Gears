@@ -16,6 +16,7 @@ import com.rcx.mystgears.item.ItemGearAvaritia;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
+import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -26,7 +27,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -244,8 +244,10 @@ public class CommonProxy {
 			if (ConfigHandler.thaumium) MysticalGears.items.add(new ItemGear("Thaumium"));
 			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
 		}
-		dynamo = new ItemBlock(new BlockRedstoneDynamo());
-		MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
+		if (ConfigHandler.dynamo) {
+			dynamo = new ItemBlock(new BlockRedstoneDynamo());
+			MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
+		}
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -318,12 +320,13 @@ public class CommonProxy {
 			}
 		});
 
-		if (Loader.isModLoaded("botania")) {
+		if (ConfigHandler.botania)
 			BotaniaCompat.init();
-		}
 
-		GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
-		GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"GA ", "AB ", 'G', "gearIron", 'A', "gearGold", 'B', "gearDiamond"});
+		if (ConfigHandler.dynamo) {
+			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
+		}
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
