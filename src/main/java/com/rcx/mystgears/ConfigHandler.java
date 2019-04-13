@@ -179,7 +179,7 @@ public class ConfigHandler {
 			elementium = config.getBoolean("elementium", gears, elementium, "Enable/disable the elementium gear.");
 		}
 		if (thaumcraft) {
-			brass = config.getBoolean("brass", gears, brass, "Enable/disable the brass gear.");
+			brass = !Loader.isModLoaded("thaumicperiphery") && config.getBoolean("brass", gears, brass, "Enable/disable the brass gear.");
 			thaumium = config.getBoolean("thaumium", gears, thaumium, "Enable/disable the thaumium gear.");
 			voidmetal = config.getBoolean("voidmetal", gears, voidmetal, "Enable/disable the void metal gear.");
 		}

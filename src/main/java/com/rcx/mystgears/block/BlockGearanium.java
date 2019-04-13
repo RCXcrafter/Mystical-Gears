@@ -223,6 +223,12 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
-		((TileEntityGearanium)world.getTileEntity(pos)).breakBlock(world,pos,state,player);
+		((TileEntityGearanium)world.getTileEntity(pos)).breakBlock(world, pos, state, player);
+	}
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		((TileEntityGearanium)worldIn.getTileEntity(pos)).breakBlock(worldIn, pos, state, null);
+		super.breakBlock(worldIn, pos, state);
 	}
 }
