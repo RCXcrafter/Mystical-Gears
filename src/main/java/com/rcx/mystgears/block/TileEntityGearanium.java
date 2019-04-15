@@ -35,7 +35,7 @@ import vazkii.botania.common.block.ModBlocks;
 public class TileEntityGearanium extends TileEntity implements IWandBindable, ITickable {
 
 	int ticksExisted = 0;
-	public DefaultMechCapability capability = new DefaultMechCapability(){
+	public DefaultMechCapability capability = new DefaultMechCapability() {
 		@Override
 		public void setPower(double value, EnumFacing from) {
 			if(from == null)
@@ -220,7 +220,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		if (tag.hasKey("mech_power")){
+		if (tag.hasKey("mech_power")) {
 			capability.power = tag.getDouble("mech_power");
 		}
 
@@ -274,7 +274,7 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		for (EnumFacing f : EnumFacing.values()) {
 			TileEntity t = world.getTileEntity(getPos().offset(f));
 			if (t != null){
-				if (t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite())){
+				if (t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite())) {
 					t.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite()).setPower(capability.getPower(f.getOpposite()),f.getOpposite());
 					t.markDirty();
 				}
@@ -352,10 +352,9 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 		if (capability.getPower(null) != wantedPower){
 			capability.setPower(wantedPower, null);
 			markDirty();
+			updateNeighbors();
 			getWorld().setBlockState(getPos(), state, 2);
 		}
-
-		updateNeighbors();
 
 		if(linkedPool != null && isValidBinding()) {
 			IManaPool pool = (IManaPool) linkedPool;

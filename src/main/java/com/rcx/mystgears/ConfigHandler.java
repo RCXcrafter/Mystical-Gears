@@ -48,6 +48,7 @@ public class ConfigHandler {
 	public static Boolean thaumium = true;
 	public static Boolean voidmetal = true;
 
+	public static Boolean tab = true;
 	public static Boolean dynamo = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
@@ -144,6 +145,8 @@ public class ConfigHandler {
 		thaumcraft = Loader.isModLoaded("thaumcraft") && config.getBoolean("thaumcraft", compat, thaumcraft, "Whether compatibility for Thaumcraft should be loaded.");
 		
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
+
+		tab = config.getBoolean("tab", misc, tab, "Enable/disable the Mystical Mechanics creative tab.");
 
 		dynamo = config.getBoolean("dynamo", misc, dynamo, "Enable/disable the redstone dynamo.");
 

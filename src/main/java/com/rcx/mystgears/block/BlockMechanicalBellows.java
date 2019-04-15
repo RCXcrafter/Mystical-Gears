@@ -10,7 +10,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,7 +39,7 @@ public class BlockMechanicalBellows extends Block implements ILexiconable  {
 		setDefaultState(blockState.getBaseState().withProperty(BotaniaStateProps.CARDINALS, EnumFacing.SOUTH));
 		setUnlocalizedName("bellows_mechanical");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "bellows_mechanical"));
-		setCreativeTab(CreativeTabs.REDSTONE);
+		setCreativeTab(MysticalGears.tab);
 	}
 
 	@Nonnull

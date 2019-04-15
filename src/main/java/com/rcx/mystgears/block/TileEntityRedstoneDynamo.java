@@ -20,7 +20,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 
-	public DefaultMechCapability mechCapability = new DefaultMechCapability(){
+	public DefaultMechCapability mechCapability = new DefaultMechCapability() {
 		@Override
 		public void setPower(double value, EnumFacing from) {
 			if (!world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(from))
@@ -39,7 +39,7 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 		}
 
 		@Override
-		public void onPowerChange(){
+		public void onPowerChange() {
 			TileEntityRedstoneDynamo source = TileEntityRedstoneDynamo.this;
 			source.updateNeighbors();
 			source.markDirty();
@@ -127,20 +127,20 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing){
-		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(facing) || capability == CapabilityEnergy.ENERGY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(facing)){
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(facing) || capability == CapabilityEnergy.ENERGY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(facing)) {
 			return true;
 		}
 		return super.hasCapability(capability, facing);
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing){
-		if (capability == CapabilityEnergy.ENERGY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(facing)){
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (capability == CapabilityEnergy.ENERGY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(facing)) {
 			T result = (T) this.energyHandler;
 			return result;
 		}
-		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(facing)){
+		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(facing)) {
 			T result = (T) this.mechCapability;
 			return result;
 		}
@@ -152,7 +152,7 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 		updateNeighbors();
 	}
 
-	public void updateNeighbors(){
+	public void updateNeighbors() {
 		EnumFacing f = world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite();
 		TileEntity t = world.getTileEntity(getPos().offset(f));
 		if (t != null && t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite()))
@@ -165,7 +165,7 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		if (mechCapability.getPower(null) != currentPower){
+		if (mechCapability.getPower(null) != currentPower) {
 			currentPower = mechCapability.getPower(null);
 			markDirty();
 		}

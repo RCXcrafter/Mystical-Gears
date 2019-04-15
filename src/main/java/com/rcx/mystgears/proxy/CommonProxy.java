@@ -18,6 +18,7 @@ import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -49,6 +50,16 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 
+		if (ConfigHandler.tab)
+			MysticalGears.tab = new CreativeTabs("mystmech") {
+				@Override
+				public ItemStack getTabIconItem() {
+					return new ItemStack(RegistryHandler.GOLD_GEAR);
+				}
+			};
+		else
+			MysticalGears.tab = CreativeTabs.REDSTONE;
+
 		if (ConfigHandler.wood) MysticalGears.items.add(new ItemGear("Wood") {
 			public void registerRecipe() {
 				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "plankWood", 'N', "stickWood"});
@@ -61,7 +72,8 @@ public class CommonProxy {
 		});
 		if (ConfigHandler.diamond) MysticalGears.items.add(new ItemGear("Diamond") {
 			public void registerRecipe() {
-				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "gemDiamond", 'N', "ingotGold"});
+				String nugget = OreDictionary.doesOreNameExist("nuggetDiamond") ? "nuggetDiamond" : "ingotGold";
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "gemDiamond", 'N', nugget});
 				if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
 					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
@@ -123,7 +135,8 @@ public class CommonProxy {
 		}) {
 			public void registerRecipe() {
 				//when you add a nugget stamp but don't add a nugget for your new ingot
-				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', "nuggetDawnstone"});
+				String nugget = OreDictionary.doesOreNameExist("nuggetAntimony") ? "nuggetAntimony" : "nuggetDawnstone";
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
 				if (FluidRegistry.isFluidRegistered(name.toLowerCase())) {
 					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
@@ -132,7 +145,8 @@ public class CommonProxy {
 		if (ConfigHandler.avaritia) {
 			if (ConfigHandler.crystalmatrix) MysticalGears.items.add(new ItemGear("CrystalMatrix") {
 				public void registerRecipe() {
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', "gemDiamond"});
+					String nugget = OreDictionary.doesOreNameExist("nuggetCrystalMatrix") ? "nuggetCrystalMatrix" : "gemDiamond";
+					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
 					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
 						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 					}
@@ -141,7 +155,8 @@ public class CommonProxy {
 			if (ConfigHandler.neutronium) MysticalGears.items.add(new ItemGearAvaritia("CosmicNeutronium", 0x99FFFFFF, 8, false, true, false));
 			if (ConfigHandler.infinity) MysticalGears.items.add(new ItemGearAvaritia("Infinity", 0xFF000000, 10, true, true, true) {
 				public void registerRecipe() {
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', "nuggetCosmicNeutronium"});
+					String nugget = OreDictionary.doesOreNameExist("nuggetInfinity") ? "nuggetInfinity" : "nuggetCosmicNeutronium";
+					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
 					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
 						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 					}
@@ -319,6 +334,17 @@ public class CommonProxy {
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
+
+		if (ConfigHandler.tab) {
+			RegistryHandler.CREATIVE_MECH_SOURCE.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.GEARBOX_FRAME.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.GOLD_GEAR.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.GOLD_GEAR_OFF.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.GOLD_GEAR_ON.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.IRON_AXLE.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.IRON_GEAR.setCreativeTab(MysticalGears.tab);
+			RegistryHandler.MERGEBOX_FRAME.setCreativeTab(MysticalGears.tab);
+		}
 
 		if (ConfigHandler.botania)
 			BotaniaCompat.init();

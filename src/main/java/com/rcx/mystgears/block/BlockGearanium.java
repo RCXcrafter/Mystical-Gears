@@ -61,7 +61,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		setHardness(0.1F);
 		setSoundType(SoundType.PLANT);
 		setTickRandomly(false);
-		setCreativeTab(CreativeTabs.REDSTONE);
+		setCreativeTab(MysticalGears.tab);
 	}
 
 	@Nonnull

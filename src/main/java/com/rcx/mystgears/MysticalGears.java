@@ -1,6 +1,7 @@
 package com.rcx.mystgears;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +33,8 @@ public class MysticalGears {
 
 	public static List<ItemGear> items = new ArrayList<ItemGear>();
 	public static List<ItemBlock> blocks = new ArrayList<ItemBlock>();
+
+	public static CreativeTabs tab;
 
 	public static Logger logger;
 

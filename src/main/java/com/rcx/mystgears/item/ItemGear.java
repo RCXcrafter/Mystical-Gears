@@ -7,7 +7,6 @@ import com.rcx.mystgears.ConfigHandler;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -32,18 +31,14 @@ public class ItemGear extends Item {
 	public IGearBehavior behavior = null;
 
 	public ItemGear(String name, IGearBehavior behavior) {
-		super();
-		this.name = name;
+		this(name);
 		this.behavior = behavior;
-		this.setCreativeTab(CreativeTabs.REDSTONE);
-		this.setUnlocalizedName("gear_" + name.toLowerCase());
-		this.setRegistryName(MysticalGears.MODID, "gear_" + name.toLowerCase());
 	}
 
 	public ItemGear(String name) {
 		super();
 		this.name = name;
-		this.setCreativeTab(CreativeTabs.REDSTONE);
+		this.setCreativeTab(MysticalGears.tab);
 		this.setUnlocalizedName("gear_" + name.toLowerCase());
 		this.setRegistryName(MysticalGears.MODID, "gear_" + name.toLowerCase());
 	}

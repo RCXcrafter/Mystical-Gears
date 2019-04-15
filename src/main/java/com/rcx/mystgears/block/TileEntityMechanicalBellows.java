@@ -22,7 +22,7 @@ import vazkii.botania.common.core.handler.ModSounds;
 
 public class TileEntityMechanicalBellows extends TileBellows {
 
-	public DefaultMechCapability capability = new DefaultMechCapability(){
+	public DefaultMechCapability capability = new DefaultMechCapability() {
 		@Override
 		public void setPower(double value, EnumFacing from) {
 			if (!world.getBlockState(getPos()).getValue(BotaniaStateProps.CARDINALS).getOpposite().equals(from))
@@ -41,7 +41,7 @@ public class TileEntityMechanicalBellows extends TileBellows {
 		}
 
 		@Override
-		public void onPowerChange(){
+		public void onPowerChange() {
 			TileEntityMechanicalBellows source = TileEntityMechanicalBellows.this;
 			source.updateNeighbors();
 			source.markDirty();
@@ -76,16 +76,16 @@ public class TileEntityMechanicalBellows extends TileBellows {
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing){
-		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY){
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY) {
 			return true;
 		}
 		return super.hasCapability(capability, facing);
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing){
-		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY){
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY) {
 			T result = (T) this.capability;
 			return result;
 		}
@@ -97,7 +97,7 @@ public class TileEntityMechanicalBellows extends TileBellows {
 		updateNeighbors();
 	}
 
-	public void updateNeighbors(){
+	public void updateNeighbors() {
 		EnumFacing f = world.getBlockState(getPos()).getValue(BotaniaStateProps.CARDINALS).getOpposite();
 		TileEntity t = world.getTileEntity(getPos().offset(f));
 		if (t != null && t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite()))
@@ -110,7 +110,7 @@ public class TileEntityMechanicalBellows extends TileBellows {
 
 	@Override
 	public void update() {
-		if (capability.getPower(null) != currentPower){
+		if (capability.getPower(null) != currentPower) {
 			currentPower = capability.getPower(null);
 			markDirty();
 		}
