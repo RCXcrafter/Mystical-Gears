@@ -1,0 +1,22 @@
+{
+	"entries": [
+		{
+			"key": "BASEMECHANICS",
+			"name": "research.basemechanics.title",
+			"icons": ["mystgears:textures/icons/mechanics.png"],
+			"category": "MECHANICS", "location": [0, 0],
+			"parents": ["UNLOCKARTIFICE"],
+			"meta": ["ROUND", "HIDDEN"],
+			"stages": [
+				{
+					"text": "research.basemechanics.stage.1",
+					"recipes": ["mysticalmechanics:gearbox_frame",
+								"mysticalmechanics:gear_iron",
+								"mysticalmechanics:axle_iron",
+								"mysticalmechanics:mergebox_frame",
+								"mysticalmechanics:gear_gold_off", ]
+				}
+			]
+		}
+	]
+}

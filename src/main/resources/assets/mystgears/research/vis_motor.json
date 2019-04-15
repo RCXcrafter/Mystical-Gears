@@ -1,0 +1,22 @@
+{
+	"entries": [
+		{
+			"key": "VISMOTOR",
+			"name": "research.vismotor.title",
+			"icons": ["mystgears:vis_motor"],
+			"category": "MECHANICS", "location": [3, 1],
+			"parents": ["BASEMECHANICS"],
+			"stages": [
+				{
+					"text": "research.vismotor.stage.1",
+					"required_item": ["mysticalmechanics:gear_gold;1;0"],
+					"required_knowledge":["THEORY;ARTIFICE;1"]
+				},
+				{
+					"text": "research.vismotor.stage.2",
+					"recipes": ["mysticalmechanics:gear_gold_off"]
+				}
+			]
+		}
+	]
+}

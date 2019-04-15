@@ -2,9 +2,9 @@ package com.rcx.mystgears.render;
 
 import javax.annotation.Nullable;
 
-import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.TileEntityMechanicalBellows;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

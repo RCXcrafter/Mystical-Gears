@@ -14,9 +14,12 @@ material.void.name=Void Metal
 
 # Blocks
 
+tile.redstone_dynamo.name=Redstone Dynamo
+
 tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
-tile.redstone_dynamo.name=Redstone Dynamo
+
+tile.vis_motor.name=Vis Motor
 
 
 # Descriptions
@@ -27,7 +30,7 @@ desc.gear.transfer.name=Power transfer: @transferx
 desc.gearanium.name=You spin me right round
 
 
-# Lexicon
+# Botania Lexicon
 
 botania.entry.gearanium=Gearanium
 botania.tagline.gearanium=Converts mana to rotational energy
@@ -38,3 +41,15 @@ botania.entry.bellows_mechanical=Mechanical Bellows
 botania.tagline.bellows_mechanical=Speeds up furnaces with mechanical power
 botania.page.bellows_mechanical0=The &1Mechanical Bellows&0 are an upgraded version of the &1Manatide Bellows&0 that use &4Mechanical Energy&0 to pump autonomously. With this, they lose their ability to speed up the transfer rate of &1Mana Pools&0 since the mechanism prevents the bellows from moving magically. They can still speed up furnaces however.
 botania.page.bellows_mechanical1=&oFeed the fire. Break your vision.
+
+
+# Thaumcraft Research
+
+tc.research_category.MECHANICS=Mystical Mechanics
+
+research.basemechanics.title=Mystical Mechanics
+research.basemechanics.stage.1=description.
+
+research.vismotor.title=Vis Powered Motor
+research.vismotor.stage.1=description.
+research.vismotor.stage.2=description.

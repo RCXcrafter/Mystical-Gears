@@ -1,8 +1,8 @@
 package com.rcx.mystgears.proxy;
 
-import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 

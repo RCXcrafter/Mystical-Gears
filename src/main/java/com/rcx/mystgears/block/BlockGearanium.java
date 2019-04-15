@@ -3,8 +3,8 @@ package com.rcx.mystgears.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
 
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;

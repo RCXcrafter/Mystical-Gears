@@ -2,8 +2,8 @@ package com.rcx.mystgears.block;
 
 import javax.annotation.Nonnull;
 
-import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

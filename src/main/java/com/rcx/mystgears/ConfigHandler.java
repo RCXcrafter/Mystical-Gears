@@ -52,6 +52,7 @@ public class ConfigHandler {
 	public static Boolean dynamo = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
+	public static Boolean visMotor = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -153,6 +154,8 @@ public class ConfigHandler {
 		gearanium = botania && config.getBoolean("gearanium", misc, gearanium, "Enable/disable the gearanium flower.");
 
 		bellows = botania && config.getBoolean("bellows", misc, bellows, "Enable/disable the mechanical bellows.");
+
+		visMotor = thaumcraft && config.getBoolean("visMotor", misc, visMotor, "Enable/disable the vis motor.");
 		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 

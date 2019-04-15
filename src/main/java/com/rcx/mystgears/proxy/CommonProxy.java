@@ -4,11 +4,12 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.rcx.mystgears.BotaniaCompat;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
+import com.rcx.mystgears.compatibility.ThaumcraftCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
@@ -258,6 +259,7 @@ public class CommonProxy {
 			if (ConfigHandler.brass) MysticalGears.items.add(new ItemGear("Brass"));
 			if (ConfigHandler.thaumium) MysticalGears.items.add(new ItemGear("Thaumium"));
 			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
+			ThaumcraftCompat.preInit();
 		}
 		if (ConfigHandler.dynamo) {
 			dynamo = new ItemBlock(new BlockRedstoneDynamo());
@@ -348,6 +350,9 @@ public class CommonProxy {
 
 		if (ConfigHandler.botania)
 			BotaniaCompat.init();
+
+		if (ConfigHandler.thaumcraft)
+			ThaumcraftCompat.init();
 
 		if (ConfigHandler.dynamo) {
 			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
