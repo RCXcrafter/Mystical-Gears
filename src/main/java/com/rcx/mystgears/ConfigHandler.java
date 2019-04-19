@@ -53,6 +53,7 @@ public class ConfigHandler {
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
 	public static Boolean visMotor = true;
+	public static Boolean essentiaMotor = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -156,6 +157,8 @@ public class ConfigHandler {
 		bellows = botania && config.getBoolean("bellows", misc, bellows, "Enable/disable the mechanical bellows.");
 
 		visMotor = thaumcraft && config.getBoolean("visMotor", misc, visMotor, "Enable/disable the vis motor.");
+
+		essentiaMotor = thaumcraft && config.getBoolean("essentiaMotor", misc, essentiaMotor, "Enable/disable the esentia motor.");
 		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 

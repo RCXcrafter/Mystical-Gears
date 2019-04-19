@@ -64,15 +64,11 @@ public class TileEntityMechanicalBellows extends TileBellows {
 	@Override
 	public void writePacketNBT(NBTTagCompound tag) {
 		super.writePacketNBT(tag);
-		tag.setDouble("mech_power", capability.power);
 	}
 
 	@Override
 	public void readPacketNBT(NBTTagCompound tag) {
 		super.readPacketNBT(tag);
-		if (tag.hasKey("mech_power")){
-			capability.power = tag.getDouble("mech_power");
-		}
 	}
 
 	@Override

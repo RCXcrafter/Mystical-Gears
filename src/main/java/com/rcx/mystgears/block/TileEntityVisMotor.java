@@ -52,7 +52,7 @@ public class TileEntityVisMotor extends TileEntity implements ITickable {
 	};
 
 	public int timer = 0;
-	public static int maxTime = 1000;
+	public static int maxTime = 100;
 	public static double outputPower = 30;
 
 	@Override
@@ -124,15 +124,24 @@ public class TileEntityVisMotor extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
+		int redstoneSignal = 0;
+		for(EnumFacing dir : EnumFacing.VALUES) {
+			int redstoneSide = getWorld().getRedstonePower(getPos().offset(dir), dir);
+			redstoneSignal = Math.max(redstoneSignal, redstoneSide);
+		}
+
 		double wantedPower = outputPower;
-		if (timer == 0) {
-			float vis = AuraHandler.drainVis(getWorld(), getPos(), 1.0F, false);
-			timer = (int) (vis * maxTime);
-			markDirty();
-			if (timer == 0)
-				wantedPower = 0;
-		} else
-			timer--;
+		if (redstoneSignal != 0)
+			wantedPower = 0;
+		else
+			if (timer == 0) {
+				float vis = AuraHandler.drainVis(getWorld(), getPos(), 1.0F, false);
+				timer = (int) (vis * maxTime);
+				markDirty();
+				if (timer == 0)
+					wantedPower = 0;
+			} else
+				timer--;
 
 		if (mechCapability.getPower(null) != wantedPower){
 			mechCapability.setPower(wantedPower, null);

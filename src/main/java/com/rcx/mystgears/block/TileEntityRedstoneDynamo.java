@@ -94,7 +94,6 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		tag.setDouble("mech_power", mechCapability.power);
 		tag.setInteger("fe", fe);
 		return tag;
 	}
@@ -102,9 +101,6 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		if (tag.hasKey("mech_power")){
-			mechCapability.power = tag.getDouble("mech_power");
-		}
 		if (tag.hasKey("fe")){
 			fe = tag.getInteger("fe");
 		}

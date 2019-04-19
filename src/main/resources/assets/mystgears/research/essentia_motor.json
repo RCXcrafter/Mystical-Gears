@@ -1,0 +1,22 @@
+{
+	"entries": [
+		{
+			"key": "ESSENTIAMOTOR",
+			"name": "research.essentiamotor.title",
+			"icons": ["mystgears:essentia_motor"],
+			"category": "MECHANICS", "location": [-3, -2],
+			"parents": ["VISMOTOR", "ESSENTIASMELTER"],
+			"stages": [
+				{
+					"text": "research.essentiamotor.stage.1",
+					"required_knowledge":["THEORY;ALCHEMY;1"],
+                    "required_research":["!motus"]
+				},
+				{
+					"text": "research.essentiamotor.stage.2",
+					"recipes": ["mystgears:recipe_essentia_motor"]
+				}
+			]
+		}
+	]
+}

@@ -197,8 +197,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		tag.setDouble("mech_power", capability.power);
-
 		tag.setInteger(TAG_MANA, mana);
 
 		if(cachedPoolCoordinates != null) {
@@ -220,10 +218,6 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		if (tag.hasKey("mech_power")) {
-			capability.power = tag.getDouble("mech_power");
-		}
-
 		mana = tag.getInteger(TAG_MANA);
 
 		int x = tag.getInteger(TAG_POOL_X);

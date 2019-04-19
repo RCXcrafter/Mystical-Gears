@@ -20,6 +20,7 @@ tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
 
 tile.vis_motor.name=Vis Motor
+tile.essentia_motor.name=Essentia Motor
 
 
 # Descriptions
@@ -48,8 +49,28 @@ botania.page.bellows_mechanical1=&oFeed the fire. Break your vision.
 tc.research_category.MECHANICS=Mystical Mechanics
 
 research.basemechanics.title=Mystical Mechanics
-research.basemechanics.stage.1=description.
+research.basemechanics.stage.1=Using various materials, I have designed a system for transmitting mechanical energy across various distances between machines. I should make some devices to utilize this system next.
+
+research.gears.title=Gears
+research.gears.stage.1=Gears are used as interfaces for connecting axles to gearboxes or machines. Gears can be made out of various materials, each with their own properties. Every gear has a maximum amount of power it can transfer and a multiplier for the power transferred. Unsurprisingly, sturdier materials make for better gears. I have also created gears that can be controlled with redstone, the redstone gear will only rotate when the gearbox it's in is powered with redstone, the inverted redstone gear does the opposite.
+
+research.axle.title=Axles
+research.axle.stage.1=Axles are used to transfer mechanical power between generators, gearboxes and machines that use it. Axles don't lose power over distance, so their transfer range is virtually unlimited.
+
+research.gearbox.title=Gearboxes
+research.gearbox.stage.1=Gearbox Frames are the heart-piece of mechanical transfer. One gear can be attached on each side, but only sides with axles or other machines attached will need one. There is an input side marked by a strip, and all other sides are outputs. The input power will be divided between each used output, so if two axles were attached, each would receive half power.
+
+research.mergebox.title=Mergeboxes
+research.mergebox.stage.1=Mergebox Frames are another important part in mechanical systems. They function opposite to a regular gearbox, instead of splitting power, power will be merged together. Note that all inputs must be the same speed to be summed up. Additionally, anytime the power changes, the mergebox will disengage the output gear for a short time as the internal ratios adjust.
 
 research.vismotor.title=Vis Powered Motor
-research.vismotor.stage.1=description.
-research.vismotor.stage.2=description.
+research.vismotor.stage.1=I should look into methods to produce mechanical power first, then I'll see what I could use it for.
+research.vismotor.stage.2=I've created a motor that generates mechanical power out of vis in the aura, this should be sufficient for powering any mechanical devices I make. For every point of vis, this motor will run for 5 seconds with 30 mechanical power. I should be careful not to leave these running when I'm not using them, else I could completely drain the aura. That's why I added a mechanism that allows the motor to be disabled with a redstone signal.
+
+research.essentiamotor.title=Essentia Powered Motor
+research.essentiamotor.stage.1=The vis in the aura is a precious resource and I'd rather use alternatives if I can find any. I might be able to power my mechanical machines with essentia instead.
+research.essentiamotor.stage.2=I've successfully created a motor that runs on essentia instead of vis, unfortunately it only works with motus essentia. For every motus essentia, this motor will run for 5 seconds with 30 mechanical power. This motor can also be disabled with a redstone signal.
+
+research.mechusage.title=Mechanical machine
+research.mechusage.stage.1=First, I should research if this mechanical power is even useful for anything, then I'll look into ways of creating it.
+research.mechusage.stage.2=

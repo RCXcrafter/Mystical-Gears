@@ -4,13 +4,13 @@
 			"key": "VISMOTOR",
 			"name": "research.vismotor.title",
 			"icons": ["mystgears:vis_motor"],
-			"category": "MECHANICS", "location": [-2, 0],
-			"parents": ["BASEMECHANICS"],
+			"category": "MECHANICS", "location": [-3, 0],
+			"parents": ["BASEMECHANICS", "BASEAUROMANCY"],
 			"stages": [
 				{
 					"text": "research.vismotor.stage.1",
-					"required_item": ["mysticalmechanics:gear_gold;1;0"],
-					"required_knowledge":["THEORY;ARTIFICE;1"]
+					"required_knowledge":["THEORY;ARTIFICE;1"],
+                    "required_research":["!machina"]
 				},
 				{
 					"text": "research.vismotor.stage.2",

@@ -9,12 +9,71 @@
 			"meta": ["ROUND", "HIDDEN"],
 			"stages": [
 				{
-					"text": "research.basemechanics.stage.1",
-					"recipes": ["mysticalmechanics:gearbox_frame",
+					"text": "research.basemechanics.stage.1"
+				}
+			]
+		},
+		{
+			"key": "GEARS",
+			"name": "research.gears.title",
+			"icons": ["mysticalmechanics:gear_iron"],
+			"category": "MECHANICS", "location": [2, -2],
+			"meta": [ "REVERSE" ],
+			"parents": ["BASEMECHANICS"],
+			"stages": [
+				{
+					"text": "research.gears.stage.1",
+					"recipes": ["mystgears:recipe_gear_wood",
+								"mystgears:recipe_gear_stone",
 								"mysticalmechanics:gear_iron",
-								"mysticalmechanics:axle_iron",
-								"mysticalmechanics:mergebox_frame",
-								"mysticalmechanics:gear_gold_off" ]
+								"mysticalmechanics:gear_gold",
+								"mystgears:recipe_gear_diamond",
+								"thaumicperiphery:gear_brass",
+								"mystgears:recipe_gear_brass",
+								"mystgears:recipe_gear_thaumium",
+								"mystgears:recipe_gear_void",
+								"mysticalmechanics:gear_gold_on",
+								"mysticalmechanics:gear_gold_off"]
+				}
+			]
+		},
+		{
+			"key": "AXLE",
+			"name": "research.axle.title",
+			"icons": ["mysticalmechanics:axle_iron"],
+			"category": "MECHANICS", "location": [0, -4],
+			"parents": ["BASEMECHANICS"],
+			"stages": [
+				{
+					"text": "research.axle.stage.1",
+					"recipes": ["mysticalmechanics:axle_iron"]
+				}
+			]
+		},
+		{
+			"key": "GEARBOX",
+			"name": "research.gearbox.title",
+			"icons": ["mysticalmechanics:gearbox_frame"],
+			"category": "MECHANICS", "location": [2, -4],
+			"parents": ["GEARS", "AXLE"],
+			"stages": [
+				{
+					"text": "research.gearbox.stage.1",
+					"recipes": ["mysticalmechanics:gearbox_frame"]
+				}
+			]
+		},
+		{
+			"key": "MERGEBOX",
+			"name": "research.mergebox.title",
+			"icons": ["mysticalmechanics:mergebox_frame"],
+			"category": "MECHANICS", "location": [1, -6],
+			"meta": [ "REVERSE" ],
+			"parents": ["GEARBOX"],
+			"stages": [
+				{
+					"text": "research.mergebox.stage.1",
+					"recipes": ["mysticalmechanics:mergebox_frame"]
 				}
 			]
 		}
