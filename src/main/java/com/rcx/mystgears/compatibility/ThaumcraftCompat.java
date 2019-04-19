@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
@@ -50,7 +51,7 @@ public class ThaumcraftCompat {
 
 			if (ConfigHandler.essentiaMotor) {
 				ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/essentia_motor"));
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), "ESSENTIAMOTOR", 20, new AspectList().add(Aspect.ORDER, 1), essentiaMotor, new Object[]{"PRP", "NAN", 'R', new ItemStack(ItemsTC.visResonator), 'N', "nuggetIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
+				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), "ESSENTIAMOTOR", 20, new AspectList().add(Aspect.AIR, 1).add(Aspect.ORDER, 1), essentiaMotor, new Object[]{"PTP", "BMB", "PFP", 'M', new ItemStack(ItemsTC.morphicResonator), 'P', new ItemStack(BlocksTC.plankGreatwood), 'F', new ItemStack(RegistryHandler.GEARBOX_FRAME), 'T', new ItemStack(BlocksTC.tube), 'B', "plateBrass"}));
 				GameRegistry.registerTileEntity(TileEntityEssentiaMotor.class, new ResourceLocation(MysticalGears.MODID, "essentia_motor"));
 			}
 		}

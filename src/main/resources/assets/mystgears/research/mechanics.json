@@ -18,7 +18,7 @@
 			"name": "research.gears.title",
 			"icons": ["mysticalmechanics:gear_iron"],
 			"category": "MECHANICS", "location": [2, -2],
-			"meta": [ "REVERSE" ],
+			"meta": ["REVERSE"],
 			"parents": ["BASEMECHANICS"],
 			"stages": [
 				{
@@ -68,7 +68,7 @@
 			"name": "research.mergebox.title",
 			"icons": ["mysticalmechanics:mergebox_frame"],
 			"category": "MECHANICS", "location": [1, -6],
-			"meta": [ "REVERSE" ],
+			"meta": ["REVERSE"],
 			"parents": ["GEARBOX"],
 			"stages": [
 				{
