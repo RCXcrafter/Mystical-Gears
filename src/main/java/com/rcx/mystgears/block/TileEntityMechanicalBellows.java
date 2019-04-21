@@ -60,6 +60,11 @@ public class TileEntityMechanicalBellows extends TileBellows {
 	public double rotationModifier = 1;
 	public double currentPower = 0;
 
+	@Override
+	public void onLoad() {
+		super.onLoad();
+		updateNeighbors();
+	}
 
 	@Override
 	public void writePacketNBT(NBTTagCompound tag) {
