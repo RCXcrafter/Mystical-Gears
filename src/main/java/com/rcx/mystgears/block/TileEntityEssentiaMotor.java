@@ -110,6 +110,8 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 	}
 
 	public void updateNeighbors() {
+		if (!(world.getBlockState(getPos()).getBlock() instanceof BlockEssentiaMotor))
+			return;
 		EnumFacing f = world.getBlockState(getPos()).getValue(BlockEssentiaMotor.FACING);
 		TileEntity t = world.getTileEntity(getPos().offset(f));
 		if (t != null){

@@ -112,6 +112,8 @@ public class TileEntityVisMotor extends TileEntity implements ITickable {
 	}
 
 	public void updateNeighbors() {
+		if (!(world.getBlockState(getPos()).getBlock() instanceof BlockVisMotor))
+			return;
 		EnumFacing f = world.getBlockState(getPos()).getValue(BlockVisMotor.FACING);
 		TileEntity t = world.getTileEntity(getPos().offset(f));
 		if (t != null){
