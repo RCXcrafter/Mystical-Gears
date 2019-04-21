@@ -71,6 +71,6 @@ research.essentiamotor.title=Essentia Powered Motor
 research.essentiamotor.stage.1=The vis in the aura is a precious resource and I'd rather use alternatives if I can find any. I might be able to power my mechanical machines with essentia instead.
 research.essentiamotor.stage.2=I've successfully created a motor that runs on essentia instead of vis, unfortunately it only works with motus essentia. For every motus essentia, this motor will run for 5 seconds with 30 mechanical power. This motor can also be disabled with a redstone signal.
 
-research.mechusage.title=Mechanical machine
-research.mechusage.stage.1=First, I should research if this mechanical power is even useful for anything, then I'll look into ways of creating it.
-research.mechusage.stage.2=
+research.mechanicalcrafter.title=Mechanical Pattern Crafter
+research.mechanicalcrafter.stage.1=First, I should research if this mechanical power is even useful for anything, then I'll look into ways of creating it.
+research.mechanicalcrafter.stage.2=thing

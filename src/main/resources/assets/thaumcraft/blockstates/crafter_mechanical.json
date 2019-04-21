@@ -1,0 +1,19 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "mystgears:crafter_mechanical"
+	},
+    "variants": {
+		"inventory": { "model": "mystgears:crafter_mechanical_inv" },
+		"enabled": {
+			"true": {},
+			"false": {}
+		},
+		"facing": {
+			"north": { "model": "mystgears:crafter_mechanical" },
+			"south": { "model": "mystgears:crafter_mechanical", "y": 180 },
+			"west": { "model": "mystgears:crafter_mechanical", "y": 270 },
+			"east": { "model": "mystgears:crafter_mechanical", "y": 90 }
+		}
+    }
+}

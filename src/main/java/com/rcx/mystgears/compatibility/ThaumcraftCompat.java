@@ -3,8 +3,10 @@ package com.rcx.mystgears.compatibility;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockEssentiaMotor;
+import com.rcx.mystgears.block.BlockMechanicalCrafter;
 import com.rcx.mystgears.block.BlockVisMotor;
 import com.rcx.mystgears.block.TileEntityEssentiaMotor;
+import com.rcx.mystgears.block.TileEntityMechanicalCrafter;
 import com.rcx.mystgears.block.TileEntityVisMotor;
 
 import mysticalmechanics.handler.RegistryHandler;
@@ -27,6 +29,8 @@ public class ThaumcraftCompat {
 	public static ItemBlock visMotor;
 	public static ItemBlock essentiaMotor;
 
+	public static ItemBlock mechanicalCrafter;
+
 	public static void preInit() {
 		if (ConfigHandler.visMotor) {
 			visMotor = new ItemBlock(new BlockVisMotor());
@@ -36,6 +40,10 @@ public class ThaumcraftCompat {
 				essentiaMotor = new ItemBlock(new BlockEssentiaMotor());
 				MysticalGears.blocks.add((ItemBlock) essentiaMotor.setRegistryName(essentiaMotor.getBlock().getRegistryName()));
 			}
+			
+
+			mechanicalCrafter = new ItemBlock(new BlockMechanicalCrafter());
+			MysticalGears.blocks.add((ItemBlock) mechanicalCrafter.setRegistryName(mechanicalCrafter.getBlock().getRegistryName()));
 		}
 	}
 
@@ -46,7 +54,7 @@ public class ThaumcraftCompat {
 
 		if (ConfigHandler.visMotor) {
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/vis_motor"));
-			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), "VISMOTOR", 20, new AspectList().add(Aspect.ORDER, 1), visMotor, new Object[]{"PRP", "EAE", 'R', new ItemStack(ItemsTC.visResonator), 'E', new ItemStack(ItemsTC.nuggets, 1, 10), 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
+			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), "VISMOTOR", 20, new AspectList().add(Aspect.ORDER, 1), visMotor, new Object[]{"PRP", "NAN", 'R', new ItemStack(ItemsTC.visResonator), 'N', "nuggetIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
 			GameRegistry.registerTileEntity(TileEntityVisMotor.class, new ResourceLocation(MysticalGears.MODID, "vis_motor"));
 
 			if (ConfigHandler.essentiaMotor) {
@@ -55,6 +63,11 @@ public class ThaumcraftCompat {
 				GameRegistry.registerTileEntity(TileEntityEssentiaMotor.class, new ResourceLocation(MysticalGears.MODID, "essentia_motor"));
 			}
 		}
+		
+		ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/mechanical_crafter"));
+		ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_crafter"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "mechanical_crafter"), "MECHANICALCRAFTER", 20, new AspectList().add(Aspect.ORDER, 1), mechanicalCrafter, new Object[]{"PRP", "NAN", 'R', new ItemStack(ItemsTC.visResonator), 'N', "nuggetIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
+		GameRegistry.registerTileEntity(TileEntityMechanicalCrafter.class, new ResourceLocation(MysticalGears.MODID, "mechanical_crafter"));
+
 	}
 
 	@SideOnly(Side.CLIENT)
