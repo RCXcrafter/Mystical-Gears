@@ -92,6 +92,12 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 	public int MAX_FE = 20000;
 
 	@Override
+	public void onLoad() {
+		super.onLoad();
+		updateNeighbors();
+	}
+
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
 		tag.setInteger("fe", fe);
