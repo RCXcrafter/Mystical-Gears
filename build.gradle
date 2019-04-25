@@ -10,6 +10,12 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+repositories {
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+}
 
 version = "1.0.4"
 group = "com.rcx.mystgears" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -56,6 +62,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 	compile fileTree(dir: 'libs', include: '*.jar')
+	
+	deobfCompile "thaumcraft:Thaumcraft:1.12.2:6.1.BETA26"
 }
 
 processResources {
