@@ -4,7 +4,7 @@
 			"key": "ESSENTIAMOTOR",
 			"name": "research.essentiamotor.title",
 			"icons": ["mystgears:essentia_motor"],
-			"category": "MECHANICS", "location": [-3, -2],
+			"category": "MECHANICS", "location": [-4, -2],
 			"parents": ["VISMOTOR", "ESSENTIASMELTER"],
 			"stages": [
 				{

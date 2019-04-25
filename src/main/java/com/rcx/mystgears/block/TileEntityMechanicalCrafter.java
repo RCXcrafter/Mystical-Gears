@@ -1,31 +1,24 @@
 package com.rcx.mystgears.block;
 
-import javax.annotation.Nullable;
-
 import mysticalmechanics.api.DefaultMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import thaumcraft.api.ThaumcraftInvHelper;
-import thaumcraft.api.ThaumcraftInvHelper.InvFilter;
-import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.common.blocks.IBlockFacingHorizontal;
-import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.utils.BlockStateUtils;
 import thaumcraft.common.lib.utils.InventoryUtils;
 import thaumcraft.common.tiles.crafting.TilePatternCrafter;
@@ -69,7 +62,19 @@ public class TileEntityMechanicalCrafter extends TilePatternCrafter {
 	};
 
 	public double currentPower = 0;
-	//public final InventoryCrafting craftMatrix = new InventoryCrafting(new ContainerWorkbench(this), 3, 3);
+	private final InventoryCrafting craftMatrix = new InventoryCrafting(new Container() {
+
+		public boolean canInteractWith(EntityPlayer playerIn) {
+			return false;
+		}
+	}, 3, 3);
+	ItemStack outStack = null;
+
+	@Override
+	public void onLoad() {
+		super.onLoad();
+		updateNeighbors();
+	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -111,105 +116,181 @@ public class TileEntityMechanicalCrafter extends TilePatternCrafter {
 			markDirty();
 		}
 
+		if (this.world.isRemote)
+			this.rot += currentPower/3;
 
+		int delay = (int) (20 / (currentPower / 30));
 
-		if (this.world.isRemote) {
-			if (this.rotTicks > 0) {
-				--this.rotTicks;
-				if ((double) this.rotTicks % Math.floor((double) Math.max(1.0F, this.rp)) == 0.0D) {
-					this.world.playSound((double) this.pos.getX() + 0.5D,
-							(double) this.pos.getY() + 0.5D,
-							(double) this.pos.getZ() + 0.5D, SoundsTC.clack, SoundCategory.BLOCKS,
-							0.2F, 1.7F, false);
-				}
-
-				++this.rp;
-			} else {
-				this.rp *= 0.8F;
-			}
-
-			this.rot += this.rp;
-		}
-
-		/*if (!this.world.isRemote && this.count++ % 20 == 0
-				&& BlockStateUtils.isEnabled(this.func_145832_p())) {
-			if (this.power <= 0.0F) {
-				this.power += AuraHelper.drainVis(this.func_145831_w(), this.func_174877_v(), 5.0F, false);
-			}
-
+		if (!this.world.isRemote && this.count++ % delay == 0 && BlockStateUtils.isEnabled(this.getBlockMetadata())) {
 			int amt = 9;
 			switch (this.type) {
-			case 0 :
+			case 0 : {
 				amt = 9;
 				break;
-			case 1 :
+			}
+			case 1 : {
 				amt = 1;
 				break;
+			}
 			case 2 :
-			case 3 :
+			case 3 : {
 				amt = 2;
 				break;
-			case 4 :
+			}
+			case 4 : {
 				amt = 4;
 				break;
+			}
 			case 5 :
-			case 6 :
+			case 6 : {
 				amt = 3;
 				break;
+			}
 			case 7 :
-			case 8 :
+			case 8 : {
 				amt = 6;
 				break;
-			case 9 :
+			}
+			case 9 : {
 				amt = 8;
 			}
-
-			IItemHandler above = ThaumcraftInvHelper.getItemHandlerAt(this.world, this.pos.up(), EnumFacing.DOWN);
-			IItemHandler below = ThaumcraftInvHelper.getItemHandlerAt(this.world, this.pos.down(), EnumFacing.UP);
+			}
+			IItemHandler above = ThaumcraftInvHelper.getItemHandlerAt(this.getWorld(),
+					this.getPos().up(), EnumFacing.DOWN);
+			IItemHandler below = ThaumcraftInvHelper.getItemHandlerAt(this.getWorld(),
+					this.getPos().down(), EnumFacing.UP);
 			if (above != null && below != null) {
 				for (int a = 0; a < above.getSlots(); ++a) {
+					int i;
 					ItemStack testStack = above.getStackInSlot(a).copy();
-					if (!testStack.isEmpty()) {
-						testStack.func_190920_e(amt);
-						if (InventoryUtils
-								.removeStackFrom(this.world, this.pos.up(),
-										EnumFacing.DOWN, testStack.copy(), InvFilter.BASEORE, true)
-								.getCount() == amt && this.craft(testStack) && this.power >= 1.0F
-								&& ItemHandlerHelper.insertItem(below, this.outStack.copy(), true)
-								.func_190926_b()) {
-							boolean b = true;
-
-							int i;
-							for (i = 0; i < 9; ++i) {
-								if (this.craftMatrix.func_70301_a(i) != null && !ItemHandlerHelper
-										.insertItem(below, this.craftMatrix.func_70301_a(i).copy(), true)
-										.func_190926_b()) {
-									b = false;
-									break;
-								}
-							}
-
-							if (b) {
-								ItemHandlerHelper.insertItem(below, this.outStack.copy(), false);
-
-								for (i = 0; i < 9; ++i) {
-									if (this.craftMatrix.func_70301_a(i) != null) {
-										ItemHandlerHelper.insertItem(below,
-												this.craftMatrix.func_70301_a(i).copy(), false);
-									}
-								}
-
-								InventoryUtils.removeStackFrom(this.func_145831_w(),
-										this.func_174877_v().func_177984_a(), EnumFacing.DOWN, testStack,
-										InvFilter.BASEORE, false);
-								this.field_145850_b.func_175641_c(this.func_174877_v(), this.func_145838_q(), 1, 0);
-								--this.power;
-								break;
-							}
-						}
+					if (testStack.isEmpty())
+						continue;
+					testStack.setCount(amt);
+					if (InventoryUtils.removeStackFrom(this.getWorld(), this.getPos().up(),
+							EnumFacing.DOWN, testStack.copy(),
+							ThaumcraftInvHelper.InvFilter.BASEORE, true)
+							.getCount() != amt
+							|| !this.craft(testStack) || currentPower <= 0
+							|| !ItemHandlerHelper
+							.insertItem(below, this.outStack.copy(), true)
+							.isEmpty())
+						continue;
+					boolean b = true;
+					for (i = 0; i < 9; ++i) {
+						if (this.craftMatrix.getStackInSlot(i) == null
+								|| ItemHandlerHelper
+								.insertItem(below,
+										this.craftMatrix.getStackInSlot(i).copy(), true)
+								.isEmpty())
+							continue;
+						b = false;
+						break;
 					}
+					if (!b)
+						continue;
+					ItemHandlerHelper.insertItem(below, this.outStack.copy(),
+							false);
+					for (i = 0; i < 9; ++i) {
+						if (this.craftMatrix.getStackInSlot(i) == null)
+							continue;
+						ItemHandlerHelper.insertItem(below,
+								this.craftMatrix.getStackInSlot(i).copy(), false);
+					}
+					InventoryUtils.removeStackFrom(this.getWorld(), this.getPos().up(),
+							EnumFacing.DOWN, testStack,
+							ThaumcraftInvHelper.InvFilter.BASEORE, false);
+					this.world.addBlockEvent(this.getPos(), this.getBlockType(), 1, 0);
+					break;
 				}
 			}
-		}*/
+		}
+	}
+
+	public boolean craft(ItemStack inStack) {
+		this.outStack = ItemStack.EMPTY;
+		this.craftMatrix.clear();
+		int b;
+		int a;
+		switch (this.type) {
+		case 0: {
+			for (a = 0; a < 9; ++a) {
+				this.craftMatrix.setInventorySlotContents(a, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 1: {
+			this.craftMatrix.setInventorySlotContents(0, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			break;
+		}
+		case 2: {
+			for (a = 0; a < 2; ++a) {
+				this.craftMatrix.setInventorySlotContents(a, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 3: {
+			for (a = 0; a < 2; ++a) {
+				this.craftMatrix.setInventorySlotContents(a * 3, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 4: {
+			for (a = 0; a < 2; ++a) {
+				for (b = 0; b < 2; ++b) {
+					this.craftMatrix.setInventorySlotContents(a + b * 3, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+				}
+			}
+			break;
+		}
+		case 5: {
+			for (a = 0; a < 3; ++a) {
+				this.craftMatrix.setInventorySlotContents(a, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 6: {
+			for (a = 0; a < 3; ++a) {
+				this.craftMatrix.setInventorySlotContents(a * 3, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 7: {
+			for (a = 0; a < 6; ++a) {
+				this.craftMatrix.setInventorySlotContents(a, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		case 8: {
+			for (a = 0; a < 2; ++a) {
+				for (b = 0; b < 3; ++b) {
+					this.craftMatrix.setInventorySlotContents(a + b * 3, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+				}
+			}
+			break;
+		}
+		case 9: {
+			for (a = 0; a < 9; ++a) {
+				if (a == 4) continue;
+				this.craftMatrix.setInventorySlotContents(a, ItemHandlerHelper.copyStackWithSize(inStack, 1));
+			}
+			break;
+		}
+		}
+		IRecipe ir = CraftingManager.findMatchingRecipe(this.craftMatrix, this.world);
+		if (ir == null) {
+			return false;
+		}
+		this.outStack = ir.getCraftingResult(this.craftMatrix);
+		NonNullList aitemstack = CraftingManager.getRemainingItems(this.craftMatrix, this.world);
+		for (int i = 0; i < aitemstack.size(); ++i) {
+			ItemStack itemstack1 = this.craftMatrix.getStackInSlot(i);
+			ItemStack itemstack2 = (ItemStack)aitemstack.get(i);
+			if (!itemstack1.isEmpty()) {
+				this.craftMatrix.setInventorySlotContents(i, ItemStack.EMPTY);
+			}
+			if (itemstack1.isEmpty() || !this.craftMatrix.getStackInSlot(i).isEmpty()) continue;
+			this.craftMatrix.setInventorySlotContents(i, itemstack2);
+		}
+		return !this.outStack.isEmpty();
 	}
 }

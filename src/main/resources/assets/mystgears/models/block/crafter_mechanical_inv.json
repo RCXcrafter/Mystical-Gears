@@ -6,7 +6,8 @@
         "top": "blocks/hopper_top",
         "panels": "thaumcraft:blocks/pattern_crafter",
         "particle": "thaumcraft:blocks/pattern_crafter",
-        "inside": "blocks/hopper_inside"
+        "inside": "blocks/hopper_inside",
+		"input": "mystgears:blocks/mech_input"
     },
     "elements": [ 
         {
@@ -274,6 +275,32 @@
                     "texture": "#panels"
                 }
             }
-        }
+        },
+		{
+			"from": [6, 6, 0],
+			"to": [10, 10, 4],
+			"faces": {
+				"north": {
+					"uv": [0, 0, 4, 4],
+					"rotation": 90,
+					"texture": "#input"
+				},
+				"east": {
+					"uv": [0, 4, 4, 8],
+					"rotation": 90,
+					"texture": "#input"
+				},
+				"west": {
+					"uv": [0, 4, 4, 8],
+					"rotation": 270,
+					"texture": "#input"
+				},
+				"down": {
+					"uv": [0, 4, 4, 8],
+					"rotation": 180,
+					"texture": "#input"
+				}
+			}
+		}
     ]
 }

@@ -54,6 +54,7 @@ public class ConfigHandler {
 	public static Boolean bellows = true;
 	public static Boolean visMotor = true;
 	public static Boolean essentiaMotor = true;
+	public static Boolean mechanicalCrafter = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -159,6 +160,8 @@ public class ConfigHandler {
 		visMotor = thaumcraft && config.getBoolean("visMotor", misc, visMotor, "Enable/disable the vis motor.");
 
 		essentiaMotor = thaumcraft && config.getBoolean("essentiaMotor", misc, essentiaMotor, "Enable/disable the esentia motor.");
+
+		mechanicalCrafter = thaumcraft && config.getBoolean("mechanicalCrafter", misc, mechanicalCrafter, "Enable/disable the mechanical crafter motor.");
 		
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 

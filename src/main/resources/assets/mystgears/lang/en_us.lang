@@ -21,6 +21,7 @@ tile.bellows_mechanical.name=Mechanical Bellows
 
 tile.vis_motor.name=Vis Motor
 tile.essentia_motor.name=Essentia Motor
+tile.crafter_mechanical.name=Mechanical Pattern Crafter
 
 
 # Descriptions
@@ -73,4 +74,4 @@ research.essentiamotor.stage.2=I've successfully created a motor that runs on es
 
 research.mechanicalcrafter.title=Mechanical Pattern Crafter
 research.mechanicalcrafter.stage.1=First, I should research if this mechanical power is even useful for anything, then I'll look into ways of creating it.
-research.mechanicalcrafter.stage.2=thing
+research.mechanicalcrafter.stage.2=It was simple really, all I had to do was replace the vis resonator with a mechanical input. It still works exactly the same as an arcane pattern crafter but it can actually work faster if more mechanical power is put in.

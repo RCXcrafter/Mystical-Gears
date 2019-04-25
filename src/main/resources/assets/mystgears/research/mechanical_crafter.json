@@ -1,0 +1,22 @@
+{
+	"entries": [
+		{
+			"key": "MECHANICALCRAFTER",
+			"name": "research.mechanicalcrafter.title",
+			"icons": ["mystgears:crafter_mechanical"],
+			"category": "MECHANICS", "location": [3, 0],
+			"parents": ["BASEMECHANICS", "ARCANEPATTERNCRAFTER"],
+			"stages": [
+				{
+					"text": "research.mechanicalcrafter.stage.1",
+					"required_knowledge":["THEORY;ARTIFICE;1"],
+                    "required_research":["!machina"]
+				},
+				{
+					"text": "research.mechanicalcrafter.stage.2",
+					"recipes": ["mystgears:recipe_mechanical_crafter"]
+				}
+			]
+		}
+	]
+}
