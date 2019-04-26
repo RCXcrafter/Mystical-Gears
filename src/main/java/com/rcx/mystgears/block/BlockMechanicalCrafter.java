@@ -3,6 +3,7 @@ package com.rcx.mystgears.block;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.rcx.mystgears.MysticalGears;
 
@@ -164,6 +165,12 @@ public class BlockMechanicalCrafter extends Block implements IBlockFacingHorizon
 		super.onBlockAdded(worldIn, pos, state);
 		this.updateState(worldIn, pos, state);
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		worldIn.getTileEntity(pos);
+    }
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos frompos) {
@@ -204,5 +211,12 @@ public class BlockMechanicalCrafter extends Block implements IBlockFacingHorizon
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
+	}
+
+	@Override
+	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
+		super.eventReceived(state, worldIn, pos, id, param);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
 	}
 }

@@ -63,7 +63,6 @@ public class TileEntityMechanicalCrafter extends TilePatternCrafter {
 
 	public double currentPower = 0;
 	private final InventoryCrafting craftMatrix = new InventoryCrafting(new Container() {
-
 		public boolean canInteractWith(EntityPlayer playerIn) {
 			return false;
 		}
