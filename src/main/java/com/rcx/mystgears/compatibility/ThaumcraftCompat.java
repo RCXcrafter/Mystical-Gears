@@ -8,6 +8,7 @@ import com.rcx.mystgears.block.BlockVisMotor;
 import com.rcx.mystgears.block.TileEntityEssentiaMotor;
 import com.rcx.mystgears.block.TileEntityMechanicalCrafter;
 import com.rcx.mystgears.block.TileEntityVisMotor;
+import com.rcx.mystgears.item.ItemGear;
 
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.init.Blocks;
@@ -55,18 +56,18 @@ public class ThaumcraftCompat {
 
 		if (ConfigHandler.visMotor) {
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/vis_motor"));
-			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), "VISMOTOR", 25, new AspectList().add(Aspect.ORDER, 1), visMotor, new Object[]{"PRP", "NAN", 'R', new ItemStack(ItemsTC.visResonator), 'N', "nuggetIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
+			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_vis_motor"), new ShapedArcaneRecipe(ItemGear.group, "VISMOTOR", 25, new AspectList().add(Aspect.ORDER, 1), visMotor, new Object[]{"PRP", "NAN", 'R', new ItemStack(ItemsTC.visResonator), 'N', "nuggetIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', "plankWood"}));
 			GameRegistry.registerTileEntity(TileEntityVisMotor.class, new ResourceLocation(MysticalGears.MODID, "vis_motor"));
 
 			if (ConfigHandler.essentiaMotor) {
 				ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/essentia_motor"));
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), "ESSENTIAMOTOR", 35, new AspectList().add(Aspect.AIR, 1).add(Aspect.ORDER, 1), essentiaMotor, new Object[]{"PTP", "BMB", "PFP", 'M', new ItemStack(ItemsTC.morphicResonator), 'P', new ItemStack(BlocksTC.plankGreatwood), 'F', new ItemStack(RegistryHandler.GEARBOX_FRAME), 'T', new ItemStack(BlocksTC.tube), 'B', "plateBrass"}));
+				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_essentia_motor"), new ShapedArcaneRecipe(ItemGear.group, "ESSENTIAMOTOR", 35, new AspectList().add(Aspect.AIR, 1).add(Aspect.ORDER, 1), essentiaMotor, new Object[]{"PTP", "BMB", "PFP", 'M', new ItemStack(ItemsTC.morphicResonator), 'P', new ItemStack(BlocksTC.plankGreatwood), 'F', new ItemStack(RegistryHandler.GEARBOX_FRAME), 'T', new ItemStack(BlocksTC.tube), 'B', "plateBrass"}));
 				GameRegistry.registerTileEntity(TileEntityEssentiaMotor.class, new ResourceLocation(MysticalGears.MODID, "essentia_motor"));
 			}
 		}
 		if (ConfigHandler.mechanicalCrafter) {
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MysticalGears.MODID, "research/mechanical_crafter"));
-			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_crafter"), new ShapedArcaneRecipe(new ResourceLocation(MysticalGears.MODID, "mechanical_crafter"), "MECHANICALCRAFTER", 30, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1).add(Aspect.ORDER, 1), mechanicalCrafter, new Object[]{"AH ", "MCM", " P ", 'M', new ItemStack(ItemsTC.mechanismSimple), 'H', new ItemStack(Blocks.HOPPER), 'C', "workbench", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', new ItemStack(BlocksTC.plankGreatwood)}));
+			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_crafter"), new ShapedArcaneRecipe(ItemGear.group, "MECHANICALCRAFTER", 30, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1).add(Aspect.ORDER, 1), mechanicalCrafter, new Object[]{"AH ", "MCM", " P ", 'M', new ItemStack(ItemsTC.mechanismSimple), 'H', new ItemStack(Blocks.HOPPER), 'C', "workbench", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', new ItemStack(BlocksTC.plankGreatwood)}));
 			GameRegistry.registerTileEntity(TileEntityMechanicalCrafter.class, new ResourceLocation(MysticalGears.MODID, "mechanical_crafter"));
 		}
 	}

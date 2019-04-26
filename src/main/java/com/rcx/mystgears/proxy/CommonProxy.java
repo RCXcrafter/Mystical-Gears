@@ -7,7 +7,9 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockRedstoneDynamo;
+import com.rcx.mystgears.block.BlockWindupBox;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
+import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
 import com.rcx.mystgears.compatibility.ThaumcraftCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
@@ -47,6 +49,7 @@ public class CommonProxy {
 
 	static Random random = new Random();
 	public static ItemBlock dynamo;
+	public static ItemBlock windupBox;
 
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
@@ -261,6 +264,10 @@ public class CommonProxy {
 			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
 			ThaumcraftCompat.preInit();
 		}
+		if (ConfigHandler.windupBox) {
+			windupBox = new ItemBlock(new BlockWindupBox());
+			MysticalGears.blocks.add((ItemBlock) windupBox.setRegistryName(windupBox.getBlock().getRegistryName()));
+		}
 		if (ConfigHandler.dynamo) {
 			dynamo = new ItemBlock(new BlockRedstoneDynamo());
 			MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
@@ -353,6 +360,11 @@ public class CommonProxy {
 
 		if (ConfigHandler.thaumcraft)
 			ThaumcraftCompat.init();
+
+		if (ConfigHandler.windupBox) {
+			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_windup_box"), ItemGear.group, new ItemStack(windupBox), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
+		}
 
 		if (ConfigHandler.dynamo) {
 			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));

@@ -49,6 +49,7 @@ public class ConfigHandler {
 	public static Boolean voidmetal = true;
 
 	public static Boolean tab = true;
+	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
@@ -150,6 +151,8 @@ public class ConfigHandler {
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
 
 		tab = config.getBoolean("tab", misc, tab, "Enable/disable the Mystical Mechanics creative tab.");
+
+		windupBox = config.getBoolean("windupBox", misc, windupBox, "Enable/disable the windup box.");
 
 		dynamo = config.getBoolean("dynamo", misc, dynamo, "Enable/disable the redstone dynamo.");
 
