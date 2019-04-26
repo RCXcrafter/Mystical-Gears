@@ -55,7 +55,10 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 
 	public double essentia = -1;
 	public static double maxEssentia = 50;
-	public static double outputPower = 30;
+	public static double motionOutput = 30;
+	public static double energyOutput = 60;
+	public static double mechanismOutput = 20;
+	public Aspect essentiaType = null;
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
@@ -142,10 +145,14 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 			ta = ic.getEssentiaType(face.getOpposite());
 		}
 
-		if (ta == null)
+		if (ta == null || (!ta.equals(Aspect.MOTION) && !ta.equals(Aspect.ENERGY) && !ta.equals(Aspect.MECHANISM)))
+			return;
+
+		if (essentiaType != null && !ta.equals(essentiaType))
 			return;
 
 		essentia += ic.takeEssentia(ta, 1, face.getOpposite());
+		essentiaType = ta;
 		markDirty();
 	}
 
@@ -160,11 +167,25 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 			redstoneSignal = Math.max(redstoneSignal, redstoneSide);
 		}
 
-		double wantedPower = outputPower;
-		if (redstoneSignal != 0 || essentia < 1)
+		double wantedPower = 0;
+		if (essentiaType == Aspect.MOTION)
+			wantedPower = motionOutput;
+		else if (essentiaType == Aspect.ENERGY)
+			wantedPower = energyOutput;
+		else if (essentiaType == Aspect.MECHANISM)
+			wantedPower = mechanismOutput;
+
+		if (redstoneSignal != 0 || essentia <= 0) {
 			wantedPower = 0;
-		else
-			essentia -= 0.01;
+			essentiaType = null;
+		} else if (wantedPower > 0) {
+			if (essentiaType == Aspect.MOTION)
+				essentia -= 0.01;
+			else if (essentiaType == Aspect.ENERGY)
+				essentia -= 0.02;
+			else if (essentiaType == Aspect.MECHANISM)
+				essentia -= 0.005;
+		}
 
 		if (mechCapability.getPower(null) != wantedPower){
 			mechCapability.setPower(wantedPower, null);
@@ -197,7 +218,15 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 
 	@Override
 	public Aspect getSuctionType(EnumFacing facing) {
-		return Aspect.MOTION;
+		if (essentiaType != null)
+			return essentiaType;
+		int rand = world.rand.nextInt(3);
+
+		if (rand == 0)
+			return Aspect.MOTION;
+		if (rand == 1)
+			return Aspect.ENERGY;
+		return Aspect.MECHANISM;
 	}
 
 	@Override
