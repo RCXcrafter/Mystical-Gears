@@ -31,7 +31,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public double getPower(EnumFacing from) {
-			if (from == null || world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(from))
+			if (from == null || world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).getOpposite().equals(from) || (world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(from) && active))
 				return super.getPower(from);
 			return 0;
 		}
@@ -50,12 +50,14 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public boolean isOutput(EnumFacing from) {
-			return false;
+			return world.getBlockState(getPos()).getValue(BlockRedstoneDynamo.FACING).equals(from);
 		}
 	};
 
 	public double currentPower = 0;
 	public double storedPower = 0;
+	public double maxPower = 10000;
+	public boolean active = false;
 
 	@Override
 	public void onLoad() {
@@ -133,5 +135,13 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 			currentPower = mechCapability.getPower(null);
 			markDirty();
 		}
+
+		int redstoneSignal = 0;
+		for(EnumFacing dir : EnumFacing.VALUES) {
+			int redstoneSide = getWorld().getRedstonePower(getPos().offset(dir), dir);
+			redstoneSignal = Math.max(redstoneSignal, redstoneSide);
+		}
+
+		active = redstoneSignal != 0;
 	}
 }
