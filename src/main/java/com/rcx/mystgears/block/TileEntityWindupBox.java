@@ -157,6 +157,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 			markDirty();
 		}
 
+		IBlockState state = world.getBlockState(pos);
 		int powerState = (int) ((storedPower / maxPower) * 13);
 		if (previousState != powerState) {
 			world.notifyBlockUpdate(pos, state, state.getBlock().getActualState(state, world, pos), 3);

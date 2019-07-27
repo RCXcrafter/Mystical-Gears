@@ -341,7 +341,7 @@ public class CommonProxy {
 
 		if (ConfigHandler.windupBox) {
 			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));
-			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_windup_box"), ItemGear.group, new ItemStack(windupBox), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_windup_box"), ItemGear.group, new ItemStack(windupBox), new Object[]{"III", "AGB", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR), 'B', new ItemStack(RegistryHandler.MERGEBOX_FRAME)});
 		}
 
 		if (ConfigHandler.dynamo) {
