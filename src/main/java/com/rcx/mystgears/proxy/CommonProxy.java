@@ -21,7 +21,6 @@ import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -53,16 +52,6 @@ public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
-
-		if (ConfigHandler.tab)
-			MysticalGears.tab = new CreativeTabs("mystmech") {
-				@Override
-				public ItemStack getTabIconItem() {
-					return new ItemStack(RegistryHandler.GOLD_GEAR);
-				}
-			};
-		else
-			MysticalGears.tab = CreativeTabs.REDSTONE;
 
 		if (ConfigHandler.wood) MysticalGears.items.add(new ItemGear("Wood") {
 			public void registerRecipe() {
@@ -343,17 +332,6 @@ public class CommonProxy {
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
-
-		if (ConfigHandler.tab) {
-			RegistryHandler.CREATIVE_MECH_SOURCE.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.GEARBOX_FRAME.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.GOLD_GEAR.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.GOLD_GEAR_OFF.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.GOLD_GEAR_ON.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.IRON_AXLE.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.IRON_GEAR.setCreativeTab(MysticalGears.tab);
-			RegistryHandler.MERGEBOX_FRAME.setCreativeTab(MysticalGears.tab);
-		}
 
 		if (ConfigHandler.botania)
 			BotaniaCompat.init();

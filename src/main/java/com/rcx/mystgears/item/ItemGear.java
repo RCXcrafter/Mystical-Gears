@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.ConfigHandler;
+import mysticalmechanics.MysticalMechanics;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -38,7 +39,7 @@ public class ItemGear extends Item {
 	public ItemGear(String name) {
 		super();
 		this.name = name;
-		this.setCreativeTab(MysticalGears.tab);
+		this.setCreativeTab(MysticalMechanics.creativeTab);
 		this.setUnlocalizedName("gear_" + name.toLowerCase());
 		this.setRegistryName(MysticalGears.MODID, "gear_" + name.toLowerCase());
 	}

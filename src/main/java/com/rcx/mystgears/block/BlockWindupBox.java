@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.rcx.mystgears.MysticalGears;
 
+import mysticalmechanics.MysticalMechanics;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -33,7 +34,7 @@ public class BlockWindupBox extends Block {
 		setUnlocalizedName("windup_box");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "windup_box"));
 		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
-		setCreativeTab(MysticalGears.tab);
+		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
 	@Override
