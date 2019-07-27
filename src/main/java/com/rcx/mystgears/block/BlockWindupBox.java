@@ -10,7 +10,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 public class BlockWindupBox extends Block {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+	public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 13);
 
 	public BlockWindupBox() {
 		super(Material.IRON);
@@ -33,25 +34,18 @@ public class BlockWindupBox extends Block {
 		setSoundType(SoundType.METAL);
 		setUnlocalizedName("windup_box");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "windup_box"));
-		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
+		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN).withProperty(POWER, 0));
 		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		if (state.getValue(FACING).equals(face) || state.getValue(FACING).getOpposite().equals(face))
-			return BlockFaceShape.SOLID;
-		return BlockFaceShape.UNDEFINED;
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te instanceof TileEntityWindupBox) {
+			TileEntityWindupBox box = (TileEntityWindupBox) te;
+			return state.withProperty(POWER, (int) ((box.storedPower / box.maxPower) * 13));
+		}
+		return state;
 	}
 
 	@Override
@@ -96,5 +90,16 @@ public class BlockWindupBox extends Block {
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityWindupBox();
+	}
+
+	@Override
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
+		((TileEntityWindupBox)world.getTileEntity(pos)).breakBlock(world, pos, state, player);
+	}
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		((TileEntityWindupBox)worldIn.getTileEntity(pos)).breakBlock(worldIn, pos, state, null);
+		super.breakBlock(worldIn, pos, state);
 	}
 }

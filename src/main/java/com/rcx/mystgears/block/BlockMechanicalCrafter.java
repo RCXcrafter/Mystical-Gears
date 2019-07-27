@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.rcx.mystgears.MysticalGears;
 
+import mysticalmechanics.MysticalMechanics;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -56,7 +57,7 @@ public class BlockMechanicalCrafter extends Block implements IBlockFacingHorizon
 		setDefaultState(blockState.getBaseState().withProperty(IBlockFacingHorizontal.FACING, EnumFacing.NORTH).withProperty(IBlockEnabled.ENABLED, true));
 		setUnlocalizedName("crafter_mechanical");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "crafter_mechanical"));
-		setCreativeTab(MysticalGears.tab);
+		setCreativeTab(MysticalMechanics.creativeTab);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

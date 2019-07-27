@@ -6,7 +6,7 @@
         "panels": "thaumcraft:blocks/pattern_crafter",
         "particle": "thaumcraft:blocks/pattern_crafter",
         "inside": "blocks/hopper_inside",
-		"input": "mystgears:blocks/mech_input"
+		"input": "mystgears:blocks/crafter_input"
     },
     "elements": [
         {

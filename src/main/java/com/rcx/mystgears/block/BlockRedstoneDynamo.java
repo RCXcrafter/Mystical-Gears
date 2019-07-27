@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.rcx.mystgears.MysticalGears;
 
+import mysticalmechanics.MysticalMechanics;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -33,7 +34,7 @@ public class BlockRedstoneDynamo extends Block {
 		setUnlocalizedName("redstone_dynamo");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
 		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
-		setCreativeTab(MysticalGears.tab);
+		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
 	@Override

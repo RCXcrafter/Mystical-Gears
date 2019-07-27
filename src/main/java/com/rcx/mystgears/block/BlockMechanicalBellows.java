@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
 
+import mysticalmechanics.MysticalMechanics;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -39,7 +40,7 @@ public class BlockMechanicalBellows extends Block implements ILexiconable  {
 		setDefaultState(blockState.getBaseState().withProperty(BotaniaStateProps.CARDINALS, EnumFacing.SOUTH));
 		setUnlocalizedName("bellows_mechanical");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "bellows_mechanical"));
-		setCreativeTab(MysticalGears.tab);
+		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
 	@Nonnull

@@ -3,7 +3,7 @@
     "textures": {
         "side": "mystgears:blocks/redstone_dynamo_side",
         "energy": "mystgears:blocks/redstone_dynamo_energy",
-        "mech": "mystgears:blocks/redstone_dynamo_mech"
+        "mech": "mystgears:blocks/mech_input"
     },
     "elements": [
         {

@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
 
+import mysticalmechanics.MysticalMechanics;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
@@ -61,7 +62,7 @@ public class BlockGearanium extends BlockFlower implements ISpecialFlower, IWand
 		setHardness(0.1F);
 		setSoundType(SoundType.PLANT);
 		setTickRandomly(false);
-		setCreativeTab(MysticalGears.tab);
+		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
 	@Nonnull

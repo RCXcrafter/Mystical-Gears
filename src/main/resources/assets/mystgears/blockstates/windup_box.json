@@ -1,0 +1,94 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_bottom_top",
+		"textures": {
+			"bottom": "mystgears:blocks/mech_output",
+			"top": "mystgears:blocks/mech_input",
+			"side": "mystgears:blocks/windup_box_side_0"
+		}
+	},
+	"variants": {
+		"inventory":  { "x": 270 },
+		"facing": {
+			"down": {  },
+			"up": { "x": 180 },
+			"north": { "x": 270 },
+			"south": { "x": 270, "y": 180 },
+			"west": { "x": 90, "y": 90 },
+			"east": { "x": 90, "y": 270 }
+		},
+		"power": {
+			"0": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_0"
+				}
+			},
+			"1": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_1"
+				}
+			},
+			"2": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_2"
+				}
+			},
+			"3": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_3"
+				}
+			},
+			"4": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_4"
+				}
+			},
+			"5": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_5"
+				}
+			},
+			"6": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_6"
+				}
+			},
+			"7": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_7"
+				}
+			},
+			"8": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_8"
+				}
+			},
+			"9": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_9"
+				}
+			},
+			"10": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_10"
+				}
+			},
+			"11": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_11"
+				}
+			},
+			"12": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_12"
+				}
+			},
+			"13": {
+				"textures": {
+					"side": "mystgears:blocks/windup_box_side_13"
+				}
+			}
+		}
+	}
+}

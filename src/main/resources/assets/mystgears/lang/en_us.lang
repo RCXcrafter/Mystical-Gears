@@ -15,6 +15,7 @@ material.void.name=Void Metal
 # Blocks
 
 tile.redstone_dynamo.name=Redstone Dynamo
+tile.windup_box.name=Windup Box
 
 tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
