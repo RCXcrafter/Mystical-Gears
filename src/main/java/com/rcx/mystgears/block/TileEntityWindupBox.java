@@ -24,12 +24,12 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public void setPower(double value, EnumFacing from) {
-			if (facing.getOpposite().equals(from)) {
+			if (getFacing().getOpposite().equals(from)) {
 				super.setPower(value, from);
 				if (value != getPower(null)) {
 					onPowerChange();
 				}
-			} else if (facing.equals(from)) {
+			} else if (getFacing().equals(from)) {
 				if (value != outputPower) {
 					outputPower = value;
 					onPowerChange();
@@ -39,9 +39,9 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public double getPower(EnumFacing from) {
-			if (from == null || facing.getOpposite().equals(from))
+			if (from == null || getFacing().getOpposite().equals(from))
 				return super.getPower(from);
-			if (facing.equals(from))
+			if (getFacing().equals(from))
 				return outputPower;
 			return 0;
 		}
@@ -55,12 +55,12 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public boolean isInput(EnumFacing from) {
-			return facing.getOpposite().equals(from);
+			return getFacing().getOpposite().equals(from);
 		}
 
 		@Override
 		public boolean isOutput(EnumFacing from) {
-			return facing.equals(from);
+			return getFacing().equals(from);
 		}
 	};
 
@@ -69,7 +69,13 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 	public static double maxPower = 100000;
 	public static double output = 50;
 	public int previousState = 0;
-	public EnumFacing facing = EnumFacing.NORTH;
+	public EnumFacing facing = null;
+	
+	public EnumFacing getFacing() {
+		if (facing == null)
+			facing = world.getBlockState(getPos()).getValue(BlockWindupBox.FACING);
+		return facing;
+	}
 
 	@Override
 	public void onLoad() {
@@ -124,15 +130,15 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 	}
 
 	public void breakBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-		mechCapability.setPower(0f, facing);
-		mechCapability.setPower(0f, facing.getOpposite());
+		mechCapability.setPower(0f, getFacing());
+		mechCapability.setPower(0f, getFacing().getOpposite());
 		updateNeighbors();
 	}
 
 	public void updateNeighbors() {
 		if (!(world.getBlockState(getPos()).getBlock() instanceof BlockWindupBox))
 			return;
-		EnumFacing f = facing.getOpposite();
+		EnumFacing f = getFacing().getOpposite();
 		TileEntity t = world.getTileEntity(getPos().offset(f));
 		if (t != null && t.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite()))
 			mechCapability.setPower(t.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, f.getOpposite()).getPower(f.getOpposite()), f);
@@ -176,8 +182,8 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 			storedPower -= output;
 		}
 
-		if (mechCapability.getPower(facing) != wantedPower) {
-			mechCapability.setPower(wantedPower, facing);
+		if (mechCapability.getPower(getFacing()) != wantedPower) {
+			mechCapability.setPower(wantedPower, getFacing());
 		}
 
 		storedPower = Math.min(maxPower, storedPower + currentPower);
