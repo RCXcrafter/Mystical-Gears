@@ -63,8 +63,8 @@ public class TileEntityGearanium extends TileEntity implements IWandBindable, IT
 	private static final String TAG_POOL_Y = "poolY";
 	private static final String TAG_POOL_Z = "poolZ";
 
-	public static final int ROTATION_POWER = 40;
-	public static final int MANA_USAGE = 8;
+	public static int ROTATION_POWER = 40;
+	public static int MANA_USAGE = 8;
 
 	public int mana = 0;
 

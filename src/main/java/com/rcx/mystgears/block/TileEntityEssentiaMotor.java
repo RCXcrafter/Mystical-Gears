@@ -58,6 +58,9 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 	public static double motionOutput = 30;
 	public static double energyOutput = 60;
 	public static double mechanismOutput = 20;
+	public static double motionUsage = 0.01;
+	public static double energyUsage = 0.02;
+	public static double mechanismUsage = 0.005;
 	public Aspect essentiaType = null;
 
 	@Override
@@ -70,7 +73,7 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		if (tag.hasKey("timer"))
+		if (tag.hasKey("essentia"))
 			essentia = tag.getDouble("essentia");
 	}
 
@@ -180,11 +183,11 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 			essentiaType = null;
 		} else if (wantedPower > 0) {
 			if (essentiaType == Aspect.MOTION)
-				essentia -= 0.01;
+				essentia -= motionUsage;
 			else if (essentiaType == Aspect.ENERGY)
-				essentia -= 0.02;
+				essentia -= energyUsage;
 			else if (essentiaType == Aspect.MECHANISM)
-				essentia -= 0.005;
+				essentia -= mechanismUsage;
 		}
 
 		if (mechCapability.getPower(null) != wantedPower){

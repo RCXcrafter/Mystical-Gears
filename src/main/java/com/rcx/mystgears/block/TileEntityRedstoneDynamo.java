@@ -88,8 +88,8 @@ public class TileEntityRedstoneDynamo extends TileEntity implements ITickable {
 
 	public int fe = 0;
 	public double currentPower = 0;
-	public double FE_CONVERSION_RATE = 0.35;
-	public int MAX_FE = 20000;
+	public static double FE_CONVERSION_RATE = 0.35;
+	public static int MAX_FE = 20000;
 
 	@Override
 	public void onLoad() {
