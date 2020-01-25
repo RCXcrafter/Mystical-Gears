@@ -1,0 +1,28 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "embers:gauge",
+        "textures": {
+            "dial": "mystgears:blocks/mechanical_dial",
+            "particle": "mystgears:blocks/mechanical_dial"
+        },
+        "transform": "forge:default-block"
+    },
+    "variants":{
+		"inventory":  {
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "mystgears:items/mechanical_dial"
+			}
+		},
+        "facing":{
+            "down":  { "x": 180 },
+            "up":    { },
+            "north": { "x": 90 },
+            "south": { "x": 90, "y": 180 },
+            "west":  { "x": 90, "y": 270 },
+            "east":  { "x": 90, "y": 90 }
+        }
+    }
+}

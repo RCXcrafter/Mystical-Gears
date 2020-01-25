@@ -16,8 +16,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -70,9 +68,5 @@ public class ThaumcraftCompat {
 			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_crafter"), new ShapedArcaneRecipe(ItemGear.group, "MECHANICALCRAFTER", 30, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1).add(Aspect.ORDER, 1), mechanicalCrafter, new Object[]{"AH ", "MCM", " P ", 'M', new ItemStack(ItemsTC.mechanismSimple), 'H', new ItemStack(Blocks.HOPPER), 'C', "workbench", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'P', new ItemStack(BlocksTC.plankGreatwood)}));
 			GameRegistry.registerTileEntity(TileEntityMechanicalCrafter.class, new ResourceLocation(MysticalGears.MODID, "mechanical_crafter"));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerModels() {
 	}
 }

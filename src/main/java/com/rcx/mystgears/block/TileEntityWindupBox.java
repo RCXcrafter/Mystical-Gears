@@ -117,12 +117,12 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == MysticalMechanicsAPI.MECH_CAPABILITY && (facing.equals(facing) || facing.getOpposite().equals(facing)) || super.hasCapability(capability, facing);
+		return capability == MysticalMechanicsAPI.MECH_CAPABILITY && (facing == null || facing.equals(facing) || facing.getOpposite().equals(facing)) || super.hasCapability(capability, facing);
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && (facing.equals(facing) || facing.getOpposite().equals(facing))) {
+		if (capability == MysticalMechanicsAPI.MECH_CAPABILITY && (facing == null || facing.equals(facing) || facing.getOpposite().equals(facing))) {
 			T result = (T) this.mechCapability;
 			return result;
 		}

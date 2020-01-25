@@ -57,6 +57,7 @@ public class ConfigHandler {
 
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
+	public static Boolean mechDial = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
 	public static Boolean visMotor = true;
@@ -159,6 +160,8 @@ public class ConfigHandler {
 		windupBox = config.getBoolean("windupBox", misc, windupBox, "Enable/disable the windup box.");
 
 		dynamo = config.getBoolean("dynamo", misc, dynamo, "Enable/disable the redstone dynamo.");
+
+		mechDial = embers && config.getBoolean("mechDial", misc, mechDial, "Enable/disable the mechanical dial.");
 
 		gearanium = botania && config.getBoolean("gearanium", misc, gearanium, "Enable/disable the gearanium flower.");
 

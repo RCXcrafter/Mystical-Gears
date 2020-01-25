@@ -11,6 +11,7 @@ import com.rcx.mystgears.block.BlockWindupBox;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
+import com.rcx.mystgears.compatibility.EmbersCompat;
 import com.rcx.mystgears.compatibility.ThaumcraftCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
@@ -98,7 +99,7 @@ public class CommonProxy {
 			if (ConfigHandler.nickel) MysticalGears.items.add(new ItemGear("Nickel"));
 			if (ConfigHandler.silver) MysticalGears.items.add(new ItemGear("Silver"));
 			if (ConfigHandler.electrum) MysticalGears.items.add(new ItemGear("Electrum"));
-
+			EmbersCompat.preInit();
 		}
 		if (ConfigHandler.soot && ConfigHandler.antimony) MysticalGears.items.add(new ItemGear("Antimony", new GearBehaviorRegular(0, 1) {
 			@Override
@@ -332,6 +333,9 @@ public class CommonProxy {
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
+
+		if (ConfigHandler.embers)
+			EmbersCompat.init();
 
 		if (ConfigHandler.botania)
 			BotaniaCompat.init();

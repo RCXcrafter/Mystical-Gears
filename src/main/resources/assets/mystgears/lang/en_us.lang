@@ -17,6 +17,8 @@ material.void.name=Void Metal
 tile.redstone_dynamo.name=Redstone Dynamo
 tile.windup_box.name=Windup Box
 
+tile.mechanical_dial.name=Mechanical Dial
+
 tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
 
@@ -31,6 +33,12 @@ desc.gear.name=Can be used in a gearbox
 desc.gear.max.name=Max power: @power
 desc.gear.transfer.name=Power transfer: @transferx
 desc.gearanium.name=You spin me right round
+
+
+# On screen tooltips
+
+mystgears.tooltip.mechdial.mech=Mechanical Power: %s 
+mystgears.tooltip.mechdial.mech_all=Block's Mechanical Power: %s
 
 
 # Botania Lexicon
