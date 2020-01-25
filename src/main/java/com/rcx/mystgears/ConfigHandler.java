@@ -29,6 +29,7 @@ public class ConfigHandler {
 
 	public static Boolean embers = true;
 	public static Boolean soot = true;
+	public static Boolean aetherworks = true;
 	public static Boolean avaritia = true;
 	public static Boolean botania = true;
 	public static Boolean thaumcraft = true;
@@ -45,6 +46,7 @@ public class ConfigHandler {
 	public static Boolean silver = true;
 	public static Boolean electrum = true;
 	public static Boolean antimony = true;
+	public static Boolean aetherium = true;
 	public static Boolean crystalmatrix = true;
 	public static Boolean neutronium = true;
 	public static Boolean infinity = true;
@@ -81,6 +83,7 @@ public class ConfigHandler {
 			"Electrum:430:1",
 			"Dawnstone:540:1",
 			"Antimony:830:1",
+			"Aether:910:1",
 			"CrystalMatrix:0:1",
 			"CosmicNeutronium:1000:1.1",
 			"Infinity:0:4",
@@ -149,6 +152,8 @@ public class ConfigHandler {
 
 		soot = Loader.isModLoaded("soot") && config.getBoolean("soot", compat, soot, "Whether compatibility for Soot should be loaded.");
 
+		aetherworks = Loader.isModLoaded("aetherworks") && config.getBoolean("aetherworks", compat, soot, "Whether compatibility for Aetherworks should be loaded.");
+
 		avaritia = Loader.isModLoaded("avaritia") && config.getBoolean("avaritia", compat, avaritia, "Whether compatibility for Avaritia should be loaded.");
 
 		botania = Loader.isModLoaded("botania") && config.getBoolean("botania", compat, botania, "Whether compatibility for Botania should be loaded.");
@@ -190,6 +195,8 @@ public class ConfigHandler {
 		}
 		if (soot)
 			antimony = config.getBoolean("antimony", gears, antimony, "Enable/disable the antimony gear.");
+		if (aetherworks)
+			aetherium = config.getBoolean("aetherium", gears, aetherium, "Enable/disable the aetherium gear.");
 		if (avaritia) {
 			crystalmatrix = config.getBoolean("crystalmatrix", gears, crystalmatrix, "Enable/disable the crystal matrix gear.");
 			neutronium = config.getBoolean("neutronium", gears, neutronium, "Enable/disable the neutronium gear.");

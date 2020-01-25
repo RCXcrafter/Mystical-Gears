@@ -136,6 +136,32 @@ public class CommonProxy {
 				}
 			}
 		});
+		if (ConfigHandler.aetherworks && ConfigHandler.aetherium) MysticalGears.items.add(new ItemGear("Aether", new GearBehaviorRegular(0, 1) {
+			@Override
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+				super.visualUpdate(tile, facing, gear);
+				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
+					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
+					double power = capability.getPower(facing);
+					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
+					if(power >= maxPower / 3)
+						for(int i = 0; i < particles; i++) {
+							float xOff = 0.1f + random.nextFloat() * 0.8f;
+							float yOff = 0.1f + random.nextFloat() * 0.8f;
+							float zOff = 0.1f + random.nextFloat() * 0.8f;
+							switch (facing.getAxis()) {
+							case X:
+								xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
+							case Y:
+								yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
+							case Z:
+								zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
+							}
+							ParticleUtil.spawnParticleGlow(tile.getWorld(), tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 0, 0, 0, 0, 0.72f, 0.95f, 2.0f, 24);
+						}
+				}
+			}
+		}));
 		if (ConfigHandler.avaritia) {
 			if (ConfigHandler.crystalmatrix) MysticalGears.items.add(new ItemGear("CrystalMatrix") {
 				public void registerRecipe() {

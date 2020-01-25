@@ -7,6 +7,7 @@ itemGroup.mystmech=Mystical Mechanics
 item.mystgears.gear.name=@material Gear
 
 material.wood.name=Wooden
+material.aether.name=Aetherium
 material.cosmicneutronium.name=Neutronium
 material.elvenelementium.name=Elementium
 material.void.name=Void Metal
