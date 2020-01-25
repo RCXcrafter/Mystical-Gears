@@ -35,10 +35,12 @@ public class BlockMechanicalDial extends BlockBaseGauge {
 	@Override
 	protected void getTEData(EnumFacing facing, ArrayList<String> text, TileEntity tileEntity) {
 		double sidedPower = 0.0;
+		boolean flag = true;
 		if (tileEntity.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 			IMechCapability handler = tileEntity.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
 			if (handler != null && handler.getPower(facing) != 0){
 				sidedPower = handler.getPower(facing);
+				flag = false;
 				text.add(I18n.format("mystgears.tooltip.mechdial.mech", MysticalMechanicsAPI.IMPL.getDefaultUnit().format(handler.getPower(facing))));
 			}
 		}
@@ -46,6 +48,7 @@ public class BlockMechanicalDial extends BlockBaseGauge {
 			if (tileEntity.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, null)) {
 				IMechCapability handler = tileEntity.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, null);
 				if (handler != null && handler.getPower(null) != 0 && handler.getPower(null) != sidedPower) {
+					flag = false;
 					if (sidedPower == 0)
 						text.add(I18n.format("mystgears.tooltip.mechdial.mech", MysticalMechanicsAPI.IMPL.getDefaultUnit().format(handler.getPower(null))));
 					else
@@ -53,6 +56,9 @@ public class BlockMechanicalDial extends BlockBaseGauge {
 				}
 			}
 		} catch (NullPointerException e) {}
+		if (flag && (tileEntity.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing) || tileEntity.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, null))) {
+			text.add(I18n.format("mystgears.tooltip.mechdial.mech", MysticalMechanicsAPI.IMPL.getDefaultUnit().format(0.0)));
+		}
 	}
 
 	@Override
