@@ -9,11 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.server.management.PlayerChunkMap;
+import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
 
 public class TileEntityWindupBox extends TileEntity implements ITickable {
@@ -70,7 +73,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 	public static double output = 50;
 	public int previousState = 0;
 	public EnumFacing facing = null;
-	
+
 	public EnumFacing getFacing() {
 		if (facing == null)
 			facing = world.getBlockState(getPos()).getValue(BlockWindupBox.FACING);
@@ -157,6 +160,23 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 	}
 
 	@Override
+	public void markDirty() {
+		super.markDirty();
+		if(world instanceof WorldServer) {
+			SPacketUpdateTileEntity packet = this.getUpdatePacket();
+			if (packet != null) {
+				PlayerChunkMap chunkMap = ((WorldServer) world).getPlayerChunkMap();
+				int i = this.getPos().getX() >> 4;
+				int j = this.getPos().getZ() >> 4;
+				PlayerChunkMapEntry entry = chunkMap.getEntry(i, j);
+				if(entry != null) {
+					entry.sendPacket(packet);
+				}
+			}
+		}
+	}
+
+	@Override
 	public void update() {
 		if (mechCapability.getPower(null) != currentPower) {
 			currentPower = mechCapability.getPower(null);
@@ -168,6 +188,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 		if (previousState != powerState) {
 			world.notifyBlockUpdate(pos, state, state.getBlock().getActualState(state, world, pos), 3);
 			previousState = powerState;
+			markDirty();
 		}
 
 		int redstoneSignal = 0;
