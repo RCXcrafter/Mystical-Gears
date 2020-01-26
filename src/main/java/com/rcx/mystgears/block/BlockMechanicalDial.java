@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.MysticalGears;
 
 import mysticalmechanics.MysticalMechanics;
+import mysticalmechanics.api.IAxle;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 
@@ -36,6 +37,13 @@ public class BlockMechanicalDial extends BlockBaseGauge {
 	protected void getTEData(EnumFacing facing, ArrayList<String> text, TileEntity tileEntity) {
 		double sidedPower = 0.0;
 		boolean flag = true;
+		if (tileEntity instanceof IAxle) {
+			IMechCapability handler = tileEntity.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
+			if (handler != null && handler.getPower(null) != 0){
+				text.add(I18n.format("mystgears.tooltip.mechdial.mech", MysticalMechanicsAPI.IMPL.getDefaultUnit().format(handler.getPower(null))));
+				return;
+			}
+		}
 		if (tileEntity.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 			IMechCapability handler = tileEntity.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
 			if (handler != null && handler.getPower(facing) != 0){
