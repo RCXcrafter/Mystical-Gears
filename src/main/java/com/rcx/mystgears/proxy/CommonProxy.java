@@ -10,9 +10,7 @@ import com.rcx.mystgears.block.BlockRedstoneDynamo;
 import com.rcx.mystgears.block.BlockWindupBox;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityWindupBox;
-import com.rcx.mystgears.compatibility.BotaniaCompat;
-import com.rcx.mystgears.compatibility.EmbersCompat;
-import com.rcx.mystgears.compatibility.ThaumcraftCompat;
+import com.rcx.mystgears.compatibility.*;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
@@ -362,6 +360,9 @@ public class CommonProxy {
 
 		if (ConfigHandler.embers)
 			EmbersCompat.init();
+
+		if (ConfigHandler.avaritia)
+			AvaritiaCompat.init();
 
 		if (ConfigHandler.botania)
 			BotaniaCompat.init();
