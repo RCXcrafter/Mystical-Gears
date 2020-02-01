@@ -278,6 +278,19 @@ public class CommonProxy {
 			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
 			ThaumcraftCompat.preInit();
 		}
+		if (ConfigHandler.naturesAura) {
+			if (ConfigHandler.infusedIron) MysticalGears.items.add(new ItemGear("InfusedIron") {
+				public void registerRecipe() {
+					Object nugget = OreDictionary.doesOreNameExist("nuggetInfusedIron") ? "nuggetInfusedIron" : Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "ancient_stick"));
+					Object ingot = OreDictionary.doesOreNameExist("ingotInfusedIron") ? "ingotInfusedIron" : new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "infused_iron")));
+					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', ingot, 'N', nugget});
+					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
+						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
+					}
+				}
+			});
+			NaturesAuraCompat.preInit();
+		}
 		if (ConfigHandler.windupBox) {
 			windupBox = new ItemBlock(new BlockWindupBox());
 			MysticalGears.blocks.add((ItemBlock) windupBox.setRegistryName(windupBox.getBlock().getRegistryName()));
@@ -369,6 +382,9 @@ public class CommonProxy {
 
 		if (ConfigHandler.thaumcraft)
 			ThaumcraftCompat.init();
+
+		if (ConfigHandler.naturesAura)
+			NaturesAuraCompat.init();
 
 		if (ConfigHandler.windupBox) {
 			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));

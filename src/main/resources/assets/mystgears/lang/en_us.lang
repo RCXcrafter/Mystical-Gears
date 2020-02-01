@@ -29,6 +29,8 @@ tile.vis_motor.name=Vis Motor
 tile.essentia_motor.name=Essentia Motor
 tile.crafter_mechanical.name=Mechanical Pattern Crafter
 
+tile.aura_engine.name=Aura Engine
+
 
 # Descriptions
 

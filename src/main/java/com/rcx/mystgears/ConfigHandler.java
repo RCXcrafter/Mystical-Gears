@@ -6,6 +6,7 @@ import teamroots.embers.ConfigManager;
 
 import java.io.File;
 
+import com.rcx.mystgears.block.TileEntityAuraEngine;
 import com.rcx.mystgears.block.TileEntityEssentiaMotor;
 import com.rcx.mystgears.block.TileEntityGatlingGunEmber;
 import com.rcx.mystgears.block.TileEntityGearanium;
@@ -34,6 +35,7 @@ public class ConfigHandler {
 	public static Boolean avaritia = true;
 	public static Boolean botania = true;
 	public static Boolean thaumcraft = true;
+	public static Boolean naturesAura = true;
 
 	public static Boolean wood = true;
 	public static Boolean stone = true;
@@ -57,6 +59,7 @@ public class ConfigHandler {
 	public static Boolean brass = true;
 	public static Boolean thaumium = true;
 	public static Boolean voidmetal = true;
+	public static Boolean infusedIron = true;
 
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
@@ -68,6 +71,7 @@ public class ConfigHandler {
 	public static Boolean visMotor = true;
 	public static Boolean essentiaMotor = true;
 	public static Boolean mechanicalCrafter = true;
+	public static Boolean auraEngine = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -96,6 +100,7 @@ public class ConfigHandler {
 			"Brass:85:1",
 			"Thaumium:160:1",
 			"Void:40:1.01",
+			"InfusedIron:120:1.0",
 			"Emerald:600:1",
 			"Obsidian:580:0.9",
 			"Platinum:620:1",
@@ -163,6 +168,8 @@ public class ConfigHandler {
 
 		thaumcraft = Loader.isModLoaded("thaumcraft") && config.getBoolean("thaumcraft", compat, thaumcraft, "Whether compatibility for Thaumcraft should be loaded.");
 
+		naturesAura = Loader.isModLoaded("naturesaura") && config.getBoolean("naturesAura", compat, thaumcraft, "Whether compatibility for Nature's Aura should be loaded.");
+
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
 
 		windupBox = config.getBoolean("windupBox", misc, windupBox, "Enable/disable the windup box.");
@@ -184,6 +191,8 @@ public class ConfigHandler {
 		essentiaMotor = thaumcraft && config.getBoolean("essentiaMotor", misc, essentiaMotor, "Enable/disable the esentia motor.");
 
 		mechanicalCrafter = thaumcraft && config.getBoolean("mechanicalCrafter", misc, mechanicalCrafter, "Enable/disable the mechanical crafter.");
+
+		auraEngine = naturesAura && config.getBoolean("auraEngine", misc, auraEngine, "Enable/disable the aura engine.");
 
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 
@@ -219,6 +228,8 @@ public class ConfigHandler {
 			thaumium = config.getBoolean("thaumium", gears, thaumium, "Enable/disable the thaumium gear.");
 			voidmetal = config.getBoolean("voidmetal", gears, voidmetal, "Enable/disable the void metal gear.");
 		}
+		if (naturesAura)
+			infusedIron = config.getBoolean("infusedIron", gears, infusedIron, "Enable/disable the infused iron gear.");
 
 		config.setCategoryComment(machine, "Settings for tweaking machines added by this mod.");
 
@@ -232,7 +243,7 @@ public class ConfigHandler {
 		}
 		if (emberGatlingGun) {
 			TileEntityGatlingGunEmber.maxPower = config.getFloat("emberGatlingGunMaxPower", machine, (float) TileEntityGatlingGunEmber.maxPower, 0, 100000000, "The amount of power the gatling gun takes to fire at max speed.");
-			TileEntityGatlingGunEmber.damage = config.getFloat("emberGatlingGunDamage", machine, TileEntityGatlingGunEmber.damage, 0, 100000000, "The amount of damage each bullet does.");
+			TileEntityGatlingGunEmber.damage = config.getFloat("emberGatlingGunDamage", machine, TileEntityGatlingGunEmber.damage, 0, 100000, "The amount of damage each bullet does.");
 		}
 		if (gearanium) {
 			TileEntityGearanium.MANA_USAGE = config.getInt("gearaniumManaUsage", machine, TileEntityGearanium.MANA_USAGE, 0, 100, "The amount of mana the gearanium uses per tick.");
@@ -250,6 +261,10 @@ public class ConfigHandler {
 			TileEntityEssentiaMotor.energyUsage = config.getFloat("essentiaMotorPotentiaUsage", machine, (float) TileEntityEssentiaMotor.energyUsage, 0, 100, "The amount of potentia essentia consumed per tick.");
 			TileEntityEssentiaMotor.mechanismUsage = config.getFloat("essentiaMotorMachinaUsage", machine, (float) TileEntityEssentiaMotor.mechanismUsage, 0, 100, "The amount of machina essentia consumed per tick.");
 			TileEntityEssentiaMotor.motionUsage = config.getFloat("essentiaMotorMotusUsage", machine, (float) TileEntityEssentiaMotor.motionUsage, 0, 100, "The amount of motus essentia consumed per tick.");
+		}
+		if (auraEngine) {
+			TileEntityAuraEngine.auraConsumption = config.getInt("auraEngineConsumption", machine, TileEntityAuraEngine.auraConsumption, 0, 1000000, "The amount of aura consumed by the engine each tick.");
+			TileEntityAuraEngine.outputPower = config.getFloat("auraEngineOutputPower", machine, (float) TileEntityAuraEngine.outputPower, 0, 100000, "The amount of power outputted by the aura engine.");
 		}
 
 		if(config.hasChanged())
