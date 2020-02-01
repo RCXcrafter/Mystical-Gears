@@ -3,6 +3,7 @@ package com.rcx.mystgears.proxy;
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
+import com.rcx.mystgears.compatibility.EmbersCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
 
@@ -57,6 +58,9 @@ public class ClientProxy extends CommonProxy {
 		for (ItemBlock item : MysticalGears.blocks) {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
+
+		if (Loader.isModLoaded("embers"))
+			EmbersCompat.registerModels();
 
 		if (Loader.isModLoaded("botania"))
 			BotaniaCompat.registerModels();

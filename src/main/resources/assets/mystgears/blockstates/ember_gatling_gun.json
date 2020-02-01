@@ -1,0 +1,22 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "mystgears:gatling_gun",
+		"textures": {
+			"0": "mystgears:blocks/gatling_gun_ember",
+			"particle": "mystgears:blocks/gatling_gun_ember"
+		}
+	},
+    "variants": {
+		"facing": {
+        	"down": { "model": "mystgears:gatling_gun", "x": 90 },
+        	"up": { "model": "mystgears:gatling_gun", "x": 270 },
+        	"north": { "model": "mystgears:gatling_gun" },
+        	"south": { "model": "mystgears:gatling_gun", "y": 180 },
+        	"west": { "model": "mystgears:gatling_gun", "y": 270 },
+        	"east": { "model": "mystgears:gatling_gun", "y": 90 }
+		},
+        "inventory": { "model": "mystgears:gatling_gun" }
+    }
+}

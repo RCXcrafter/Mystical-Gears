@@ -39,7 +39,7 @@ public class BlockMechanicalDial extends BlockBaseGauge {
 		boolean flag = true;
 		if (tileEntity instanceof IAxle) {
 			IMechCapability handler = tileEntity.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-			if (handler != null && handler.getPower(null) != 0) {
+			if (handler != null) {
 				text.add(I18n.format("mystgears.tooltip.mechdial.mech", MysticalMechanicsAPI.IMPL.getDefaultUnit().format(handler.getPower(null))));
 				return;
 			}

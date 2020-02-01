@@ -7,6 +7,7 @@ import teamroots.embers.ConfigManager;
 import java.io.File;
 
 import com.rcx.mystgears.block.TileEntityEssentiaMotor;
+import com.rcx.mystgears.block.TileEntityGatlingGunEmber;
 import com.rcx.mystgears.block.TileEntityGearanium;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityVisMotor;
@@ -61,6 +62,7 @@ public class ConfigHandler {
 	public static Boolean dynamo = true;
 	public static Boolean infiniteMechRecipe = true;
 	public static Boolean mechDial = true;
+	public static Boolean emberGatlingGun = true;
 	public static Boolean gearanium = true;
 	public static Boolean bellows = true;
 	public static Boolean visMotor = true;
@@ -171,6 +173,8 @@ public class ConfigHandler {
 
 		mechDial = embers && config.getBoolean("mechDial", misc, mechDial, "Enable/disable the mechanical dial.");
 
+		emberGatlingGun = embers && config.getBoolean("emberGatlingGun", misc, emberGatlingGun, "Enable/disable the ember gatling gun.");
+
 		gearanium = botania && config.getBoolean("gearanium", misc, gearanium, "Enable/disable the gearanium flower.");
 
 		bellows = botania && config.getBoolean("bellows", misc, bellows, "Enable/disable the mechanical bellows.");
@@ -179,7 +183,7 @@ public class ConfigHandler {
 
 		essentiaMotor = thaumcraft && config.getBoolean("essentiaMotor", misc, essentiaMotor, "Enable/disable the esentia motor.");
 
-		mechanicalCrafter = thaumcraft && config.getBoolean("mechanicalCrafter", misc, mechanicalCrafter, "Enable/disable the mechanical crafter motor.");
+		mechanicalCrafter = thaumcraft && config.getBoolean("mechanicalCrafter", misc, mechanicalCrafter, "Enable/disable the mechanical crafter.");
 
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 
@@ -225,6 +229,10 @@ public class ConfigHandler {
 		if (dynamo) {
 			TileEntityRedstoneDynamo.FE_CONVERSION_RATE = config.getFloat("dynamoCerversionRate", machine, (float) TileEntityRedstoneDynamo.FE_CONVERSION_RATE, 0, 10, "The conversion rate from mechanical power to FE.");
 			TileEntityRedstoneDynamo.MAX_FE = config.getInt("dynamoPowerCapacity", machine, TileEntityRedstoneDynamo.MAX_FE, 0, 100000000, "The amount of power the dynamo can store.");
+		}
+		if (emberGatlingGun) {
+			TileEntityGatlingGunEmber.maxPower = config.getFloat("emberGatlingGunMaxPower", machine, (float) TileEntityGatlingGunEmber.maxPower, 0, 100000000, "The amount of power the gatling gun takes to fire at max speed.");
+			TileEntityGatlingGunEmber.damage = config.getFloat("emberGatlingGunDamage", machine, TileEntityGatlingGunEmber.damage, 0, 100000000, "The amount of damage each bullet does.");
 		}
 		if (gearanium) {
 			TileEntityGearanium.MANA_USAGE = config.getInt("gearaniumManaUsage", machine, TileEntityGearanium.MANA_USAGE, 0, 100, "The amount of mana the gearanium uses per tick.");

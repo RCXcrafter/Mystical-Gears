@@ -122,6 +122,7 @@ public class BlockEssentiaMotor extends Block {
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
 		((TileEntityEssentiaMotor)world.getTileEntity(pos)).breakBlock(world, pos, state, player);
+		super.onBlockHarvested(world, pos, state, player);
 	}
 
 	@Override

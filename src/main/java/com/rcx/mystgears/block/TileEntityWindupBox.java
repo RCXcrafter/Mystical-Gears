@@ -28,8 +28,8 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 		@Override
 		public void setPower(double value, EnumFacing from) {
 			if (getFacing().getOpposite().equals(from)) {
-				super.setPower(value, from);
 				if (value != getPower(null)) {
+					super.setPower(value, from);
 					onPowerChange();
 				}
 			} else if (getFacing().equals(from)) {
@@ -51,9 +51,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 
 		@Override
 		public void onPowerChange() {
-			TileEntityWindupBox source = TileEntityWindupBox.this;
-			source.updateNeighbors();
-			source.markDirty();
+			TileEntityWindupBox.this.updateNeighbors();
 		}
 
 		@Override
@@ -180,7 +178,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 	public void update() {
 		if (mechCapability.getPower(null) != currentPower) {
 			currentPower = mechCapability.getPower(null);
-			markDirty();
+			this.updateNeighbors();
 		}
 
 		IBlockState state = world.getBlockState(pos);
@@ -188,7 +186,7 @@ public class TileEntityWindupBox extends TileEntity implements ITickable {
 		if (previousState != powerState) {
 			world.notifyBlockUpdate(pos, state, state.getBlock().getActualState(state, world, pos), 3);
 			previousState = powerState;
-			markDirty();
+			this.updateNeighbors();
 		}
 
 		int redstoneSignal = 0;
