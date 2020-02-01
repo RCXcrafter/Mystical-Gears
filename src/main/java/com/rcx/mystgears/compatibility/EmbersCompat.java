@@ -58,7 +58,7 @@ public class EmbersCompat {
 			if (ConfigHandler.soot) {
 				GameRegistry.registerTileEntity(TileEntityGatlingGunWitchburn.class, new ResourceLocation(MysticalGears.MODID, "witchburn_gatling_gun"));
 
-				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_witchburn_gatling_gun"), ItemGear.group, new ItemStack(witchburnGatlingGun), new Object[]{"SNN", "B S", "SNN", 'S', "plateSilver", 'N', "plateNickel", 'B', new ItemStack(Registry.WITCH_FIRE)});
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_witchburn_gatling_gun"), ItemGear.group, new ItemStack(witchburnGatlingGun), new Object[]{"LNN", "B L", "LNN", 'L', "plateLead", 'N', "plateNickel", 'B', new ItemStack(Registry.WITCH_FIRE)});
 			}
 		}
 	}
