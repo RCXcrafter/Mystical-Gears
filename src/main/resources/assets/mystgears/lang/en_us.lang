@@ -20,6 +20,7 @@ tile.windup_box.name=Windup Box
 
 tile.mechanical_dial.name=Mechanical Dial
 tile.ember_gatling_gun.name=Ember Gatling Gun
+tile.witchburn_gatling_gun.name=Witchburn Gatling Gun
 
 tile.flower.gearanium.name=Gearanium
 tile.bellows_mechanical.name=Mechanical Bellows
