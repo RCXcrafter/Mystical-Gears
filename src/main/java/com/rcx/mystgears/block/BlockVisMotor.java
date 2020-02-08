@@ -46,12 +46,12 @@ public class BlockVisMotor extends Block {
 		setCreativeTab(MysticalMechanics.creativeTab);
 	}
 
-	/*@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile != null && tile instanceof TileEntityVisMotor)
 			((TileEntityVisMotor) tile).updateNeighbors();
-	}*/
+	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
