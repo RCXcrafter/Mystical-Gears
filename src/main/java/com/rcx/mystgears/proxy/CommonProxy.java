@@ -6,8 +6,12 @@ import javax.annotation.Nullable;
 
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.block.BlockDrill;
+import com.rcx.mystgears.block.BlockDrillDiamond;
 import com.rcx.mystgears.block.BlockRedstoneDynamo;
 import com.rcx.mystgears.block.BlockWindupBox;
+import com.rcx.mystgears.block.TileEntityDrill;
+import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.*;
@@ -20,6 +24,7 @@ import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -46,8 +51,10 @@ import vazkii.botania.common.Botania;
 public class CommonProxy {
 
 	static Random random = new Random();
-	public static ItemBlock dynamo;
 	public static ItemBlock windupBox;
+	public static ItemBlock dynamo;
+	public static ItemBlock drill;
+	public static ItemBlock drillDiamond;
 
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
@@ -302,6 +309,12 @@ public class CommonProxy {
 			dynamo = new ItemBlock(new BlockRedstoneDynamo());
 			MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
 		}
+		if (ConfigHandler.drill) {
+			drill = new ItemBlock(new BlockDrill());
+			MysticalGears.blocks.add((ItemBlock) drill.setRegistryName(drill.getBlock().getRegistryName()));
+			drillDiamond = new ItemBlock(new BlockDrillDiamond());
+			MysticalGears.blocks.add((ItemBlock) drillDiamond.setRegistryName(drillDiamond.getBlock().getRegistryName()));
+		}
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -400,6 +413,13 @@ public class CommonProxy {
 		if (ConfigHandler.dynamo) {
 			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
+		}
+
+		if (ConfigHandler.drill) {
+			GameRegistry.registerTileEntity(TileEntityDrill.class, new ResourceLocation(MysticalGears.MODID, "drill"));
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_drill"), ItemGear.group, new ItemStack(drill), new Object[]{"III", "AGP", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', "gearIron", 'P', new ItemStack(Items.IRON_PICKAXE)});
+			GameRegistry.registerTileEntity(TileEntityDrillDiamond.class, new ResourceLocation(MysticalGears.MODID, "drill_diamond"));
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_drill_diamond"), ItemGear.group, new ItemStack(drillDiamond), new Object[]{"III", "AGP", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', "gearDiamond", 'P', new ItemStack(Items.DIAMOND_PICKAXE)});
 		}
 	}
 

@@ -1,0 +1,31 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"bottom": "mystgears:blocks/drill_input_diamond",
+			"top": "mystgears:blocks/drill_input_diamond",
+			"side": "mystgears:blocks/drill_base_side_diamond",
+			"0": "mystgears:blocks/drill_head_diamond",
+			"3": "mystgears:blocks/drill_base_side_diamond",
+			"4": "mystgears:blocks/drill_input_diamond",
+			"particle": "mystgears:blocks/drill_base_side_diamond"
+		}
+	},
+    "variants": {
+		"facing": {
+        	"down": { },
+			"up": { "x": 180 },
+			"north": { "x": 270 },
+			"south": { "x": 270, "y": 180 },
+			"west": { "x": 90, "y": 90 },
+			"east": { "x": 90, "y": 270 }
+		},
+		"tip": {
+			"true": { "model": "mystgears:drill_tip" },
+			"false": { }
+		},
+        "inventory": { "model": "mystgears:drill" }
+    }
+}

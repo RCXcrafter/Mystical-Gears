@@ -2,11 +2,13 @@ package com.rcx.mystgears.proxy;
 
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.block.TileEntityDrill;
+import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
 import com.rcx.mystgears.compatibility.EmbersCompat;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
-
+import com.rcx.mystgears.render.TileEntityRenderDrill;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.block.Block;
@@ -19,6 +21,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -57,6 +60,11 @@ public class ClientProxy extends CommonProxy {
 		}
 		for (ItemBlock item : MysticalGears.blocks) {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		}
+
+		if (ConfigHandler.drill) {
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDrill.class, new TileEntityRenderDrill());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDrillDiamond.class, new TileEntityRenderDrill());
 		}
 
 		if (Loader.isModLoaded("embers"))

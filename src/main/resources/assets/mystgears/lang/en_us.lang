@@ -17,6 +17,8 @@ material.void.name=Void Metal
 
 tile.redstone_dynamo.name=Redstone Dynamo
 tile.windup_box.name=Windup Box
+tile.drill.name=Drill
+tile.drill_diamond.name=Diamond Drill
 
 tile.mechanical_dial.name=Mechanical Dial
 tile.ember_gatling_gun.name=Ember Gatling Gun

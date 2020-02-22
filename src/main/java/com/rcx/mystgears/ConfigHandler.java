@@ -7,6 +7,8 @@ import teamroots.embers.ConfigManager;
 import java.io.File;
 
 import com.rcx.mystgears.block.TileEntityAuraEngine;
+import com.rcx.mystgears.block.TileEntityDrill;
+import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.block.TileEntityEssentiaMotor;
 import com.rcx.mystgears.block.TileEntityGatlingGunEmber;
 import com.rcx.mystgears.block.TileEntityGearanium;
@@ -64,6 +66,7 @@ public class ConfigHandler {
 
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
+	public static Boolean drill = true;
 	public static Boolean infiniteMechRecipe = true;
 	public static Boolean mechDial = true;
 	public static Boolean emberGatlingGun = true;
@@ -189,6 +192,8 @@ public class ConfigHandler {
 
 		dynamo = config.getBoolean("dynamo", misc, dynamo, "Enable/disable the redstone dynamo.");
 
+		drill = config.getBoolean("drill", misc, drill, "Enable/disable the drill.");
+
 		infiniteMechRecipe = config.getBoolean("infiniteMechRecipe", misc, infiniteMechRecipe, "Enable/disable the the recipe for the creative mechanical source.");
 
 		mechDial = embers && config.getBoolean("mechDial", misc, mechDial, "Enable/disable the mechanical dial.");
@@ -255,6 +260,12 @@ public class ConfigHandler {
 		if (dynamo) {
 			TileEntityRedstoneDynamo.FE_CONVERSION_RATE = config.getFloat("dynamoCerversionRate", machine, (float) TileEntityRedstoneDynamo.FE_CONVERSION_RATE, 0, 10, "The conversion rate from mechanical power to FE.");
 			TileEntityRedstoneDynamo.MAX_FE = config.getInt("dynamoPowerCapacity", machine, TileEntityRedstoneDynamo.MAX_FE, 0, 100000000, "The amount of power the dynamo can store.");
+		}
+		if (drill) {
+			TileEntityDrill.drillSpeed = config.getFloat("drillSpeed", machine, TileEntityDrill.drillSpeed, 0, 100, "The mining speed of the drill.");
+			TileEntityDrill.drillLevel = config.getInt("drillLevel", machine, TileEntityDrill.drillLevel, 0, 100, "The mining level of the drill.");
+			TileEntityDrillDiamond.diamondDrillSpeed = config.getFloat("diamondDrillSpeed", machine, TileEntityDrillDiamond.diamondDrillSpeed, 0, 100, "The mining speed of the diamond drill.");
+			TileEntityDrillDiamond.diamondDrillLevel = config.getInt("diamondDrillLevel", machine, TileEntityDrillDiamond.diamondDrillLevel, 0, 100, "The mining level of the diamond drill.");
 		}
 		if (emberGatlingGun) {
 			TileEntityGatlingGunEmber.maxPower = config.getFloat("emberGatlingGunMaxPower", machine, (float) TileEntityGatlingGunEmber.maxPower, 0, 100000000, "The amount of power the gatling gun takes to fire at max speed.");
