@@ -31,7 +31,7 @@ public class TileEntityGatlingGunWitchburn extends TileEntityGatlingGunEmber {
 		if(world.isRemote) {
 			lastAngle = angle;
 			angle += currentPower;
-			if (currentPower > 0 && random.nextInt(1 + Math.floorDiv(particlePower, (int) currentPower)) == 0) {
+			if (((int) currentPower) > 0 && random.nextInt(1 + Math.floorDiv(particlePower, (int) currentPower)) == 0) {
 				ParticleUtil.spawnParticleGlow(getWorld(), ((float) posX) + facing.getFrontOffsetX() * -0.3f + 0.5f, ((float) posY) + facing.getFrontOffsetY() * -0.3f + 0.5f, ((float) posZ) + facing.getFrontOffsetZ() * -0.3f + 0.5f, 0, 0, 0, 64, 255, 16, 2.0f, 24);
 			}
 			return;
