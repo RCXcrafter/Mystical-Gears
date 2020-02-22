@@ -36,6 +36,7 @@ public class ConfigHandler {
 	public static Boolean botania = true;
 	public static Boolean thaumcraft = true;
 	public static Boolean naturesAura = true;
+	public static Boolean pyrotech = true;
 
 	public static Boolean wood = true;
 	public static Boolean stone = true;
@@ -72,6 +73,7 @@ public class ConfigHandler {
 	public static Boolean essentiaMotor = true;
 	public static Boolean mechanicalCrafter = true;
 	public static Boolean auraEngine = true;
+	public static Boolean poweredBellows = true;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -177,7 +179,9 @@ public class ConfigHandler {
 
 		thaumcraft = Loader.isModLoaded("thaumcraft") && config.getBoolean("thaumcraft", compat, thaumcraft, "Whether compatibility for Thaumcraft should be loaded.");
 
-		naturesAura = Loader.isModLoaded("naturesaura") && config.getBoolean("naturesAura", compat, thaumcraft, "Whether compatibility for Nature's Aura should be loaded.");
+		naturesAura = Loader.isModLoaded("naturesaura") && config.getBoolean("naturesAura", compat, naturesAura, "Whether compatibility for Nature's Aura should be loaded.");
+
+		pyrotech = Loader.isModLoaded("pyrotech") && config.getBoolean("pyrotech", compat, pyrotech, "Whether compatibility for Pyrotech should be loaded.");
 
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
 
@@ -202,6 +206,8 @@ public class ConfigHandler {
 		mechanicalCrafter = thaumcraft && config.getBoolean("mechanicalCrafter", misc, mechanicalCrafter, "Enable/disable the mechanical crafter.");
 
 		auraEngine = naturesAura && config.getBoolean("auraEngine", misc, auraEngine, "Enable/disable the aura engine.");
+
+		poweredBellows = pyrotech && config.getBoolean("poweredBellows", misc, poweredBellows, "Enable/disable the powered bellows.");
 
 		config.setCategoryComment(gears, "Settings to disable specific gears added by this mod.");
 

@@ -291,6 +291,9 @@ public class CommonProxy {
 			});
 			NaturesAuraCompat.preInit();
 		}
+		if (ConfigHandler.pyrotech) {
+			PyrotechCompat.preInit();
+		}
 		if (ConfigHandler.windupBox) {
 			windupBox = new ItemBlock(new BlockWindupBox());
 			MysticalGears.blocks.add((ItemBlock) windupBox.setRegistryName(windupBox.getBlock().getRegistryName()));
@@ -385,6 +388,9 @@ public class CommonProxy {
 
 		if (ConfigHandler.naturesAura)
 			NaturesAuraCompat.init();
+
+		if (ConfigHandler.pyrotech)
+			PyrotechCompat.init();
 
 		if (ConfigHandler.windupBox) {
 			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));
