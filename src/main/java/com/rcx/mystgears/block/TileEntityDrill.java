@@ -192,7 +192,6 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 				@Override
 				public void sendPacket(Packet packetIn) {}
 			};
-			System.out.println("player id is: " + fakePlayer.getEntityId());
 		}
 	}
 
@@ -235,7 +234,9 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 			progress += drillSpeed * currentPower / 4.0f;
 
 		if (hardness < progress) {
+			block.getBlock().onBlockHarvested(world, breakingPos, block, fakePlayer);
 			world.destroyBlock(breakingPos, harvestLevel <= drillLevel);
+			block.getBlock().breakBlock(world, breakingPos, block);
 			world.sendBlockBreakProgress(fakePlayer.getEntityId(), breakingPos, -1);
 			progress = 0.0f;
 		} else {
