@@ -44,8 +44,9 @@ desc.gearanium.name=You spin me right round
 
 # On screen tooltips
 
-mystgears.tooltip.mechdial.mech=Mechanical Power: %s 
-mystgears.tooltip.mechdial.mech_all=Block's Mechanical Power: %s
+mystgears.tooltip.mechdial.mech=Mechanical Power: %s
+mystgears.tooltip.mechdial.mech_input=§9⬊§r Mechanical Power: %s
+mystgears.tooltip.mechdial.mech_output=§6⬉§r Mechanical Power: %s
 
 
 # Botania Lexicon
