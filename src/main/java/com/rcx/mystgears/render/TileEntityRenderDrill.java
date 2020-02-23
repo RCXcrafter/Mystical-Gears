@@ -33,6 +33,7 @@ public class TileEntityRenderDrill extends TileEntitySpecialRenderer<TileEntityD
 
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
+			GlStateManager.enableCull();
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(x + 0.5, y + 0.5, z + 0.5);
 

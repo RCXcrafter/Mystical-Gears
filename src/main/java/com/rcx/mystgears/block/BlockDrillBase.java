@@ -8,7 +8,6 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
@@ -80,11 +79,11 @@ public abstract class BlockDrillBase extends Block {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player){
 		((TileEntityDrill)world.getTileEntity(pos)).breakBlock(world, pos, state, player);
 		super.onBlockHarvested(world, pos, state, player);
-	}
+	}*/
 
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
