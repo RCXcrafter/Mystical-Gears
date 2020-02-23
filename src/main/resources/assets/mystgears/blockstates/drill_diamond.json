@@ -8,6 +8,7 @@
 			"top": "mystgears:blocks/drill_input_diamond",
 			"side": "mystgears:blocks/drill_base_side_diamond",
 			"0": "mystgears:blocks/drill_head_diamond",
+			"1": "mystgears:blocks/drill_head_base_diamond",
 			"3": "mystgears:blocks/drill_base_side_diamond",
 			"4": "mystgears:blocks/drill_input_diamond",
 			"particle": "mystgears:blocks/drill_base_side_diamond"

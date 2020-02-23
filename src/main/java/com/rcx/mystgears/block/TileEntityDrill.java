@@ -1,7 +1,11 @@
 package com.rcx.mystgears.block;
 
 import java.util.Random;
+import java.util.UUID;
+
 import javax.annotation.Nullable;
+
+import com.mojang.authlib.GameProfile;
 
 import mysticalmechanics.api.DefaultMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
@@ -9,7 +13,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.server.management.PlayerChunkMapEntry;
@@ -21,6 +28,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class TileEntityDrill extends TileEntity implements ITickable {
 
@@ -75,6 +85,7 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 	public int harvestLevel = 0;
 	public float progress = 0.0f;
 	public int previousBreakAnimation = 0;
+	FakePlayer fakePlayer;
 
 	@Override
 	public void onLoad() {
@@ -88,6 +99,7 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 		BlockPos fromPos = pos.offset(world.getBlockState(pos).getValue(BlockDrill.FACING));
 		IBlockState state = world.getBlockState(fromPos);
 		setBlock(state, fromPos, state.getBlockHardness(world, fromPos));
+		createFakePlayer();
 	}
 
 	@Override
@@ -143,6 +155,8 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 
 	public void breakBlock(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
 		capability.setPower(0f, null);
+		world.sendBlockBreakProgress(fakePlayer.getEntityId(), breakingPos, -1);
+		fakePlayer.setDead();
 	}
 
 	@Override
@@ -171,6 +185,17 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 			capability.setPower(0, f);
 	}
 
+	void createFakePlayer() {
+		if(!world.isRemote) {
+			fakePlayer = FakePlayerFactory.get((WorldServer) world, new GameProfile(UUID.randomUUID(), "mystgears_drill"));
+			fakePlayer.connection = new NetHandlerPlayServer(FMLCommonHandler.instance().getMinecraftServerInstance(), new NetworkManager(EnumPacketDirection.SERVERBOUND), fakePlayer) {
+				@Override
+				public void sendPacket(Packet packetIn) {}
+			};
+			System.out.println("player id is: " + fakePlayer.getEntityId());
+		}
+	}
+
 	public void setBlock(IBlockState blockIn, BlockPos pos, float hardnessIn) {
 		block = blockIn;
 		breakingPos = pos;
@@ -195,13 +220,13 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 			currentPower = capability.getPower(null);
 		}
 
-		if(world.isRemote) {
+		if (world.isRemote) {
 			lastAngle = angle;
 			angle += currentPower;
 			return;
 		}
 
-		if (!(hardness > 0.0f) || currentPower == 0)
+		if (hardness < 0.0f || currentPower == 0)
 			return;
 
 		if (harvestLevel <= drillLevel)
@@ -211,12 +236,12 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 
 		if (hardness < progress) {
 			world.destroyBlock(breakingPos, harvestLevel <= drillLevel);
-			world.sendBlockBreakProgress(999, breakingPos, -1);
+			world.sendBlockBreakProgress(fakePlayer.getEntityId(), breakingPos, -1);
 			progress = 0.0f;
 		} else {
 			int breakAnimation = Math.min((int) (10.0f * progress / hardness), 10);
 			if (breakAnimation != previousBreakAnimation)
-				world.sendBlockBreakProgress(999, breakingPos, breakAnimation);
+				world.sendBlockBreakProgress(fakePlayer.getEntityId(), breakingPos, breakAnimation);
 		}
 	}
 }
