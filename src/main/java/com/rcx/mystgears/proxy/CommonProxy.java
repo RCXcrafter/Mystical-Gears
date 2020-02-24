@@ -8,6 +8,7 @@ import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockDrill;
 import com.rcx.mystgears.block.BlockDrillDiamond;
+import com.rcx.mystgears.block.BlockMechanicalDial;
 import com.rcx.mystgears.block.BlockRedstoneDynamo;
 import com.rcx.mystgears.block.BlockWindupBox;
 import com.rcx.mystgears.block.TileEntityDrill;
@@ -53,6 +54,7 @@ public class CommonProxy {
 	static Random random = new Random();
 	public static ItemBlock windupBox;
 	public static ItemBlock dynamo;
+	public static ItemBlock mechDial;
 	public static ItemBlock drill;
 	public static ItemBlock drillDiamond;
 
@@ -309,6 +311,10 @@ public class CommonProxy {
 			dynamo = new ItemBlock(new BlockRedstoneDynamo());
 			MysticalGears.blocks.add((ItemBlock) dynamo.setRegistryName(dynamo.getBlock().getRegistryName()));
 		}
+		if (ConfigHandler.mechDial) {
+			mechDial = new ItemBlock(new BlockMechanicalDial());
+			MysticalGears.blocks.add((ItemBlock) mechDial.setRegistryName(mechDial.getBlock().getRegistryName()));
+		}
 		if (ConfigHandler.drill) {
 			drill = new ItemBlock(new BlockDrill());
 			MysticalGears.blocks.add((ItemBlock) drill.setRegistryName(drill.getBlock().getRegistryName()));
@@ -413,6 +419,10 @@ public class CommonProxy {
 		if (ConfigHandler.dynamo) {
 			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
+		}
+
+		if (ConfigHandler.mechDial) {
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_dial"), ItemGear.group, new ItemStack(mechDial), new Object[]{"R", "P", "G", 'R', "dustRedstone", 'P', "paper", 'G', "plateGold"});
 		}
 
 		if (ConfigHandler.drill) {

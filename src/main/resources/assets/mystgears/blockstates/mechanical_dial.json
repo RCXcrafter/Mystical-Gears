@@ -1,7 +1,7 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model": "embers:gauge",
+        "model": "mystgears:dial",
         "textures": {
             "dial": "mystgears:blocks/mechanical_dial",
             "particle": "mystgears:blocks/mechanical_dial"

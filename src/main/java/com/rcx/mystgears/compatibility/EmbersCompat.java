@@ -4,14 +4,11 @@ import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockGatlingGunEmber;
 import com.rcx.mystgears.block.BlockGatlingGunWitchburn;
-import com.rcx.mystgears.block.BlockMechanicalDial;
 import com.rcx.mystgears.block.TileEntityGatlingGunEmber;
 import com.rcx.mystgears.block.TileEntityGatlingGunWitchburn;
-import com.rcx.mystgears.block.TileEntityMechanicalDial;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.render.TileEntityRenderGatlingGunBase;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -24,15 +21,10 @@ import teamroots.embers.RegistryManager;
 
 public class EmbersCompat {
 
-	public static ItemBlock mechDial;
 	public static ItemBlock emberGatlingGun;
 	public static ItemBlock witchburnGatlingGun;
 
 	public static void preInit() {
-		if (ConfigHandler.mechDial) {
-			mechDial = new ItemBlock(new BlockMechanicalDial(Material.IRON, "mechanical_dial", false));
-			MysticalGears.blocks.add((ItemBlock) mechDial.setRegistryName(mechDial.getBlock().getRegistryName()));
-		}
 		if (ConfigHandler.emberGatlingGun) {
 			emberGatlingGun = new ItemBlock(new BlockGatlingGunEmber());
 			MysticalGears.blocks.add((ItemBlock) emberGatlingGun.setRegistryName(emberGatlingGun.getBlock().getRegistryName()));
@@ -45,11 +37,6 @@ public class EmbersCompat {
 	}
 
 	public static void init() {
-		if (ConfigHandler.mechDial) {
-			GameRegistry.registerTileEntity(TileEntityMechanicalDial.class, new ResourceLocation(MysticalGears.MODID, "mech_dial"));
-
-			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_dial"), ItemGear.group, new ItemStack(mechDial), new Object[]{"R", "P", "G", 'R', "dustRedstone", 'P', "paper", 'G', "plateGold"});
-		}
 		if (ConfigHandler.emberGatlingGun) {
 			GameRegistry.registerTileEntity(TileEntityGatlingGunEmber.class, new ResourceLocation(MysticalGears.MODID, "ember_gatling_gun"));
 
