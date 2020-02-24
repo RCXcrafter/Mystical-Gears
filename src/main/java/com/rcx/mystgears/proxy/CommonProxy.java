@@ -411,6 +411,9 @@ public class CommonProxy {
 		if (ConfigHandler.pyrotech)
 			PyrotechCompat.init();
 
+		if (ConfigHandler.rustichromia)
+			RustichromiaCompat.init();
+
 		if (ConfigHandler.windupBox) {
 			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_windup_box"), ItemGear.group, new ItemStack(windupBox), new Object[]{"III", "AGB", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR), 'B', new ItemStack(RegistryHandler.MERGEBOX_FRAME)});

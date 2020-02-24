@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.proxy.CommonProxy;
 
-@Mod(modid = MysticalGears.MODID, name = MysticalGears.NAME, version = MysticalGears.VERSION, dependencies = "required-after:mysticalmechanics;after:embers;after:botania")
+@Mod(modid = MysticalGears.MODID, name = MysticalGears.NAME, version = MysticalGears.VERSION, dependencies = "required-after:mysticalmechanics;after:embers;after:botania;after:rustichromia")
 public class MysticalGears {
 
 	@SidedProxy(clientSide = "com.rcx.mystgears.proxy.ClientProxy", serverSide = "com.rcx.mystgears.proxy.CommonProxy")
