@@ -67,6 +67,7 @@ public class ConfigHandler {
 	public static Boolean voidmetal = true;
 	public static Boolean infusedIron = true;
 
+	public static Boolean blackHole = true;
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
 	public static Boolean mechDial = true;
@@ -192,6 +193,8 @@ public class ConfigHandler {
 		rustichromia = Loader.isModLoaded("rustichromia") && config.getBoolean("rustichromia", compat, rustichromia, "Whether compatibility for Heterorustichromia should be loaded.");
 
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
+
+		blackHole = config.getBoolean("blackHole", misc, blackHole, "Enable/disable the black Hole Gear.");
 
 		windupBox = config.getBoolean("windupBox", misc, windupBox, "Enable/disable the windup box.");
 

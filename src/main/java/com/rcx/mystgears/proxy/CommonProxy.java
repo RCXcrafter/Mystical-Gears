@@ -17,6 +17,7 @@ import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.*;
 import com.rcx.mystgears.GearBehaviorRegular;
+import com.rcx.mystgears.item.ItemBlackHoleGear;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 
@@ -297,6 +298,8 @@ public class CommonProxy {
 		if (ConfigHandler.naturesAura) NaturesAuraCompat.preInit();
 
 		if (ConfigHandler.pyrotech) PyrotechCompat.preInit();
+
+		if (ConfigHandler.blackHole) MysticalGears.items.add(new ItemBlackHoleGear());
 
 		if (ConfigHandler.windupBox) {
 			windupBox = new ItemBlock(new BlockWindupBox());

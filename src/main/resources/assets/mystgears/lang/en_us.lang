@@ -6,6 +6,8 @@ itemGroup.mystmech=Mystical Mechanics
 
 item.mystgears.gear.name=@material Gear
 
+item.gear_black_hole.name=Black Hole Gear
+
 material.wood.name=Wooden
 material.aether.name=Aetherium
 material.cosmicneutronium.name=Neutronium
