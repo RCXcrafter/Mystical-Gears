@@ -24,6 +24,7 @@ public class ConfigHandler {
 	// Categories
 	public static String general = "General settings";
 	public static String gears = "Gears";
+	public static String gearsOverrides = "Gears Overrides";
 	public static String compat = "Compatibility";
 	public static String machine = "Machines";
 	public static String misc = "Miscellaneous";
@@ -226,37 +227,45 @@ public class ConfigHandler {
 		wood = config.getBoolean("wood", gears, wood, "Enable/disable the wooden gear.");
 		stone = config.getBoolean("stone", gears, stone, "Enable/disable the stone gear.");
 		diamond = config.getBoolean("diamond", gears, diamond, "Enable/disable the diamond gear.");
-		if (embers) {
-			lead = config.getBoolean("lead", gears, lead, "Enable/disable the lead gear.");
-			copper = config.getBoolean("copper", gears, copper, "Enable/disable the copper gear.");
-			aluminium = ConfigManager.enableAluminum && config.getBoolean("aluminium", gears, aluminium, "Enable/disable the aluminium gear.");
-			tin = ConfigManager.enableTin && config.getBoolean("tin", gears, tin, "Enable/disable the tin gear.");
-			bronze = ConfigManager.enableBronze && config.getBoolean("bronze", gears, bronze, "Enable/disable the bronze gear.");
-			nickel = ConfigManager.enableNickel && config.getBoolean("nickel", gears, nickel, "Enable/disable the nickel gear.");
-			silver = config.getBoolean("silver", gears, silver, "Enable/disable the silver gear.");
-			electrum = ConfigManager.enableElectrum && config.getBoolean("electrum", gears, electrum, "Enable/disable the electrum gear.");
-		}
-		if (soot)
-			antimony = config.getBoolean("antimony", gears, antimony, "Enable/disable the antimony gear.");
-		if (aetherworks)
-			aetherium = config.getBoolean("aetherium", gears, aetherium, "Enable/disable the aetherium gear.");
-		if (avaritia) {
-			crystalmatrix = config.getBoolean("crystalmatrix", gears, crystalmatrix, "Enable/disable the crystal matrix gear.");
-			neutronium = config.getBoolean("neutronium", gears, neutronium, "Enable/disable the neutronium gear.");
-			infinity = config.getBoolean("infinity", gears, infinity, "Enable/disable the infinity gear.");
-		}
-		if (botania) {
-			manasteel = config.getBoolean("manasteel", gears, manasteel, "Enable/disable the manasteel gear.");
-			terrasteel = config.getBoolean("terrasteel", gears, terrasteel, "Enable/disable the terrasteel gear.");
-			elementium = config.getBoolean("elementium", gears, elementium, "Enable/disable the elementium gear.");
-		}
-		if (thaumcraft) {
-			brass = !Loader.isModLoaded("thaumicperiphery") && config.getBoolean("brass", gears, brass, "Enable/disable the brass gear.");
-			thaumium = config.getBoolean("thaumium", gears, thaumium, "Enable/disable the thaumium gear.");
-			voidmetal = config.getBoolean("voidmetal", gears, voidmetal, "Enable/disable the void metal gear.");
-		}
-		if (naturesAura)
-			infusedIron = config.getBoolean("infusedIron", gears, infusedIron, "Enable/disable the infused iron gear.");
+
+		lead = embers && config.getBoolean("lead", gears, lead, "Enable/disable the lead gear.");
+		copper =  embers &&config.getBoolean("copper", gears, copper, "Enable/disable the copper gear.");
+		aluminium = embers && ConfigManager.enableAluminum && config.getBoolean("aluminium", gears, aluminium, "Enable/disable the aluminium gear.");
+		tin = embers && ConfigManager.enableTin && config.getBoolean("tin", gears, tin, "Enable/disable the tin gear.");
+		bronze = embers && ConfigManager.enableBronze && config.getBoolean("bronze", gears, bronze, "Enable/disable the bronze gear.");
+		nickel = embers && ConfigManager.enableNickel && config.getBoolean("nickel", gears, nickel, "Enable/disable the nickel gear.");
+		silver = embers && config.getBoolean("silver", gears, silver, "Enable/disable the silver gear.");
+		electrum = embers && ConfigManager.enableElectrum && config.getBoolean("electrum", gears, electrum, "Enable/disable the electrum gear.");
+
+		antimony = soot && config.getBoolean("antimony", gears, antimony, "Enable/disable the antimony gear.");
+
+		aetherium = aetherworks && config.getBoolean("aetherium", gears, aetherium, "Enable/disable the aetherium gear.");
+
+		crystalmatrix = avaritia && config.getBoolean("crystalmatrix", gears, crystalmatrix, "Enable/disable the crystal matrix gear.");
+		neutronium = avaritia && config.getBoolean("neutronium", gears, neutronium, "Enable/disable the neutronium gear.");
+		infinity = avaritia && config.getBoolean("infinity", gears, infinity, "Enable/disable the infinity gear.");
+
+		manasteel = botania && config.getBoolean("manasteel", gears, manasteel, "Enable/disable the manasteel gear.");
+		terrasteel = botania && config.getBoolean("terrasteel", gears, terrasteel, "Enable/disable the terrasteel gear.");
+		elementium = botania && config.getBoolean("elementium", gears, elementium, "Enable/disable the elementium gear.");
+
+		brass = thaumcraft && !Loader.isModLoaded("thaumicperiphery") && config.getBoolean("brass", gears, brass, "Enable/disable the brass gear.");
+		thaumium = thaumcraft && config.getBoolean("thaumium", gears, thaumium, "Enable/disable the thaumium gear.");
+		voidmetal = thaumcraft && config.getBoolean("voidmetal", gears, voidmetal, "Enable/disable the void metal gear.");
+
+		infusedIron = naturesAura && config.getBoolean("infusedIron", gears, infusedIron, "Enable/disable the infused iron gear.");
+
+		config.setCategoryComment(gearsOverrides, "Settings to force certain gears to be enabled.");
+
+		lead = lead || config.getBoolean("leadOverride", gearsOverrides, false, "Force enable the lead gear.");
+		copper = copper || config.getBoolean("copperOverride", gearsOverrides, false, "Force enable the copper gear.");
+		aluminium = aluminium || config.getBoolean("aluminiumOverride", gearsOverrides, false, "Force enable the aluminium gear.");
+		tin = tin || config.getBoolean("tinOverride", gearsOverrides, false, "Force enable the tin gear.");
+		bronze = bronze || config.getBoolean("bronzeOverride", gearsOverrides, false, "Force enable the bronze gear.");
+		nickel = nickel || config.getBoolean("nickelOverride", gearsOverrides, false, "Force enable the nickel gear.");
+		silver = silver || config.getBoolean("silverOverride", gearsOverrides, false, "Force enable the silver gear.");
+		electrum = electrum || config.getBoolean("electrumOverride", gearsOverrides, false, "Force enable the electrum gear.");
+		brass = brass || config.getBoolean("brassOverride", gearsOverrides, false, "Force enable the brass gear.");
 
 		config.setCategoryComment(machine, "Settings for tweaking machines added by this mod.");
 

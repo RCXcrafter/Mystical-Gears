@@ -4,7 +4,7 @@
 		"transform": "forge:default-block",
 		"model": "cube_bottom_top",
 		"textures": {
-			"bottom": "mystgears:blocks/drill_input",
+			"bottom": "mystgears:blocks/mech_output",
 			"top": "mystgears:blocks/drill_input",
 			"side": "mystgears:blocks/drill_base_side"
 		}

@@ -80,35 +80,34 @@ public class CommonProxy {
 				}
 			}
 		});
-		if (ConfigHandler.embers) {
-			if (ConfigHandler.lead) MysticalGears.items.add(new ItemGear("Lead"));
-			if (ConfigHandler.copper) MysticalGears.items.add(new ItemGear("Copper"));
-			if (ConfigHandler.aluminium) MysticalGears.items.add(new ItemGear("Aluminium") { //alumillium
-				public void registerRecipe() {
-					super.registerRecipe();
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingotAluminum", 'N', "nuggetAluminum"});
-					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered("aluminum")) {
-						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack("aluminum", ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
-					}
+		if (ConfigHandler.lead) MysticalGears.items.add(new ItemGear("Lead"));
+		if (ConfigHandler.copper) MysticalGears.items.add(new ItemGear("Copper"));
+		if (ConfigHandler.aluminium) MysticalGears.items.add(new ItemGear("Aluminium") { //alumillium
+			public void registerRecipe() {
+				super.registerRecipe();
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingotAluminum", 'N', "nuggetAluminum"});
+				if (ConfigHandler.embers && FluidRegistry.isFluidRegistered("aluminum")) {
+					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack("aluminum", ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
-				public void registerGear() {
-					super.registerGear();
-					if (behavior != null)
-						MysticalMechanicsAPI.IMPL.registerGear(this.getRegistryName(), new OreIngredient("gearAluminum"), behavior);
-				}
-				public void registerOredict() {
-					super.registerOredict();
-					OreDictionary.registerOre("gearAluminum", new ItemStack(this));
-				}
-			});
-			if (ConfigHandler.tin) MysticalGears.items.add(new ItemGear("Tin"));
-			if (ConfigHandler.bronze) MysticalGears.items.add(new ItemGear("Bronze"));
-			if (ConfigHandler.nickel) MysticalGears.items.add(new ItemGear("Nickel"));
-			if (ConfigHandler.silver) MysticalGears.items.add(new ItemGear("Silver"));
-			if (ConfigHandler.electrum) MysticalGears.items.add(new ItemGear("Electrum"));
-			EmbersCompat.preInit();
-		}
-		if (ConfigHandler.soot && ConfigHandler.antimony) MysticalGears.items.add(new ItemGear("Antimony", new GearBehaviorRegular(0, 1) {
+			}
+			public void registerGear() {
+				super.registerGear();
+				if (behavior != null)
+					MysticalMechanicsAPI.IMPL.registerGear(this.getRegistryName(), new OreIngredient("gearAluminum"), behavior);
+			}
+			public void registerOredict() {
+				super.registerOredict();
+				OreDictionary.registerOre("gearAluminum", new ItemStack(this));
+			}
+		});
+		if (ConfigHandler.tin) MysticalGears.items.add(new ItemGear("Tin"));
+		if (ConfigHandler.bronze) MysticalGears.items.add(new ItemGear("Bronze"));
+		if (ConfigHandler.nickel) MysticalGears.items.add(new ItemGear("Nickel"));
+		if (ConfigHandler.silver) MysticalGears.items.add(new ItemGear("Silver"));
+		if (ConfigHandler.electrum) MysticalGears.items.add(new ItemGear("Electrum"));
+		if (ConfigHandler.embers) EmbersCompat.preInit();
+
+		if (ConfigHandler.antimony) MysticalGears.items.add(new ItemGear("Antimony", new GearBehaviorRegular(0, 1) {
 			@Override
 			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
 				super.visualUpdate(tile, facing, gear);
@@ -143,7 +142,7 @@ public class CommonProxy {
 				}
 			}
 		});
-		if (ConfigHandler.aetherworks && ConfigHandler.aetherium) MysticalGears.items.add(new ItemGear("Aether", new GearBehaviorRegular(0, 1) {
+		if (ConfigHandler.aetherium) MysticalGears.items.add(new ItemGear("Aether", new GearBehaviorRegular(0, 1) {
 			@Override
 			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
 				super.visualUpdate(tile, facing, gear);
@@ -169,140 +168,136 @@ public class CommonProxy {
 				}
 			}
 		}));
-		if (ConfigHandler.avaritia) {
-			if (ConfigHandler.crystalmatrix) MysticalGears.items.add(new ItemGear("CrystalMatrix") {
-				public void registerRecipe() {
-					String nugget = OreDictionary.doesOreNameExist("nuggetCrystalMatrix") ? "nuggetCrystalMatrix" : "gemDiamond";
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
-					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
-						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
-					}
+
+		if (ConfigHandler.crystalmatrix) MysticalGears.items.add(new ItemGear("CrystalMatrix") {
+			public void registerRecipe() {
+				String nugget = OreDictionary.doesOreNameExist("nuggetCrystalMatrix") ? "nuggetCrystalMatrix" : "gemDiamond";
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
+				if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
+					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
-			});
-			if (ConfigHandler.neutronium) MysticalGears.items.add(new ItemGearAvaritia("CosmicNeutronium", 0x99FFFFFF, 8, false, true, false));
-			if (ConfigHandler.infinity) MysticalGears.items.add(new ItemGearAvaritia("Infinity", 0xFF000000, 10, true, true, true) {
-				public void registerRecipe() {
-					String nugget = OreDictionary.doesOreNameExist("nuggetInfinity") ? "nuggetInfinity" : "nuggetCosmicNeutronium";
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
-					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
-						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
-					}
+			}
+		});
+		if (ConfigHandler.neutronium) MysticalGears.items.add(new ItemGearAvaritia("CosmicNeutronium", 0x99FFFFFF, 8, false, true, false));
+		if (ConfigHandler.infinity) MysticalGears.items.add(new ItemGearAvaritia("Infinity", 0xFF000000, 10, true, true, true) {
+			public void registerRecipe() {
+				String nugget = OreDictionary.doesOreNameExist("nuggetInfinity") ? "nuggetInfinity" : "nuggetCosmicNeutronium";
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', "ingot" + name, 'N', nugget});
+				if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
+					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
-			});
-		}
-		if (ConfigHandler.botania) {
-			if (ConfigHandler.manasteel) MysticalGears.items.add(new ItemGear("Manasteel", new GearBehaviorRegular(0, 1) {
-				@Override
-				public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
-					super.visualUpdate(tile, facing, gear);
-					if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-						IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-						double power = capability.getPower(facing);
-						int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-						if(power >= maxPower / 3)
-							for(int i = 0; i < particles; i++) {
-								float xOff = 0.1f + random.nextFloat() * 0.8f;
-								float yOff = 0.1f + random.nextFloat() * 0.8f;
-								float zOff = 0.1f + random.nextFloat() * 0.8f;
-								switch (facing.getAxis()) {
-								case X:
-									xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
-								case Y:
-									yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
-								case Z:
-									zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
-								}
-								Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 0 / 255F, 234 / 255F, 255 / 255F, 0.15F, 0);
+			}
+		});
+
+		if (ConfigHandler.manasteel) MysticalGears.items.add(new ItemGear("Manasteel", new GearBehaviorRegular(0, 1) {
+			@Override
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+				super.visualUpdate(tile, facing, gear);
+				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
+					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
+					double power = capability.getPower(facing);
+					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
+					if(power >= maxPower / 3)
+						for(int i = 0; i < particles; i++) {
+							float xOff = 0.1f + random.nextFloat() * 0.8f;
+							float yOff = 0.1f + random.nextFloat() * 0.8f;
+							float zOff = 0.1f + random.nextFloat() * 0.8f;
+							switch (facing.getAxis()) {
+							case X:
+								xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
+							case Y:
+								yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
+							case Z:
+								zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
 							}
-					}
+							Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 0 / 255F, 234 / 255F, 255 / 255F, 0.15F, 0);
+						}
 				}
-			}) {
-				public void registerRecipe() {
-					super.registerRecipe();
-					BotaniaAPI.registerManaInfusionRecipe(new ItemStack(this, 1), "gearIron", 12333);
-				}
-			});
-			if (ConfigHandler.terrasteel) MysticalGears.items.add(new ItemGear("Terrasteel", new GearBehaviorRegular(0, 1) {
-				@Override
-				public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
-					super.visualUpdate(tile, facing, gear);
-					if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-						IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-						double power = capability.getPower(facing);
-						int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-						if(power >= maxPower / 3)
-							for(int i = 0; i < particles; i++) {
-								float xOff = 0.1f + random.nextFloat() * 0.8f;
-								float yOff = 0.1f + random.nextFloat() * 0.8f;
-								float zOff = 0.1f + random.nextFloat() * 0.8f;
-								switch (facing.getAxis()) {
-								case X:
-									xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
-								case Y:
-									yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
-								case Z:
-									zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
-								}
-								Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 32 / 255F, 255 / 255F, 32 / 255F, 0.15F, 0);
+			}
+		}) {
+			public void registerRecipe() {
+				super.registerRecipe();
+				BotaniaAPI.registerManaInfusionRecipe(new ItemStack(this, 1), "gearIron", 12333);
+			}
+		});
+		if (ConfigHandler.terrasteel) MysticalGears.items.add(new ItemGear("Terrasteel", new GearBehaviorRegular(0, 1) {
+			@Override
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+				super.visualUpdate(tile, facing, gear);
+				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
+					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
+					double power = capability.getPower(facing);
+					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
+					if(power >= maxPower / 3)
+						for(int i = 0; i < particles; i++) {
+							float xOff = 0.1f + random.nextFloat() * 0.8f;
+							float yOff = 0.1f + random.nextFloat() * 0.8f;
+							float zOff = 0.1f + random.nextFloat() * 0.8f;
+							switch (facing.getAxis()) {
+							case X:
+								xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
+							case Y:
+								yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
+							case Z:
+								zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
 							}
-					}
+							Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 32 / 255F, 255 / 255F, 32 / 255F, 0.15F, 0);
+						}
 				}
-			}));
-			if (ConfigHandler.elementium) MysticalGears.items.add(new ItemGear("ElvenElementium", new GearBehaviorRegular(0, 1) {
-				@Override
-				public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
-					super.visualUpdate(tile, facing, gear);
-					if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-						IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-						double power = capability.getPower(facing);
-						int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-						if(power >= maxPower / 3)
-							for(int i = 0; i < particles; i++) {
-								float xOff = 0.1f + random.nextFloat() * 0.8f;
-								float yOff = 0.1f + random.nextFloat() * 0.8f;
-								float zOff = 0.1f + random.nextFloat() * 0.8f;
-								switch (facing.getAxis()) {
-								case X:
-									xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
-								case Y:
-									yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
-								case Z:
-									zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
-								}
-								Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 255 / 255F, 33 / 255F, 158 / 255F, 0.15F, 0);
+			}
+		}));
+		if (ConfigHandler.elementium) MysticalGears.items.add(new ItemGear("ElvenElementium", new GearBehaviorRegular(0, 1) {
+			@Override
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+				super.visualUpdate(tile, facing, gear);
+				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
+					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
+					double power = capability.getPower(facing);
+					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
+					if(power >= maxPower / 3)
+						for(int i = 0; i < particles; i++) {
+							float xOff = 0.1f + random.nextFloat() * 0.8f;
+							float yOff = 0.1f + random.nextFloat() * 0.8f;
+							float zOff = 0.1f + random.nextFloat() * 0.8f;
+							switch (facing.getAxis()) {
+							case X:
+								xOff = 0.5f + facing.getFrontOffsetX() / 2.0f; break;
+							case Y:
+								yOff = 0.5f + facing.getFrontOffsetY() / 2.0f; break;
+							case Z:
+								zOff = 0.5f + facing.getFrontOffsetZ() / 2.0f; break;
 							}
-					}
+							Botania.proxy.wispFX(tile.getPos().getX() + xOff, tile.getPos().getY() + yOff, tile.getPos().getZ() + zOff, 255 / 255F, 33 / 255F, 158 / 255F, 0.15F, 0);
+						}
 				}
-			}) {
-				public void registerRecipe() {
-					super.registerRecipe();
-					BotaniaAPI.registerElvenTradeRecipe(new ItemStack(this, 1), "gearManasteel", "gearManasteel");
+			}
+		}) {
+			public void registerRecipe() {
+				super.registerRecipe();
+				BotaniaAPI.registerElvenTradeRecipe(new ItemStack(this, 1), "gearManasteel", "gearManasteel");
+			}
+		});
+		if (ConfigHandler.botania) BotaniaCompat.preInit();
+
+		if (ConfigHandler.brass) MysticalGears.items.add(new ItemGear("Brass"));
+		if (ConfigHandler.thaumium) MysticalGears.items.add(new ItemGear("Thaumium"));
+		if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
+		if (ConfigHandler.thaumcraft) ThaumcraftCompat.preInit();
+
+		if (ConfigHandler.infusedIron) MysticalGears.items.add(new ItemGear("InfusedIron") {
+			public void registerRecipe() {
+				Object nugget = OreDictionary.doesOreNameExist("nuggetInfusedIron") ? "nuggetInfusedIron" : Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "ancient_stick"));
+				Object ingot = OreDictionary.doesOreNameExist("ingotInfusedIron") ? "ingotInfusedIron" : new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "infused_iron")));
+				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', ingot, 'N', nugget});
+				if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
+					RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
 				}
-			});
-			BotaniaCompat.preInit();
-		}
-		if (ConfigHandler.thaumcraft) {
-			if (ConfigHandler.brass) MysticalGears.items.add(new ItemGear("Brass"));
-			if (ConfigHandler.thaumium) MysticalGears.items.add(new ItemGear("Thaumium"));
-			if (ConfigHandler.voidmetal) MysticalGears.items.add(new ItemGear("Void"));
-			ThaumcraftCompat.preInit();
-		}
-		if (ConfigHandler.naturesAura) {
-			if (ConfigHandler.infusedIron) MysticalGears.items.add(new ItemGear("InfusedIron") {
-				public void registerRecipe() {
-					Object nugget = OreDictionary.doesOreNameExist("nuggetInfusedIron") ? "nuggetInfusedIron" : Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "ancient_stick"));
-					Object ingot = OreDictionary.doesOreNameExist("ingotInfusedIron") ? "ingotInfusedIron" : new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("naturesaura", "infused_iron")));
-					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "INI", " I ", 'I', ingot, 'N', nugget});
-					if (ConfigHandler.embers && FluidRegistry.isFluidRegistered(name.toLowerCase())) {
-						RecipeRegistry.stampingRecipes.add(new ItemStampingRecipe(Ingredient.EMPTY, FluidRegistry.getFluidStack(name.toLowerCase(), ConfigManager.stampGearAmount * RecipeRegistry.INGOT_AMOUNT), Ingredient.fromItem(RegistryManager.stamp_gear), new ItemStack(this, 1)));
-					}
-				}
-			});
-			NaturesAuraCompat.preInit();
-		}
-		if (ConfigHandler.pyrotech) {
-			PyrotechCompat.preInit();
-		}
+			}
+		});
+		if (ConfigHandler.naturesAura) NaturesAuraCompat.preInit();
+
+		if (ConfigHandler.pyrotech) PyrotechCompat.preInit();
+
 		if (ConfigHandler.windupBox) {
 			windupBox = new ItemBlock(new BlockWindupBox());
 			MysticalGears.blocks.add((ItemBlock) windupBox.setRegistryName(windupBox.getBlock().getRegistryName()));
@@ -425,7 +420,8 @@ public class CommonProxy {
 		}
 
 		if (ConfigHandler.mechDial) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_dial"), ItemGear.group, new ItemStack(mechDial), new Object[]{"R", "P", "G", 'R', "dustRedstone", 'P', "paper", 'G', "plateGold"});
+			String gold = OreDictionary.doesOreNameExist("plateGold") ? "plateGold" : "ingotGold";
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_dial"), ItemGear.group, new ItemStack(mechDial), new Object[]{"R", "P", "G", 'R', "dustRedstone", 'P', "paper", 'G', gold});
 		}
 
 		if (ConfigHandler.drill) {
