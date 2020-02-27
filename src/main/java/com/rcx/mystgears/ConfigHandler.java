@@ -68,6 +68,7 @@ public class ConfigHandler {
 	public static Boolean infusedIron = true;
 
 	public static Boolean blackHole = true;
+	public static Boolean googlyEyes = true;
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
 	public static Boolean mechDial = true;
@@ -194,7 +195,9 @@ public class ConfigHandler {
 
 		config.setCategoryComment(misc, "Not gear features that can also be disabled");
 
-		blackHole = config.getBoolean("blackHole", misc, blackHole, "Enable/disable the black Hole Gear.");
+		blackHole = config.getBoolean("blackHole", misc, blackHole, "Enable/disable the black hole gear.");
+
+		googlyEyes = config.getBoolean("googlyEyes", misc, googlyEyes, "Enable/disable the black googly eyes.");
 
 		windupBox = config.getBoolean("windupBox", misc, windupBox, "Enable/disable the windup box.");
 

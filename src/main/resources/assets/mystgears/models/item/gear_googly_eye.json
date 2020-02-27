@@ -1,0 +1,13 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "mystgears:items/googly_eye"
+    },
+    "display": {
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, -2],
+            "scale": [ 1, 1, 1 ]
+        }
+    }
+}

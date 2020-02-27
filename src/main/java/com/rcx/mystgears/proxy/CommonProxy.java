@@ -20,6 +20,7 @@ import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemBlackHoleGear;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
+import com.rcx.mystgears.item.ItemGooglyEye;
 
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IMechCapability;
@@ -300,6 +301,8 @@ public class CommonProxy {
 		if (ConfigHandler.pyrotech) PyrotechCompat.preInit();
 
 		if (ConfigHandler.blackHole) MysticalGears.items.add(new ItemBlackHoleGear());
+
+		if (ConfigHandler.googlyEyes) MysticalGears.items.add(new ItemGooglyEye());
 
 		if (ConfigHandler.windupBox) {
 			windupBox = new ItemBlock(new BlockWindupBox());
