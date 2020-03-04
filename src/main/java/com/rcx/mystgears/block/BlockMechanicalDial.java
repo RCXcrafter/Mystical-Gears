@@ -123,11 +123,13 @@ public class BlockMechanicalDial extends Block {
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			World world = player.getEntityWorld();
 			RayTraceResult result = player.rayTrace(6.0, event.getPartialTicks());
-			IBlockState blockstate = world.getBlockState(result.getBlockPos());
-			if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK && blockstate.getBlock() instanceof BlockMechanicalDial) {
-				List<String> text = this.getTextOverlay(world, result.getBlockPos(), blockstate);
-				for (int i = 0; i < text.size(); i++) {
-					Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text.get(i), event.getResolution().getScaledWidth() / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(text.get(i)) / 2, event.getResolution().getScaledHeight() / 2 + 40 + 11 * i, 0xFFFFFF);
+			if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+				IBlockState blockstate = world.getBlockState(result.getBlockPos());
+				if (blockstate.getBlock() instanceof BlockMechanicalDial) {
+					List<String> text = this.getTextOverlay(world, result.getBlockPos(), blockstate);
+					for (int i = 0; i < text.size(); i++) {
+						Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text.get(i), event.getResolution().getScaledWidth() / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(text.get(i)) / 2, event.getResolution().getScaledHeight() / 2 + 40 + 11 * i, 0xFFFFFF);
+					}
 				}
 			}
 		}
