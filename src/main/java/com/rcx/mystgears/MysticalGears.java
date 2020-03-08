@@ -28,7 +28,7 @@ public class MysticalGears {
 	public static CommonProxy proxy;
 	public static final String MODID = "mystgears";
 	public static final String NAME = "Mystical Gears";
-	public static final String VERSION = "1.1.1";
+	public static final String VERSION = "1.1.2";
 
 	public static List<ItemGear> items = new ArrayList<ItemGear>();
 	public static List<ItemBlock> blocks = new ArrayList<ItemBlock>();
