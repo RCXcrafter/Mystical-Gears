@@ -8,6 +8,7 @@ item.mystgears.gear.name=@material Gear
 
 item.gear_black_hole.name=Black Hole Gear
 item.gear_googly_eye.name=Googly Eye
+item.gear_gearbox_cover.name=Gearbox Cover
 
 material.wood.name=Wooden
 material.aether.name=Aetherium

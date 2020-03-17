@@ -1,0 +1,13 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "mystgears:items/gearbox_cover"
+    },
+    "display": {
+        "fixed": {
+            "rotation": [ 0, 180, 180 ],
+            "translation": [ 0, 0, -1.72],
+            "scale": [ 1.142857, 1.142857, 1.142857 ]
+        }
+    }
+}
