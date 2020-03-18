@@ -31,7 +31,7 @@ public class ItemGearboxCover extends ItemGear {
 	}
 
 	public void registerRecipe() {
-		GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" W ", "WDW", " W ", 'W', "woolWhite", 'D', "dyeBlack"});
+		GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this, 16), new Object[]{"N N", " G ", "N N", 'N', "nuggetIron", 'G', "gearIron"});
 	}
 
 	public void registerGear() {
