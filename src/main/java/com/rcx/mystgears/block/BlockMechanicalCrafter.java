@@ -187,7 +187,7 @@ public class BlockMechanicalCrafter extends Block implements IBlockFacingHorizon
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty((IProperty) IBlockFacingHorizontal.FACING, (Comparable) BlockStateUtils.getFacing(meta)).withProperty((IProperty) IBlockEnabled.ENABLED, (Comparable) Boolean.valueOf(BlockStateUtils.isEnabled(meta)));
+		return getDefaultState().withProperty((IProperty) IBlockFacingHorizontal.FACING, EnumFacing.getHorizontal(meta)).withProperty((IProperty) IBlockEnabled.ENABLED, (Comparable) Boolean.valueOf(BlockStateUtils.isEnabled(meta)));
 	}
 
 	@Override
