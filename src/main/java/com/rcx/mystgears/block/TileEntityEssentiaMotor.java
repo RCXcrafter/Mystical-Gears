@@ -9,11 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.server.management.PlayerChunkMap;
+import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -39,7 +42,6 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 		public void onPowerChange(){
 			TileEntityEssentiaMotor source = TileEntityEssentiaMotor.this;
 			source.updateNeighbors();
-			source.markDirty();
 		}
 
 		@Override
@@ -53,20 +55,21 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 		}
 	};
 
-	public double essentia = -1;
-	public static double maxEssentia = 50;
+	public double essentia = 0;
+	public static double maxEssentia = 25;
 	public static double motionOutput = 30;
 	public static double energyOutput = 60;
 	public static double mechanismOutput = 20;
 	public static double motionUsage = 0.01;
 	public static double energyUsage = 0.02;
 	public static double mechanismUsage = 0.005;
-	public Aspect essentiaType = null;
+	public String essentiaType = "null";
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
 		tag.setDouble("essentia", essentia);
+		tag.setString("essentiaType", essentiaType);
 		return tag;
 	}
 
@@ -75,6 +78,9 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 		super.readFromNBT(tag);
 		if (tag.hasKey("essentia"))
 			essentia = tag.getDouble("essentia");
+		if (tag.hasKey("essentiaType")) {
+			essentiaType = tag.getString("essentiaType");
+		}
 	}
 
 	@Override
@@ -126,6 +132,24 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 				t.markDirty();
 			}
 		}
+		markDirty();
+	}
+
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		if(world instanceof WorldServer) {
+			SPacketUpdateTileEntity packet = this.getUpdatePacket();
+			if (packet != null) {
+				PlayerChunkMap chunkMap = ((WorldServer) world).getPlayerChunkMap();
+				int i = this.getPos().getX() >> 4;
+				int j = this.getPos().getZ() >> 4;
+				PlayerChunkMapEntry entry = chunkMap.getEntry(i, j);
+				if(entry != null) {
+					entry.sendPacket(packet);
+				}
+			}
+		}
 	}
 
 	private void fill() {
@@ -151,11 +175,11 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 		if (ta == null || (!ta.equals(Aspect.MOTION) && !ta.equals(Aspect.ENERGY) && !ta.equals(Aspect.MECHANISM)))
 			return;
 
-		if (essentiaType != null && !ta.equals(essentiaType))
+		if (!essentiaType.equals("null") && !ta.getTag().equals(essentiaType))
 			return;
 
 		essentia += ic.takeEssentia(ta, 1, face.getOpposite());
-		essentiaType = ta;
+		essentiaType = ta.getTag();
 		markDirty();
 	}
 
@@ -171,29 +195,29 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 		}
 
 		double wantedPower = 0;
-		if (essentiaType == Aspect.MOTION)
+		if (essentiaType.equals(Aspect.MOTION.getTag()))
 			wantedPower = motionOutput;
-		else if (essentiaType == Aspect.ENERGY)
+		else if (essentiaType.equals(Aspect.ENERGY.getTag()))
 			wantedPower = energyOutput;
-		else if (essentiaType == Aspect.MECHANISM)
+		else if (essentiaType.equals(Aspect.MECHANISM.getTag()))
 			wantedPower = mechanismOutput;
 
-		if (redstoneSignal != 0 || essentia <= 0) {
+		if (redstoneSignal != 0 || essentia < 0.01) {
 			wantedPower = 0;
-			essentiaType = null;
+			if (essentia < 0.01)
+				essentiaType = "null";
 		} else if (wantedPower > 0) {
-			if (essentiaType == Aspect.MOTION)
+			if (essentiaType.equals(Aspect.MOTION.getTag()))
 				essentia -= motionUsage;
-			else if (essentiaType == Aspect.ENERGY)
+			else if (essentiaType.equals(Aspect.ENERGY.getTag()))
 				essentia -= energyUsage;
-			else if (essentiaType == Aspect.MECHANISM)
+			else if (essentiaType.equals(Aspect.MECHANISM.getTag()))
 				essentia -= mechanismUsage;
 		}
 
 		if (mechCapability.getPower(null) != wantedPower){
 			mechCapability.setPower(wantedPower, null);
-			markDirty();
-			updateNeighbors();
+			//updateNeighbors();
 		}
 	}
 
@@ -221,8 +245,8 @@ public class TileEntityEssentiaMotor extends TileEntity implements ITickable, IE
 
 	@Override
 	public Aspect getSuctionType(EnumFacing facing) {
-		if (essentiaType != null)
-			return essentiaType;
+		if (!essentiaType.equals("null"))
+			return Aspect.getAspect(essentiaType);
 		int rand = world.rand.nextInt(3);
 
 		if (rand == 0)

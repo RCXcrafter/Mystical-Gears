@@ -44,6 +44,13 @@ public class BlockEssentiaMotor extends Block {
 	}
 
 	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile != null && tile instanceof TileEntityEssentiaMotor)
+			((TileEntityEssentiaMotor) tile).updateNeighbors();
+	}
+
+	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
