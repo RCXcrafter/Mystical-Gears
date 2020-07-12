@@ -24,6 +24,7 @@ import com.rcx.mystgears.item.ItemGearboxCover;
 import com.rcx.mystgears.item.ItemGooglyEye;
 
 import mysticalmechanics.api.IGearBehavior;
+import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
@@ -112,7 +113,7 @@ public class CommonProxy {
 
 		if (ConfigHandler.antimony) MysticalGears.items.add(new ItemGear("Antimony", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				super.visualUpdate(tile, facing, gear);
 				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
@@ -147,7 +148,7 @@ public class CommonProxy {
 		});
 		if (ConfigHandler.aetherium) MysticalGears.items.add(new ItemGear("Aether", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				super.visualUpdate(tile, facing, gear);
 				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
@@ -194,7 +195,7 @@ public class CommonProxy {
 
 		if (ConfigHandler.manasteel) MysticalGears.items.add(new ItemGear("Manasteel", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				super.visualUpdate(tile, facing, gear);
 				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
@@ -225,7 +226,7 @@ public class CommonProxy {
 		});
 		if (ConfigHandler.terrasteel) MysticalGears.items.add(new ItemGear("Terrasteel", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				super.visualUpdate(tile, facing, gear);
 				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
@@ -251,7 +252,7 @@ public class CommonProxy {
 		}));
 		if (ConfigHandler.elementium) MysticalGears.items.add(new ItemGear("ElvenElementium", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				super.visualUpdate(tile, facing, gear);
 				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
@@ -384,14 +385,14 @@ public class CommonProxy {
 
 		MysticalMechanicsAPI.IMPL.registerGear(new ResourceLocation("mysticalmechanics", "gear_gold_on"), Ingredient.fromItem(Item.REGISTRY.getObject(new ResourceLocation("mysticalmechanics", "gear_gold_on"))), new GearBehaviorRegular(goldMax, goldTransfer) {
 			@Override
-			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				boolean powered = tile.getWorld().isBlockPowered(tile.getPos());
 				return !powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}
 		});
 		MysticalMechanicsAPI.IMPL.registerGear(new ResourceLocation("mysticalmechanics", "gear_gold_off"), Ingredient.fromItem(Item.REGISTRY.getObject(new ResourceLocation("mysticalmechanics", "gear_gold_off"))), new GearBehaviorRegular(goldMax, goldTransfer) {
 			@Override
-			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				boolean powered = tile.getWorld().isBlockPowered(tile.getPos());
 				return powered ? super.transformPower(tile, facing, gear, power) : 0;
 			}

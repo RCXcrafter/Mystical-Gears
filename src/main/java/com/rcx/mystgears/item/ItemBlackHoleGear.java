@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.MysticalGears;
 
 import mysticalmechanics.api.IGearBehavior;
+import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
@@ -43,17 +44,17 @@ public class ItemBlackHoleGear extends ItemGear {
 	public void registerGear() {
 		MysticalMechanicsAPI.IMPL.registerGear(this.getRegistryName(), Ingredient.fromItem(this), new IGearBehavior() {
 			@Override
-			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				return 0;
 			}
 
 			@Override
-			public double transformVisualPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public double transformVisualPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				return power;
 			}
 
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				//NOOP
 			}
 
@@ -63,7 +64,7 @@ public class ItemBlackHoleGear extends ItemGear {
 			}
 
 			@Override
-			public void tick(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public void tick(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				World world = tile.getWorld();
 				AxisAlignedBB aabb = new AxisAlignedBB(tile.getPos().offset(facing));
 				double distance = getSuckDistance(power);

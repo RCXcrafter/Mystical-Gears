@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import mysticalmechanics.api.IGearBehavior;
+import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.item.ItemStack;
@@ -38,9 +39,9 @@ public class GearBehaviorRegular implements IGearBehavior {
 	}
 
 	@Override
-	public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+	public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 		//if (base != null)
-		//	power = base.transformPower(tile, facing, gear, power);
+		//	power = base.transformPower(tile, facing, gear, data, power);
 		if (power > maxPower && maxPower != 0)
 			return maxPower * powerTransfer + Math.log10(power - maxPower + Math.log10(Math.exp(1)) / powerTransfer) - Math.log10(Math.log10(Math.exp(1)) / powerTransfer);
 
@@ -48,9 +49,9 @@ public class GearBehaviorRegular implements IGearBehavior {
 	}
 
 	@Override
-	public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+	public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 		if (base != null)
-			base.visualUpdate(tile, facing, gear);
+			base.visualUpdate(tile, facing, gear, data);
 		if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 			IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
 			double power = capability.getPower(facing);

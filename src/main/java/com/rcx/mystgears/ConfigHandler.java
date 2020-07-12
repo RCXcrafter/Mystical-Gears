@@ -40,7 +40,7 @@ public class ConfigHandler {
 	public static Boolean botania = true;
 	public static Boolean thaumcraft = true;
 	public static Boolean naturesAura = true;
-	public static Boolean pyrotech = true;
+	public static Boolean pyrotech = false;
 	public static Boolean rustichromia = true;
 
 	public static Boolean wood = true;
@@ -82,7 +82,7 @@ public class ConfigHandler {
 	public static Boolean essentiaMotor = true;
 	public static Boolean mechanicalCrafter = true;
 	public static Boolean auraEngine = true;
-	public static Boolean poweredBellows = true;
+	public static Boolean poweredBellows = false;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -190,7 +190,7 @@ public class ConfigHandler {
 
 		naturesAura = Loader.isModLoaded("naturesaura") && config.getBoolean("naturesAura", compat, naturesAura, "Whether compatibility for Nature's Aura should be loaded.");
 
-		pyrotech = Loader.isModLoaded("pyrotech") && config.getBoolean("pyrotech", compat, pyrotech, "Whether compatibility for Pyrotech should be loaded.");
+		//pyrotech = Loader.isModLoaded("pyrotech") && config.getBoolean("pyrotech", compat, pyrotech, "Whether compatibility for Pyrotech should be loaded.");
 
 		rustichromia = Loader.isModLoaded("rustichromia") && config.getBoolean("rustichromia", compat, rustichromia, "Whether compatibility for Heterorustichromia should be loaded.");
 
@@ -226,7 +226,7 @@ public class ConfigHandler {
 
 		auraEngine = naturesAura && config.getBoolean("auraEngine", misc, auraEngine, "Enable/disable the aura engine.");
 
-		poweredBellows = pyrotech && config.getBoolean("poweredBellows", misc, poweredBellows, "Enable/disable the powered bellows.");
+		//poweredBellows = pyrotech && config.getBoolean("poweredBellows", misc, poweredBellows, "Enable/disable the powered bellows.");
 
 		if (rustichromia)
 			RustichromiaCompat.stoneDiskLimitMultiplier = config.getFloat("stoneDiskLimitMultiplier", misc, RustichromiaCompat.stoneDiskLimitMultiplier, 0, 1000000, "The maximum amount of power that stone disks can transfer will be the limit of the disk multiplied by this number. Set to -1 to disable");

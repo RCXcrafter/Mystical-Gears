@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.rcx.mystgears.ConfigHandler;
 
 import mysticalmechanics.api.IGearBehavior;
+import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,7 @@ public class RustichromiaCompat {
 			Random random = new Random();
 
 			@Override
-			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				ItemDisk item = (ItemDisk) gear.getItem();
 				double threshold = item.getAmount(gear);
 				if(power < threshold)
@@ -46,7 +47,7 @@ public class RustichromiaCompat {
 			}
 
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear) {
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
 					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
 					double power = capability.getPower(facing);
