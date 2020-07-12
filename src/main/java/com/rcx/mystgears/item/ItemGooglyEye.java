@@ -48,6 +48,11 @@ public class ItemGooglyEye extends ItemGear {
 			}
 
 			@Override
+			public double transformVisualPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, double power) {
+				return power;
+			}
+
+			@Override
 			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
 				//NOOP
 			}
