@@ -18,6 +18,7 @@ import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.*;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemBlackHoleGear;
+import com.rcx.mystgears.item.ItemFlywheel;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 import com.rcx.mystgears.item.ItemGearboxCover;
@@ -305,6 +306,8 @@ public class CommonProxy {
 		if (ConfigHandler.blackHole) MysticalGears.items.add(new ItemBlackHoleGear());
 
 		if (ConfigHandler.googlyEyes) MysticalGears.items.add(new ItemGooglyEye());
+
+		if (ConfigHandler.flywheel) MysticalGears.items.add(new ItemFlywheel());
 
 		if (ConfigHandler.gearboxCover) MysticalGears.items.add(new ItemGearboxCover());
 

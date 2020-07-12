@@ -69,6 +69,7 @@ public class ConfigHandler {
 
 	public static Boolean blackHole = true;
 	public static Boolean googlyEyes = true;
+	public static Boolean flywheel = true;
 	public static Boolean gearboxCover = true;
 	public static Boolean windupBox = true;
 	public static Boolean dynamo = true;
@@ -198,7 +199,9 @@ public class ConfigHandler {
 
 		blackHole = config.getBoolean("blackHole", misc, blackHole, "Enable/disable the black hole gear.");
 
-		googlyEyes = config.getBoolean("googlyEyes", misc, googlyEyes, "Enable/disable the black googly eyes.");
+		googlyEyes = config.getBoolean("googlyEyes", misc, googlyEyes, "Enable/disable the googly eyes.");
+
+		flywheel = config.getBoolean("flywheel", misc, flywheel, "Enable/disable the flywheel.");
 
 		gearboxCover = config.getBoolean("gearboxCover", misc, gearboxCover, "Enable/disable the black gearbox cover.");
 
