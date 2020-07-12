@@ -387,14 +387,14 @@ public class CommonProxy {
 			@Override
 			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				boolean powered = tile.getWorld().isBlockPowered(tile.getPos());
-				return !powered ? super.transformPower(tile, facing, gear, power) : 0;
+				return !powered ? super.transformPower(tile, facing, gear, data, power) : 0;
 			}
 		});
 		MysticalMechanicsAPI.IMPL.registerGear(new ResourceLocation("mysticalmechanics", "gear_gold_off"), Ingredient.fromItem(Item.REGISTRY.getObject(new ResourceLocation("mysticalmechanics", "gear_gold_off"))), new GearBehaviorRegular(goldMax, goldTransfer) {
 			@Override
 			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				boolean powered = tile.getWorld().isBlockPowered(tile.getPos());
-				return powered ? super.transformPower(tile, facing, gear, power) : 0;
+				return powered ? super.transformPower(tile, facing, gear, data, power) : 0;
 			}
 		});
 
