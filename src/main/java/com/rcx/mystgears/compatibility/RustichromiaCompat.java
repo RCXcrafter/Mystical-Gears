@@ -8,7 +8,6 @@ import com.rcx.mystgears.ConfigHandler;
 
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IGearData;
-import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -47,14 +46,12 @@ public class RustichromiaCompat {
 			}
 
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote) {
 					ItemDisk item = (ItemDisk) gear.getItem();
 					double threshold = item.getAmount(gear);
 					Boolean doIt = random.nextInt(5) == 0;
-					if(doIt && power > threshold * stoneDiskLimitMultiplier) {
+					if(doIt && powerIn > threshold * stoneDiskLimitMultiplier) {
 						float xOff = 0.1f + random.nextFloat() * 0.8f;
 						float yOff = 0.1f + random.nextFloat() * 0.8f;
 						float zOff = 0.1f + random.nextFloat() * 0.8f;

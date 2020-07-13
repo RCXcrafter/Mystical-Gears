@@ -82,7 +82,8 @@ public class TileEntityGatlingGunWitchburn extends TileEntityGatlingGunEmber {
 		}*/
 		fireball.shoot(getWorld());
 
-		float volume = currentPower < maxPower/2.5 ? 0.5f : currentPower < maxPower/1.5 ? 0.4f : 0.3f;
-		world.playSound(null, posX, posY, posZ, SoundManager.BLAZING_RAY_FIRE, SoundCategory.BLOCKS, volume, 1.5f);
+		float volume = (float) (0.5f - Math.min(currentPower, maxPower) * 0.3f / maxPower);
+		float pitch = (float) (1.5f + Math.min(currentPower, maxPower) * 0.5f / maxPower);
+		world.playSound(null, posX, posY, posZ, SoundManager.BLAZING_RAY_FIRE, SoundCategory.BLOCKS, volume, pitch);
 	}
 }

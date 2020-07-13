@@ -6,8 +6,6 @@ import javax.annotation.Nullable;
 
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IGearData;
-import mysticalmechanics.api.IMechCapability;
-import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -49,14 +47,12 @@ public class GearBehaviorRegular implements IGearBehavior {
 	}
 
 	@Override
-	public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
+	public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
 		if (base != null)
-			base.visualUpdate(tile, facing, gear, data);
-		if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-			IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-			double power = capability.getPower(facing);
+			base.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+		if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote) {
 			Boolean doIt = random.nextInt(5) == 0;
-			if(doIt && power > maxPower * powerTransfer && maxPower != 0) {
+			if(doIt && powerIn > maxPower * powerTransfer && maxPower != 0) {
 				float xOff = 0.1f + random.nextFloat() * 0.8f;
 				float yOff = 0.1f + random.nextFloat() * 0.8f;
 				float zOff = 0.1f + random.nextFloat() * 0.8f;

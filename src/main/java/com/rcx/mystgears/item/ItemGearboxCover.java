@@ -46,11 +46,6 @@ public class ItemGearboxCover extends ItemGear {
 			public double transformVisualPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				return 0;
 			}
-
-			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				//NOOP
-			}
 		});
 	}
 

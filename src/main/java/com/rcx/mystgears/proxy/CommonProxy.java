@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.rcx.mystgears.ConfigHandler;
+import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.MysticalGears;
 import com.rcx.mystgears.block.BlockDrill;
 import com.rcx.mystgears.block.BlockDrillDiamond;
@@ -15,8 +16,13 @@ import com.rcx.mystgears.block.TileEntityDrill;
 import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityWindupBox;
-import com.rcx.mystgears.compatibility.*;
-import com.rcx.mystgears.GearBehaviorRegular;
+import com.rcx.mystgears.compatibility.AvaritiaCompat;
+import com.rcx.mystgears.compatibility.BotaniaCompat;
+import com.rcx.mystgears.compatibility.EmbersCompat;
+import com.rcx.mystgears.compatibility.NaturesAuraCompat;
+import com.rcx.mystgears.compatibility.PyrotechCompat;
+import com.rcx.mystgears.compatibility.RustichromiaCompat;
+import com.rcx.mystgears.compatibility.ThaumcraftCompat;
 import com.rcx.mystgears.item.ItemBlackHoleGear;
 import com.rcx.mystgears.item.ItemFlywheel;
 import com.rcx.mystgears.item.ItemGear;
@@ -26,7 +32,6 @@ import com.rcx.mystgears.item.ItemGooglyEye;
 
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IGearData;
-import mysticalmechanics.api.IMechCapability;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
@@ -114,13 +119,11 @@ public class CommonProxy {
 
 		if (ConfigHandler.antimony) MysticalGears.items.add(new ItemGear("Antimony", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				super.visualUpdate(tile, facing, gear);
-				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
-					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-					if(power >= maxPower / 3)
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				super.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+				if(facing != null && tile.getWorld().isRemote) {
+					int particles = Math.min((int)Math.ceil(powerOut / (maxPower / 3)), 5);
+					if(powerOut >= maxPower / 3)
 						for(int i = 0; i < particles; i++) {
 							float xOff = 0.1f + random.nextFloat() * 0.8f;
 							float yOff = 0.1f + random.nextFloat() * 0.8f;
@@ -149,13 +152,11 @@ public class CommonProxy {
 		});
 		if (ConfigHandler.aetherium) MysticalGears.items.add(new ItemGear("Aether", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				super.visualUpdate(tile, facing, gear);
-				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
-					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-					if(power >= maxPower / 3)
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				super.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+				if(facing != null && tile.getWorld().isRemote) {
+					int particles = Math.min((int)Math.ceil(powerOut / (maxPower / 3)), 5);
+					if(powerOut >= maxPower / 3)
 						for(int i = 0; i < particles; i++) {
 							float xOff = 0.1f + random.nextFloat() * 0.8f;
 							float yOff = 0.1f + random.nextFloat() * 0.8f;
@@ -196,13 +197,11 @@ public class CommonProxy {
 
 		if (ConfigHandler.manasteel) MysticalGears.items.add(new ItemGear("Manasteel", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				super.visualUpdate(tile, facing, gear);
-				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
-					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-					if(power >= maxPower / 3)
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				super.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+				if(facing != null && tile.getWorld().isRemote) {
+					int particles = Math.min((int)Math.ceil(powerOut / (maxPower / 3)), 5);
+					if(powerOut >= maxPower / 3)
 						for(int i = 0; i < particles; i++) {
 							float xOff = 0.1f + random.nextFloat() * 0.8f;
 							float yOff = 0.1f + random.nextFloat() * 0.8f;
@@ -227,13 +226,11 @@ public class CommonProxy {
 		});
 		if (ConfigHandler.terrasteel) MysticalGears.items.add(new ItemGear("Terrasteel", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				super.visualUpdate(tile, facing, gear);
-				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
-					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-					if(power >= maxPower / 3)
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				super.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+				if(facing != null && tile.getWorld().isRemote) {
+					int particles = Math.min((int)Math.ceil(powerOut / (maxPower / 3)), 5);
+					if(powerOut >= maxPower / 3)
 						for(int i = 0; i < particles; i++) {
 							float xOff = 0.1f + random.nextFloat() * 0.8f;
 							float yOff = 0.1f + random.nextFloat() * 0.8f;
@@ -253,13 +250,11 @@ public class CommonProxy {
 		}));
 		if (ConfigHandler.elementium) MysticalGears.items.add(new ItemGear("ElvenElementium", new GearBehaviorRegular(0, 1) {
 			@Override
-			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data) {
-				super.visualUpdate(tile, facing, gear);
-				if(facing != null && tile.getWorld().isRemote && tile.hasCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing)) {
-					IMechCapability capability = tile.getCapability(MysticalMechanicsAPI.MECH_CAPABILITY, facing);
-					double power = capability.getPower(facing);
-					int particles = Math.min((int)Math.ceil(power / (maxPower / 3)), 5);
-					if(power >= maxPower / 3)
+			public void visualUpdate(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
+				super.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
+				if(facing != null && tile.getWorld().isRemote) {
+					int particles = Math.min((int)Math.ceil(powerOut / (maxPower / 3)), 5);
+					if(powerOut >= maxPower / 3)
 						for(int i = 0; i < particles; i++) {
 							float xOff = 0.1f + random.nextFloat() * 0.8f;
 							float yOff = 0.1f + random.nextFloat() * 0.8f;

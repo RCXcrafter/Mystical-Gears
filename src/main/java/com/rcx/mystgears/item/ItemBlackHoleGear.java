@@ -64,14 +64,14 @@ public class ItemBlackHoleGear extends ItemGear {
 			}
 
 			@Override
-			public void tick(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
+			public void tick(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double powerIn, double powerOut) {
 				World world = tile.getWorld();
 				AxisAlignedBB aabb = new AxisAlignedBB(tile.getPos().offset(facing));
-				double distance = getSuckDistance(power);
+				double distance = getSuckDistance(powerIn);
 				double vx = facing.getFrontOffsetX();
 				double vy = facing.getFrontOffsetY();
 				double vz = facing.getFrontOffsetZ();
-				double suckVelocity = getSuckVelocity(power);
+				double suckVelocity = getSuckVelocity(powerIn);
 				aabb = aabb.expand(vx * distance, vy * distance, vz * distance);
 
 				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,aabb);

@@ -16,6 +16,7 @@ import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityVisMotor;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.RustichromiaCompat;
+import com.rcx.mystgears.item.ItemFlywheel;
 
 public class ConfigHandler {
 
@@ -281,6 +282,9 @@ public class ConfigHandler {
 
 		config.setCategoryComment(machine, "Settings for tweaking machines added by this mod.");
 
+		if (flywheel) {
+			ItemFlywheel.acceleration = config.getFloat("flywheelAcceleration", machine, (float) ItemFlywheel.acceleration, 0, 100000000, "The rate at which the flywheel speeds up and slows down.");
+		}
 		if (windupBox) {
 			TileEntityWindupBox.maxPower = config.getFloat("windupPowerCapacity", machine, (float) TileEntityWindupBox.maxPower, 0, 100000000, "The amount of power the windup box can store.");
 			TileEntityWindupBox.output = config.getFloat("windupOutputPower", machine, (float) TileEntityWindupBox.output, 0, 100000, "The amount of power outputted by the windup box.");
