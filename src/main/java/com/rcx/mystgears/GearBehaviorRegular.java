@@ -52,7 +52,7 @@ public class GearBehaviorRegular implements IGearBehavior {
 			base.visualUpdate(tile, facing, gear, data, powerIn, powerOut);
 		if (ConfigHandler.smoke && facing != null && tile.getWorld().isRemote) {
 			Boolean doIt = random.nextInt(5) == 0;
-			if(doIt && powerIn > maxPower * powerTransfer && maxPower != 0) {
+			if(doIt && powerOut > maxPower * powerTransfer && maxPower != 0) {
 				float xOff = 0.1f + random.nextFloat() * 0.8f;
 				float yOff = 0.1f + random.nextFloat() * 0.8f;
 				float zOff = 0.1f + random.nextFloat() * 0.8f;

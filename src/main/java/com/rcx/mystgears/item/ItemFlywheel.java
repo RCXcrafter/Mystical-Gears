@@ -6,31 +6,32 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.rcx.mystgears.GearBehaviorRegular;
-import com.rcx.mystgears.MysticalGears;
 
 import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 
 public class ItemFlywheel extends ItemGear {
 
-	public static double acceleration = 1.0;
+	public double acceleration;
+	public String oredictName;
 
-	public ItemFlywheel() {
-		super("flywheel");
+	public ItemFlywheel(String name, double acceleration) {
+		super("flywheel_" + name.toLowerCase());
+		this.acceleration = acceleration;
+		this.oredictName = "gearFlywheel" + name;
 	}
 
 	@Override
@@ -39,18 +40,15 @@ public class ItemFlywheel extends ItemGear {
 		return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
 	}
 
-	public void registerRecipe() {
-		GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{" I ", "IGI", " I ", 'G', "gearDiamond", 'I', "ingotIron"});
-	}
-
 	public void registerGear() {
-		MysticalMechanicsAPI.IMPL.registerGear(this.getRegistryName(), Ingredient.fromItem(this), new GearBehaviorRegular(700, 1) {
+		MysticalMechanicsAPI.IMPL.registerGear(this.getRegistryName(), new OreIngredient(oredictName), new GearBehaviorRegular(0, 1) {
 			@Override
 			public double transformPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				if (data != null && data instanceof FlywheelGearData)
 					return super.transformPower(tile, facing, gear, data, ((FlywheelGearData) data).power);
 				return super.transformPower(tile, facing, gear, data, power);
 			}
+
 			@Override
 			public double transformVisualPower(TileEntity tile, @Nullable EnumFacing facing, ItemStack gear, IGearData data, double power) {
 				return this.transformPower(tile, facing, gear, data, power);
@@ -75,12 +73,14 @@ public class ItemFlywheel extends ItemGear {
 
 			@Override
 			public IGearData createData() {
-				return new FlywheelGearData();
+				return new FlywheelGearData(acceleration);
 			}
 		});
 	}
 
-	public void registerOredict() {}
+	public void registerOredict() {
+		OreDictionary.registerOre(oredictName, new ItemStack(this));
+	}
 
 	public void registerModel() {
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
@@ -89,17 +89,24 @@ public class ItemFlywheel extends ItemGear {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(@Nonnull ItemStack par1ItemStack, World world, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag flag) {
-		tooltip.add(net.minecraft.client.resources.I18n.format("desc.flywheel.name"));
+		tooltip.add(I18n.translateToLocal("desc.flywheel.name").trim());
 	}
 
 	public static class FlywheelGearData implements IGearData {
 
 		public double power = 0;
 		public boolean dirty = false;
+		public double acceleration;
+
+		public FlywheelGearData(double acceleration) {
+			this.acceleration = acceleration;
+		}
 
 		public void setPower(double powerIn) {
-			double delta = powerIn - power;
-			power += Math.signum(delta) * Math.min(Math.abs(delta), acceleration);
+			if (powerIn == power)
+				return;
+			power += Math.max(Math.min(powerIn - power, acceleration), -acceleration);
+
 			if (!dirty && powerIn != power)
 				dirty = true;
 		}

@@ -8,7 +8,8 @@ item.mystgears.gear.name=@material Gear
 
 item.gear_black_hole.name=Black Hole Gear
 item.gear_googly_eye.name=Googly Eye
-item.gear_flywheel.name=Flywheel
+item.gear_flywheel_light.name=Light Flywheel
+item.gear_flywheel_heavy.name=Heavy Flywheel
 item.gear_gearbox_cover.name=Gearbox Cover
 
 material.wood.name=Wooden

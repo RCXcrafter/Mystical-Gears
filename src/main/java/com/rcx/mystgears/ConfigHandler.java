@@ -1,9 +1,5 @@
 package com.rcx.mystgears;
 
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
-import teamroots.embers.ConfigManager;
-
 import java.io.File;
 
 import com.rcx.mystgears.block.TileEntityAuraEngine;
@@ -16,7 +12,10 @@ import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
 import com.rcx.mystgears.block.TileEntityVisMotor;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.RustichromiaCompat;
-import com.rcx.mystgears.item.ItemFlywheel;
+
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
+import teamroots.embers.ConfigManager;
 
 public class ConfigHandler {
 
@@ -85,6 +84,9 @@ public class ConfigHandler {
 	public static Boolean mechanicalCrafter = true;
 	public static Boolean auraEngine = true;
 	public static Boolean poweredBellows = false;
+	
+	public static double lightFlywheelAcceleration = 5.0;
+	public static double heavyFlywheelAcceleration = 1.0;
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -93,6 +95,8 @@ public class ConfigHandler {
 			"Iron:80:1",
 			"Gold:320:1",
 			"Diamond:580:1",
+			"FlywheelLight:400:1",
+			"FlywheelHeavy:600:1",
 			"Lead:80:0.8",
 			"Copper:65:1",
 			"Aluminium:70:1",
@@ -283,7 +287,8 @@ public class ConfigHandler {
 		config.setCategoryComment(machine, "Settings for tweaking machines added by this mod.");
 
 		if (flywheel) {
-			ItemFlywheel.acceleration = config.getFloat("flywheelAcceleration", machine, (float) ItemFlywheel.acceleration, 0, 100000000, "The rate at which the flywheel speeds up and slows down.");
+			lightFlywheelAcceleration = config.getFloat("lightFlywheelAcceleration", machine, (float) lightFlywheelAcceleration, 0, 100000000, "The rate at which the light flywheel speeds up and slows down.");
+			heavyFlywheelAcceleration = config.getFloat("heavyFlywheelAcceleration", machine, (float) heavyFlywheelAcceleration, 0, 100000000, "The rate at which the heavy flywheel speeds up and slows down.");
 		}
 		if (windupBox) {
 			TileEntityWindupBox.maxPower = config.getFloat("windupPowerCapacity", machine, (float) TileEntityWindupBox.maxPower, 0, 100000000, "The amount of power the windup box can store.");

@@ -302,7 +302,18 @@ public class CommonProxy {
 
 		if (ConfigHandler.googlyEyes) MysticalGears.items.add(new ItemGooglyEye());
 
-		if (ConfigHandler.flywheel) MysticalGears.items.add(new ItemFlywheel());
+		if (ConfigHandler.flywheel) {
+			MysticalGears.items.add(new ItemFlywheel("Light", ConfigHandler.lightFlywheelAcceleration) {
+				public void registerRecipe() {
+					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{"III", "IGI", "III", 'G', "gearGold", 'I', "stone"});
+				}
+			});
+			MysticalGears.items.add(new ItemFlywheel("Heavy", ConfigHandler.heavyFlywheelAcceleration) {
+				public void registerRecipe() {
+					GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_gear_" + name.toLowerCase()), group, new ItemStack(this), new Object[]{"III", "IGI", "III", 'G', "gearDiamond", 'I', "ingotIron"});
+				}
+			});
+		}
 
 		if (ConfigHandler.gearboxCover) MysticalGears.items.add(new ItemGearboxCover());
 
