@@ -110,15 +110,15 @@ public class TileEntityDrill extends TileEntity implements ITickable {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		capability.writeToNBT(tag);      	
+		capability.writeToNBT(tag);
 		return tag;
-	}  
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		capability.readFromNBT(tag);
-	}   
+	}
 
 	@Override
 	public NBTTagCompound getUpdateTag() {

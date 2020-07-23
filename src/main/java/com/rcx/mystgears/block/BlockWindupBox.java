@@ -111,6 +111,6 @@ public class BlockWindupBox extends Block {
 
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World worldIn, BlockPos pos) {
-		return state.getValue(FACING).getIndex();
+		return this.getActualState(state, worldIn, pos).getValue(POWER);
 	}
 }
