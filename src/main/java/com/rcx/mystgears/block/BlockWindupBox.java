@@ -103,4 +103,14 @@ public class BlockWindupBox extends Block {
 		((TileEntityWindupBox)worldIn.getTileEntity(pos)).breakBlock(worldIn, pos, state, null);
 		super.breakBlock(worldIn, pos, state);
 	}
+
+	@Override
+	public boolean hasComparatorInputOverride(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(IBlockState state, World worldIn, BlockPos pos) {
+		return state.getValue(FACING).getIndex();
+	}
 }
