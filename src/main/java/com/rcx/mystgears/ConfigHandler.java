@@ -75,6 +75,7 @@ public class ConfigHandler {
 	public static Boolean dynamo = true;
 	public static Boolean mechDial = true;
 	public static Boolean drill = true;
+	public static Boolean turret = true;
 	public static Boolean infiniteMechRecipe = true;
 	public static Boolean emberGatlingGun = true;
 	public static Boolean gearanium = true;
@@ -217,6 +218,8 @@ public class ConfigHandler {
 		mechDial = config.getBoolean("mechDial", misc, mechDial, "Enable/disable the mechanical dial.");
 
 		drill = config.getBoolean("drill", misc, drill, "Enable/disable the drill.");
+
+		turret = config.getBoolean("turret", misc, turret, "Enable/disable the turret.");
 
 		infiniteMechRecipe = config.getBoolean("infiniteMechRecipe", misc, infiniteMechRecipe, "Enable/disable the the recipe for the creative mechanical source.");
 

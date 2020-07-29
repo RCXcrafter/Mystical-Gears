@@ -1,5 +1,12 @@
 {
 	"parent": "block/cube_all",
+    "display": {
+        "fixed": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 0, -7.5],
+            "scale": [ 1, 1, 1 ]
+        }
+    },
 	"elements": [
 		{
 			"from": [3, 4, 14],

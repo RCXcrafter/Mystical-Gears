@@ -1,7 +1,6 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"transform": "forge:default-block",
 		"model": "mystgears:gatling_gun",
 		"textures": {
 			"0": "mystgears:blocks/gatling_gun_ember",

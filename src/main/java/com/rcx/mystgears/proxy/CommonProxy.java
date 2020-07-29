@@ -1,5 +1,6 @@
 package com.rcx.mystgears.proxy;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -11,10 +12,12 @@ import com.rcx.mystgears.block.BlockDrill;
 import com.rcx.mystgears.block.BlockDrillDiamond;
 import com.rcx.mystgears.block.BlockMechanicalDial;
 import com.rcx.mystgears.block.BlockRedstoneDynamo;
+import com.rcx.mystgears.block.BlockTurret;
 import com.rcx.mystgears.block.BlockWindupBox;
 import com.rcx.mystgears.block.TileEntityDrill;
 import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.block.TileEntityRedstoneDynamo;
+import com.rcx.mystgears.block.TileEntityTurret;
 import com.rcx.mystgears.block.TileEntityWindupBox;
 import com.rcx.mystgears.compatibility.AvaritiaCompat;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
@@ -23,18 +26,21 @@ import com.rcx.mystgears.compatibility.NaturesAuraCompat;
 import com.rcx.mystgears.compatibility.PyrotechCompat;
 import com.rcx.mystgears.compatibility.RustichromiaCompat;
 import com.rcx.mystgears.compatibility.ThaumcraftCompat;
+import com.rcx.mystgears.entity.EntityTurret;
 import com.rcx.mystgears.item.ItemBlackHoleGear;
 import com.rcx.mystgears.item.ItemFlywheel;
 import com.rcx.mystgears.item.ItemGear;
 import com.rcx.mystgears.item.ItemGearAvaritia;
 import com.rcx.mystgears.item.ItemGearboxCover;
 import com.rcx.mystgears.item.ItemGooglyEye;
+import com.rcx.mystgears.util.IAttachmentBehavior;
 
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.IGearData;
 import mysticalmechanics.api.MysticalMechanicsAPI;
 import mysticalmechanics.handler.RegistryHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -43,11 +49,15 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
@@ -67,6 +77,7 @@ public class CommonProxy {
 	public static ItemBlock mechDial;
 	public static ItemBlock drill;
 	public static ItemBlock drillDiamond;
+	public static ItemBlock turret;
 
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
@@ -298,7 +309,35 @@ public class CommonProxy {
 
 		if (ConfigHandler.pyrotech) PyrotechCompat.preInit();
 
-		if (ConfigHandler.blackHole) MysticalGears.items.add(new ItemBlackHoleGear());
+		if (ConfigHandler.blackHole) {
+			ItemGear blackHole = new ItemBlackHoleGear();
+			MysticalGears.items.add(blackHole);
+			if (ConfigHandler.turret)
+				BlockTurret.attachmentBehaviors.put(Ingredient.fromItem(blackHole), new IAttachmentBehavior() {
+					public void tick(World world, Vec3d pos, Vec3d direction, ItemStack gear, IGearData data, double power) {
+						Vec3d dist = direction.scale(getBlowDistance(power));
+						AxisAlignedBB aabb = new AxisAlignedBB(Math.min(pos.x, pos.x + dist.x) - 0.5, Math.min(pos.y, pos.y + dist.y) - 0.5, Math.min(pos.z, pos.z + dist.z) - 0.5, Math.max(pos.x, pos.x + dist.x) + 0.5, Math.max(pos.y, pos.y + dist.y) + 0.5, Math.max(pos.z, pos.z + dist.z) + 0.5);
+						double blowVelocity = getBlowVelocity(power);
+						List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, aabb);
+						for (Entity entity : entities) {
+							Vec3d vec3d1 = new Vec3d(entity.posX - pos.x, entity.posY - pos.y, entity.posZ - pos.z);
+							double d0 = vec3d1.lengthVector();
+							vec3d1 = vec3d1.normalize();
+							double d1 = direction.dotProduct(vec3d1);
+							if (d1 > 1.0D - 0.025D / d0)
+								entity.addVelocity(-direction.x * blowVelocity, -direction.y * blowVelocity, -direction.z * blowVelocity);
+						}
+					}
+
+					private double getBlowVelocity(double power) {
+						return power / 800.0;
+					}
+
+					private double getBlowDistance(double power) {
+						return Math.sqrt(power) / 3.0;
+					}
+				});
+		}
 
 		if (ConfigHandler.googlyEyes) MysticalGears.items.add(new ItemGooglyEye());
 
@@ -334,6 +373,11 @@ public class CommonProxy {
 			MysticalGears.blocks.add((ItemBlock) drill.setRegistryName(drill.getBlock().getRegistryName()));
 			drillDiamond = new ItemBlock(new BlockDrillDiamond());
 			MysticalGears.blocks.add((ItemBlock) drillDiamond.setRegistryName(drillDiamond.getBlock().getRegistryName()));
+		}
+		if (ConfigHandler.turret) {
+			turret = new ItemBlock(new BlockTurret());
+			MysticalGears.blocks.add((ItemBlock) turret.setRegistryName(turret.getBlock().getRegistryName()));
+			EntityRegistry.registerModEntity(new ResourceLocation(MysticalGears.MODID, "turret"), EntityTurret.class, "turret", 0, MysticalGears.MODID, 80, 20, false);
 		}
 	}
 
@@ -432,22 +476,47 @@ public class CommonProxy {
 			GameRegistry.registerTileEntity(TileEntityWindupBox.class, new ResourceLocation(MysticalGears.MODID, "windup_box"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_windup_box"), ItemGear.group, new ItemStack(windupBox), new Object[]{"III", "AGB", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR), 'B', new ItemStack(RegistryHandler.MERGEBOX_FRAME)});
 		}
-
 		if (ConfigHandler.dynamo) {
 			GameRegistry.registerTileEntity(TileEntityRedstoneDynamo.class, new ResourceLocation(MysticalGears.MODID, "redstone_dynamo"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_redstone_dynamo"), ItemGear.group, new ItemStack(dynamo), new Object[]{"INI", "AGR", "INI", 'R', "blockRedstone", 'I', "ingotIron", 'N', "nuggetGold", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', new ItemStack(RegistryHandler.GOLD_GEAR_OFF)});
 		}
-
 		if (ConfigHandler.mechDial) {
 			String gold = OreDictionary.doesOreNameExist("plateGold") ? "plateGold" : "ingotGold";
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_mechanical_dial"), ItemGear.group, new ItemStack(mechDial), new Object[]{"R", "P", "G", 'R', "dustRedstone", 'P', "paper", 'G', gold});
 		}
-
 		if (ConfigHandler.drill) {
 			GameRegistry.registerTileEntity(TileEntityDrill.class, new ResourceLocation(MysticalGears.MODID, "drill"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_drill"), ItemGear.group, new ItemStack(drill), new Object[]{"III", "AGP", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', "gearIron", 'P', new ItemStack(Items.IRON_PICKAXE)});
 			GameRegistry.registerTileEntity(TileEntityDrillDiamond.class, new ResourceLocation(MysticalGears.MODID, "drill_diamond"));
 			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_drill_diamond"), ItemGear.group, new ItemStack(drillDiamond), new Object[]{"III", "AGP", "III", 'I', "ingotIron", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', "gearDiamond", 'P', new ItemStack(Items.DIAMOND_PICKAXE)});
+		}
+		if (ConfigHandler.turret) {
+			GameRegistry.registerTileEntity(TileEntityTurret.class, new ResourceLocation(MysticalGears.MODID, "turret"));
+			GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_turret"), ItemGear.group, new ItemStack(turret), new Object[]{"LG ", "ABG", "BG ", 'L', "leather", 'A', new ItemStack(RegistryHandler.IRON_AXLE), 'G', "gearGold", 'B', new ItemStack(RegistryHandler.GEARBOX_FRAME)});
+			BlockTurret.attachmentBehaviors.put(Ingredient.fromItem(RegistryHandler.FAN), new IAttachmentBehavior() {
+				public void tick(World world, Vec3d pos, Vec3d direction, ItemStack gear, IGearData data, double power) {
+					Vec3d dist = direction.scale(getBlowDistance(power));
+					AxisAlignedBB aabb = new AxisAlignedBB(Math.min(pos.x, pos.x + dist.x) - 0.5, Math.min(pos.y, pos.y + dist.y) - 0.5, Math.min(pos.z, pos.z + dist.z) - 0.5, Math.max(pos.x, pos.x + dist.x) + 0.5, Math.max(pos.y, pos.y + dist.y) + 0.5, Math.max(pos.z, pos.z + dist.z) + 0.5);
+					double blowVelocity = getBlowVelocity(power);
+					List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, aabb);
+					for (Entity entity : entities) {
+						Vec3d vec3d1 = new Vec3d(entity.posX - pos.x, entity.posY - pos.y, entity.posZ - pos.z);
+						double d0 = vec3d1.lengthVector();
+						vec3d1 = vec3d1.normalize();
+						double d1 = direction.dotProduct(vec3d1);
+						if (d1 > 1.0D - 0.025D / d0)
+							entity.addVelocity(direction.x * blowVelocity, direction.y * blowVelocity, direction.z * blowVelocity);
+					}
+				}
+
+				private double getBlowVelocity(double power) {
+					return power / 800.0;
+				}
+
+				private double getBlowDistance(double power) {
+					return Math.sqrt(power) / 3.0;
+				}
+			});
 		}
 	}
 

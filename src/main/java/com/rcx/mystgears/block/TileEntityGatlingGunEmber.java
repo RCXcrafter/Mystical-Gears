@@ -14,7 +14,7 @@ import teamroots.embers.particle.ParticleUtil;
 
 public class TileEntityGatlingGunEmber extends TileEntityGatlingGunBase {
 
-	public static double maxPower = 500;
+	public static double maxPower = 300;
 	public static int particlePower = (int) (maxPower / 1.6);
 	public static float damage = 2.0f;
 	public static ItemStack gunStack = new ItemStack(EmbersCompat.emberGatlingGun);

@@ -6,8 +6,10 @@ import com.rcx.mystgears.block.TileEntityDrill;
 import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
 import com.rcx.mystgears.compatibility.EmbersCompat;
+import com.rcx.mystgears.entity.EntityTurret;
 import com.rcx.mystgears.GearBehaviorRegular;
 import com.rcx.mystgears.item.ItemGear;
+import com.rcx.mystgears.render.RenderTurret;
 import com.rcx.mystgears.render.TileEntityRenderDrill;
 import mysticalmechanics.api.IGearBehavior;
 import mysticalmechanics.api.MysticalMechanicsAPI;
@@ -22,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -35,6 +38,8 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(this);
 		if (ConfigHandler.tooltips)
 			MinecraftForge.EVENT_BUS.register(new TooltipHandler());
+		if (ConfigHandler.turret)
+			RenderingRegistry.registerEntityRenderingHandler(EntityTurret.class, RenderTurret::new);
 	}
 
 	public void init(FMLInitializationEvent event) {

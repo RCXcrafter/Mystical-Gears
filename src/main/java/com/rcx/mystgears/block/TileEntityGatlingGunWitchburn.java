@@ -1,8 +1,8 @@
 package com.rcx.mystgears.block;
 
 import com.google.common.collect.Lists;
-import com.rcx.mystgears.compatibility.EffectWitchburn;
 import com.rcx.mystgears.compatibility.EmbersCompat;
+import com.rcx.mystgears.util.EffectWitchburn;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
