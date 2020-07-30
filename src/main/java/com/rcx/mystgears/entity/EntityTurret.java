@@ -3,18 +3,15 @@ package com.rcx.mystgears.entity;
 import com.rcx.mystgears.block.TileEntityTurret;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.NonNullList;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityTurret extends EntityLivingBase {
+public class EntityTurret extends Entity {
 
 	public EntityTurret(World world) {
 		super(world);
@@ -101,26 +98,40 @@ public class EntityTurret extends EntityLivingBase {
 	}
 
 	@Override
+	public void updatePassenger(Entity passenger) {
+		super.updatePassenger(passenger);
+		if (this.isPassenger(passenger)) {
+			this.applyYawToEntity(passenger);
+		}
+	}
+
+	@Override
 	public void removePassenger(Entity passenger) {
 		super.removePassenger(passenger);
 		this.world.updateComparatorOutputLevel(this.getPosition(), this.world.getBlockState(this.getPosition()).getBlock());
 	}
 
+	protected void applyYawToEntity(Entity entityToUpdate) {
+		entityToUpdate.setRenderYawOffset(this.rotationYaw);
+		float f = MathHelper.wrapDegrees(entityToUpdate.rotationYaw - this.rotationYaw);
+		float f1 = MathHelper.clamp(f, -105.0F, 105.0F);
+		entityToUpdate.prevRotationYaw += f1 - f;
+		entityToUpdate.rotationYaw += f1 - f;
+		entityToUpdate.setRotationYawHead(entityToUpdate.rotationYaw);
+	}
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public Iterable<ItemStack> getArmorInventoryList() {
-		return NonNullList.create();
+	public void applyOrientationToEntity(Entity entityToUpdate) {
+		this.applyYawToEntity(entityToUpdate);
 	}
 
 	@Override
-	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
-		return ItemStack.EMPTY;
-	}
+	protected void entityInit() {}
 
 	@Override
-	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {}
+	protected void readEntityFromNBT(NBTTagCompound compound) {}
 
 	@Override
-	public EnumHandSide getPrimaryHand() {
-		return EnumHandSide.RIGHT;
-	}
+	protected void writeEntityToNBT(NBTTagCompound compound) {}
 }
