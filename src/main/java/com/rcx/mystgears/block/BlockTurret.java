@@ -153,7 +153,7 @@ public class BlockTurret extends Block {
 
 	@Override
 	public boolean isFullCube(IBlockState state) {
-		return true;
+		return false;
 	}
 
 	@Override
