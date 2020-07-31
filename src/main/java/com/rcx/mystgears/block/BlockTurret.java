@@ -55,6 +55,9 @@ public class BlockTurret extends Block {
 		metalTextures.put(new OreIngredient("ingotManasteel"), "manasteel");
 		metalTextures.put(new OreIngredient("ingotTerrasteel"), "terrasteel");
 		metalTextures.put(new OreIngredient("ingotElvenElementium"), "elementium");
+		metalTextures.put(new OreIngredient("ingotCrystalMatrix"), "crystalmatrix");
+		metalTextures.put(new OreIngredient("ingotCosmicNeutronium"), "neutronium");
+		metalTextures.put(new OreIngredient("ingotInfinity"), "infinity");
 	}
 
 	public static boolean hasMetalTexture(ItemStack metal) {
