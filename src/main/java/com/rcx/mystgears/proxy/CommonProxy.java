@@ -373,6 +373,10 @@ public class CommonProxy {
 			MysticalGears.blocks.add((ItemBlock) drill.setRegistryName(drill.getBlock().getRegistryName()));
 			drillDiamond = new ItemBlock(new BlockDrillDiamond());
 			MysticalGears.blocks.add((ItemBlock) drillDiamond.setRegistryName(drillDiamond.getBlock().getRegistryName()));
+			if (ConfigHandler.turret) {
+				BlockTurret.metalTextures.put(Ingredient.fromItem(drill), "rock_raiders");
+				BlockTurret.metalTextures.put(Ingredient.fromItem(drillDiamond), "power_miners");
+			}
 		}
 		if (ConfigHandler.turret) {
 			turret = new ItemBlock(new BlockTurret());
