@@ -71,7 +71,7 @@ public class EmbersCompat {
 						gunData.lastBullet -= TileEntityGatlingGunEmber.maxPower;
 						gunData.lastBullet = Math.min(gunData.lastBullet, TileEntityGatlingGunEmber.maxPower);
 
-						Vec3d shootPos = pos.add(new Vec3d(0, world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2).crossProduct(direction)).add(direction);
+						Vec3d shootPos = pos.add(new Vec3d(world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2).crossProduct(direction)).add(direction);
 
 						EffectArea effect = new EffectArea(new EffectDamage(TileEntityGatlingGunEmber.damage, DamageEmber.EMBER_DAMAGE_SOURCE_FACTORY, 0, 0.5), 0.5, false);
 						ProjectileFireball fireball = new ProjectileFireball(null, shootPos, direction.scale(0.85), 2.5, 60, effect);
@@ -119,7 +119,7 @@ public class EmbersCompat {
 							gunData.lastBullet -= TileEntityGatlingGunEmber.maxPower;
 							gunData.lastBullet = Math.min(gunData.lastBullet, TileEntityGatlingGunEmber.maxPower);
 
-							Vec3d shootPos = pos.add(new Vec3d(0, world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2).crossProduct(direction)).add(direction);
+							Vec3d shootPos = pos.add(new Vec3d(world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2, world.rand.nextDouble() * 0.4 - 0.2).crossProduct(direction)).add(direction);
 
 							EffectArea effect = new EffectArea(new EffectMulti(Lists.newArrayList(new EffectDamage(TileEntityGatlingGunEmber.damage, DamageEmber.EMBER_DAMAGE_SOURCE_FACTORY, 0, 0.5), new EffectWitchburn(500))), 0.5, false);
 							ProjectileFireball fireball = new ProjectileFireball(null, shootPos, direction.scale(0.85), 2.5, 60, effect);
