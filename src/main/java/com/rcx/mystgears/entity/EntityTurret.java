@@ -64,6 +64,9 @@ public class EntityTurret extends EntityLivingBase {
 	}
 
 	@Override
+	public void addVelocity(double x, double y, double z) {}
+
+	@Override
 	public float getEyeHeight() {
 		return 2.1875F;
 	}
@@ -78,8 +81,11 @@ public class EntityTurret extends EntityLivingBase {
 	public void onUpdate() {
 		if (this.world.getTileEntity(this.getPosition()) == null ||
 				!(this.world.getTileEntity(this.getPosition()) instanceof TileEntityTurret) ||
-				!((TileEntityTurret) this.world.getTileEntity(this.getPosition())).getEntity().equals(this))
+				((TileEntityTurret) this.world.getTileEntity(this.getPosition())).getEntity() != this)
 			this.setDead();
+		this.motionX = 0;
+		this.motionY = 0;
+		this.motionZ = 0;
 		super.onUpdate();
 		if (this.isBeingRidden()) {
 			this.rotationPitch = Math.min(this.getControllingPassenger().rotationPitch, 45.0F);
