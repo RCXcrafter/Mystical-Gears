@@ -36,6 +36,9 @@ import teamroots.embers.api.projectile.EffectMulti;
 import teamroots.embers.api.projectile.ProjectileFireball;
 import teamroots.embers.damage.DamageEmber;
 import teamroots.embers.particle.ParticleUtil;
+import teamroots.embers.research.ResearchBase;
+import teamroots.embers.research.ResearchManager;
+import teamroots.embers.research.subtypes.ResearchShowItem;
 
 public class EmbersCompat {
 
@@ -153,6 +156,17 @@ public class EmbersCompat {
 				GameRegistry.registerTileEntity(TileEntityGatlingGunWitchburn.class, new ResourceLocation(MysticalGears.MODID, "witchburn_gatling_gun"));
 
 				GameRegistry.addShapedRecipe(new ResourceLocation(MysticalGears.MODID, "recipe_witchburn_gatling_gun"), ItemGear.group, new ItemStack(witchburnGatlingGun), new Object[]{"LNN", "B L", "LNN", 'L', "plateLead", 'N', "plateNickel", 'B', new ItemStack(Registry.WITCH_FIRE)});
+			}
+		}
+	}
+
+	public static void postInit() {
+		if (ConfigHandler.emberGatlingGun) {
+			ResearchBase gatlingGunResearch = new ResearchBase("gatling_gun", new ItemStack(emberGatlingGun), 7, 7);
+			gatlingGunResearch.addAncestor(ResearchManager.gearbox);
+			ResearchManager.subCategoryMechanicalPower.addResearch(gatlingGunResearch);
+			if (ConfigHandler.soot) {
+				gatlingGunResearch.addPage(new ResearchShowItem("gatling_gun_witchburn", new ItemStack(witchburnGatlingGun), 0, 0).addItem(new ResearchShowItem.DisplayItem(new ItemStack(witchburnGatlingGun))));
 			}
 		}
 	}

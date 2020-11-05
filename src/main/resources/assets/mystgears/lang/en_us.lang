@@ -58,6 +58,19 @@ mystgears.tooltip.mechdial.mech_input=§9⬊§r Mechanical Power: %s
 mystgears.tooltip.mechdial.mech_output=§6⬉§r Mechanical Power: %s
 
 
+# Embers Codex
+
+embers.research.page.gatling_gun=Ember Gatling Gun
+embers.research.page.gatling_gun.title=Heavy Weapons
+embers.research.page.gatling_gun.desc=As it turns out, ember crystals seem to be some sort of piezoelectric crystals. Though instead of turning pressure into electricity they turn rotational energy into heat. Of course the first thing you think of for wielding this unique property is a gatling gun that shoots heat bullets. The dawnstone barrels of this gatling gun concentrate the heat into a "bullet" that is fired when enough heat has accumulated.
+
+embers.research.page.gatling_gun_witchburn.desc=There is only one thing cooler than a gatling gun that shoots fire bullets. And that is of course a gatling gun that shoots green fire bullets. Orange and green go together like magic mods and tech mods so you made this one with nickel instead of dawnstone. You'll just have to pretend that the nickel barrels have the same mystical properties that the dawnstone ones do.
+
+//I couldn't fit these sentences in.
+//When this gatling gun is rotated, the ember crystal builds up heat, as expected, higher speeds generate more heat.
+//Normally a gatling gun has multiple barrels to prevent overheating but this one has them just because they look cool since it's intended to heat up.
+
+
 # Botania Lexicon
 
 botania.entry.gearanium=Gearanium

@@ -525,7 +525,8 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
-
+		if (ConfigHandler.embers)
+			EmbersCompat.postInit();
 	}
 
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
