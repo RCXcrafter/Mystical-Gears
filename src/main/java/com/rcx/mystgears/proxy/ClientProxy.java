@@ -2,6 +2,7 @@ package com.rcx.mystgears.proxy;
 
 import com.rcx.mystgears.ConfigHandler;
 import com.rcx.mystgears.MysticalGears;
+import com.rcx.mystgears.block.BlockTurret;
 import com.rcx.mystgears.block.TileEntityDrill;
 import com.rcx.mystgears.block.TileEntityDrillDiamond;
 import com.rcx.mystgears.compatibility.BotaniaCompat;
@@ -100,6 +101,9 @@ public class ClientProxy extends CommonProxy {
 						event.getToolTip().add(I18n.translateToLocal("desc.gear.max.name").replace("@power", regularBehavior.maxPower + ""));
 					event.getToolTip().add(I18n.translateToLocal("desc.gear.transfer.name").replace("@transfer", regularBehavior.powerTransfer + ""));
 				}
+			}
+			if (BlockTurret.hasAttachmentBehavior(event.getItemStack())) {
+				event.getToolTip().add(I18n.translateToLocal("desc.attachment.name"));
 			}
 		}
 	}
