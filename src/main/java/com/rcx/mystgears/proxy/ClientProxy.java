@@ -105,6 +105,9 @@ public class ClientProxy extends CommonProxy {
 			if (BlockTurret.hasAttachmentBehavior(event.getItemStack())) {
 				event.getToolTip().add(I18n.translateToLocal("desc.attachment.name"));
 			}
+			if (BlockTurret.hasMetalTexture(event.getItemStack())) {
+				event.getToolTip().add(I18n.translateToLocal("desc.turret_skin.name"));
+			}
 		}
 	}
 }

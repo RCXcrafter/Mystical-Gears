@@ -1,6 +1,8 @@
 package com.rcx.mystgears.block;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -14,6 +16,9 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -25,8 +30,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreIngredient;
 
 public class BlockTurret extends Block {
@@ -99,6 +111,7 @@ public class BlockTurret extends Block {
 		setUnlocalizedName("mechanical_turret");
 		setRegistryName(new ResourceLocation(MysticalGears.MODID, "mechanical_turret"));
 		setCreativeTab(MysticalMechanics.creativeTab);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@Override
@@ -145,8 +158,9 @@ public class BlockTurret extends Block {
 			turretEntity.setAttachment(ItemStack.EMPTY);
 			turretEntity.markDirty();
 			worldIn.playSound(null, pos, MysticalMechanicsAPI.GEAR_ADD, SoundCategory.BLOCKS, 1.0f, 1.0f);
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -156,7 +170,7 @@ public class BlockTurret extends Block {
 
 	@Override
 	public boolean isFullCube(IBlockState state) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -192,5 +206,61 @@ public class BlockTurret extends Block {
 		if ((TileEntityTurret) worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityTurret && ((TileEntityTurret) worldIn.getTileEntity(pos)).getEntity() != null && ((TileEntityTurret) worldIn.getTileEntity(pos)).getEntity().isBeingRidden())
 			return 16;
 		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onGameOverlayRender(RenderGameOverlayEvent.Post event) {
+		if (event.getType() == ElementType.TEXT) {
+			EntityPlayer player = Minecraft.getMinecraft().player;
+			World world = player.getEntityWorld();
+			RayTraceResult result = player.rayTrace(6.0, event.getPartialTicks());
+			if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+				IBlockState blockstate = world.getBlockState(result.getBlockPos());
+				if (blockstate.getBlock() instanceof BlockTurret) {
+					List<String> text = this.getTextOverlay(world, result.getBlockPos(), blockstate, player, result);
+					for (int i = 0; i < text.size(); i++) {
+						Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text.get(i), event.getResolution().getScaledWidth() / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(text.get(i)) / 2, event.getResolution().getScaledHeight() / 2 + 40 + 11 * i, 0xFFFFFF);
+					}
+				}
+			}
+		}
+		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("minecraft:textures/gui/icons.png"));
+		GlStateManager.enableDepth();
+	}
+
+	public List<String> getTextOverlay(World world, BlockPos pos, IBlockState state, EntityPlayer player, RayTraceResult result) {
+		ArrayList<String> text = new ArrayList<>();
+		ItemStack heldItem = player.getHeldItemMainhand();
+		if (!heldItem.isEmpty()) {
+			boolean attachment = hasAttachmentBehavior(heldItem);
+			boolean gear = MysticalMechanicsAPI.IMPL.isValidGear(heldItem);
+			boolean skin = hasMetalTexture(heldItem);
+			if (attachment || gear || skin) {
+				String attachmentText = I18n.format("mystgears.tooltip.turret.add_attachment");
+				String gearText = I18n.format("mystgears.tooltip.turret.gears");
+				String skinText = I18n.format("mystgears.tooltip.turret.skin_primary");
+				String skin2Text = I18n.format("mystgears.tooltip.turret.skin_secondary");
+
+				if (attachment) {
+					attachmentText = "§n" + attachmentText;
+				} else if (gear) {
+					gearText = "§n" + gearText;
+				} else if (skin) {
+					if (result.sideHit.equals(EnumFacing.UP))
+						skin2Text = "§n" + skin2Text;
+					else
+						skinText = "§n" + skinText;
+				}
+
+				text.add(I18n.format("mystgears.tooltip.turret.ride"));
+				text.add(attachmentText);
+				text.add(I18n.format("mystgears.tooltip.turret.remove_attachment"));
+				text.add(gearText);
+				text.add(skinText);
+				text.add(skin2Text);
+			}
+		}
+		return text;
 	}
 }

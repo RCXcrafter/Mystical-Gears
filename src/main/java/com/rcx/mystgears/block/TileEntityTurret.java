@@ -227,9 +227,8 @@ public class TileEntityTurret extends TileEntity implements ITickable {
 				return createEntity();
 			} else {
 				for (Entity entity : world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos.add(-5, -5, -5), pos.add(5, 5, 5)))) {
-					System.out.println(entity.getUniqueID());
-					if (entity.getUniqueID().equals(entityUUID)) {//fec1c043-5273-47ed-853b-5cee7e1b681b
-						entityID = entity.getEntityId();//74ab96bf-cd19-4641-a451-4b9252e4a600
+					if (entity.getUniqueID().equals(entityUUID)) {
+						entityID = entity.getEntityId();
 						return entity;
 					}
 				}

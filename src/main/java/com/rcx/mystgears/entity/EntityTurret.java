@@ -84,6 +84,25 @@ public class EntityTurret extends Entity {
 		this.motionY = 0;
 		this.motionZ = 0;
 		super.onUpdate();
+		
+		
+		
+		
+		this.world.profiler.startSection("rangeChecks");
+        while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
+            this.prevRotationYaw -= 360.0F;
+        }
+        while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
+            this.prevRotationYaw += 360.0F;
+        }
+        while (this.rotationPitch - this.prevRotationPitch < -180.0F) {
+            this.prevRotationPitch -= 360.0F;
+        }
+        while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
+            this.prevRotationPitch += 360.0F;
+        }
+        this.world.profiler.endSection();
+		
 		if (this.isBeingRidden()) {
 			this.rotationPitch = Math.min(this.getControllingPassenger().rotationPitch, 45.0F);
 			this.rotationYaw = this.getControllingPassenger().rotationYaw;

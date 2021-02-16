@@ -47,6 +47,7 @@ desc.gear.name=Can be used in a gearbox
 desc.gear.max.name=Max power: @power
 desc.gear.transfer.name=Power transfer: @transferx
 desc.attachment.name=Can be used as a turret attachment
+desc.turret_skin.name=Can be used to skin a mechanical turret
 desc.flywheel.name=Takes some time to speed up and slow down
 desc.gearanium.name=You spin me right round
 
@@ -56,6 +57,12 @@ desc.gearanium.name=You spin me right round
 mystgears.tooltip.mechdial.mech=Mechanical Power: %s
 mystgears.tooltip.mechdial.mech_input=§9⬊§r Mechanical Power: %s
 mystgears.tooltip.mechdial.mech_output=§6⬉§r Mechanical Power: %s
+mystgears.tooltip.turret.ride=Right click to ride
+mystgears.tooltip.turret.add_attachment=Right click with attachment to attach
+mystgears.tooltip.turret.remove_attachment=Sneak + right click with empty hand to remove attachment
+mystgears.tooltip.turret.gears=Right click with gear to change gears (cosmetic)
+mystgears.tooltip.turret.skin_primary=Right click side with ingot to change base skin
+mystgears.tooltip.turret.skin_secondary=Right click top with ingot to change accent skin
 
 
 # Embers Codex
