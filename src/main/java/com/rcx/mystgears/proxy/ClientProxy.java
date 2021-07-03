@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 		MinecraftForge.EVENT_BUS.register(this);
-		if (ConfigHandler.tooltips)
+		if (ConfigHandler.tooltips || ConfigHandler.gearboxTooltips || ConfigHandler.attachmentTooltips || ConfigHandler.skinTooltips)
 			MinecraftForge.EVENT_BUS.register(new TooltipHandler());
 		if (ConfigHandler.turret)
 			RenderingRegistry.registerEntityRenderingHandler(EntityTurret.class, RenderTurret::new);
@@ -83,10 +83,11 @@ public class ClientProxy extends CommonProxy {
 	public static class TooltipHandler {
 		@SubscribeEvent
 		public void tooltipEvent(ItemTooltipEvent event) {
-			if (MysticalMechanicsAPI.IMPL.isValidGear(event.getItemStack())) {
+			if ((ConfigHandler.tooltips || ConfigHandler.gearboxTooltips) && MysticalMechanicsAPI.IMPL.isValidGear(event.getItemStack())) {
 				IGearBehavior behavior = MysticalMechanicsAPI.IMPL.getGearBehavior(event.getItemStack());
 
-				event.getToolTip().add(I18n.translateToLocal("desc.gear.name"));
+				if (ConfigHandler.gearboxTooltips)
+					event.getToolTip().add(I18n.translateToLocal("desc.gear.name"));
 
 				if (behavior instanceof GearBehaviorRegular) {
 					GearBehaviorRegular regularBehavior = (GearBehaviorRegular) behavior;
@@ -95,17 +96,19 @@ public class ClientProxy extends CommonProxy {
 						event.getToolTip().add(I18n.translateToLocal(regularBehavior.extraLore));
 					}
 
-					if (regularBehavior.maxPower == 0)
-						event.getToolTip().add(I18n.translateToLocal("desc.gear.max.name").replace("@power", "\u221E"));
-					else
-						event.getToolTip().add(I18n.translateToLocal("desc.gear.max.name").replace("@power", regularBehavior.maxPower + ""));
-					event.getToolTip().add(I18n.translateToLocal("desc.gear.transfer.name").replace("@transfer", regularBehavior.powerTransfer + ""));
+					if (ConfigHandler.tooltips) {
+						if (regularBehavior.maxPower == 0)
+							event.getToolTip().add(I18n.translateToLocal("desc.gear.max.name").replace("@power", "\u221E"));
+						else
+							event.getToolTip().add(I18n.translateToLocal("desc.gear.max.name").replace("@power", regularBehavior.maxPower + ""));
+						event.getToolTip().add(I18n.translateToLocal("desc.gear.transfer.name").replace("@transfer", regularBehavior.powerTransfer + ""));
+					}
 				}
 			}
-			if (BlockTurret.hasAttachmentBehavior(event.getItemStack())) {
+			if (ConfigHandler.attachmentTooltips && BlockTurret.hasAttachmentBehavior(event.getItemStack())) {
 				event.getToolTip().add(I18n.translateToLocal("desc.attachment.name"));
 			}
-			if (BlockTurret.hasMetalTexture(event.getItemStack())) {
+			if (ConfigHandler.skinTooltips && BlockTurret.hasMetalTexture(event.getItemStack())) {
 				event.getToolTip().add(I18n.translateToLocal("desc.turret_skin.name"));
 			}
 		}

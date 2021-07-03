@@ -32,6 +32,9 @@ public class ConfigHandler {
 	// Options
 	public static Boolean smoke = true;
 	public static Boolean tooltips = true;
+	public static Boolean gearboxTooltips = true;
+	public static Boolean attachmentTooltips = true;
+	public static Boolean skinTooltips = true;
 
 	public static Boolean embers = true;
 	public static Boolean soot = true;
@@ -85,7 +88,7 @@ public class ConfigHandler {
 	public static Boolean mechanicalCrafter = true;
 	public static Boolean auraEngine = true;
 	public static Boolean poweredBellows = false;
-	
+
 	public static double lightFlywheelAcceleration = 5.0;
 	public static double heavyFlywheelAcceleration = 1.0;
 
@@ -179,6 +182,9 @@ public class ConfigHandler {
 		smoke = config.getBoolean("smoke", general, smoke, "Whether gears should emit smoke if they spin above their max speed.");
 
 		tooltips = config.getBoolean("tooltips", general, tooltips, "Enable/disable adding tooltips to gears to show their stats.");
+		gearboxTooltips = config.getBoolean("gearboxTooltips", general, gearboxTooltips, "Enable/disable adding tooltips to gears that say they can be used in gearboxes.");
+		attachmentTooltips = config.getBoolean("attachmentTooltips", general, attachmentTooltips, "Enable/disable adding tooltips to attachments that say they can be used as turret attachments.");
+		skinTooltips = config.getBoolean("skinTooltips", general, skinTooltips, "Enable/disable adding tooltips to items that say they can be used to skin turrets.");
 
 
 		config.setCategoryComment(compat, "settings for compatibility with other mods.");
