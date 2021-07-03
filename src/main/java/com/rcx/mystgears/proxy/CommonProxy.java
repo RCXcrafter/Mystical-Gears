@@ -382,6 +382,10 @@ public class CommonProxy {
 			turret = new ItemBlock(new BlockTurret());
 			MysticalGears.blocks.add((ItemBlock) turret.setRegistryName(turret.getBlock().getRegistryName()));
 			EntityRegistry.registerModEntity(new ResourceLocation(MysticalGears.MODID, "turret"), EntityTurret.class, "turret", 0, MysticalGears.MODID, 80, 20, false);
+			for (String entry : ConfigHandler.turretSkins) {
+				String[] entries = entry.split(":");
+				BlockTurret.metalTextures.put(new OreIngredient(entries[0]), entries[1]);
+			}
 		}
 	}
 

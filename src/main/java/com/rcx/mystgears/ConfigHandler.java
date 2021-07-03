@@ -91,6 +91,33 @@ public class ConfigHandler {
 
 	public static double lightFlywheelAcceleration = 5.0;
 	public static double heavyFlywheelAcceleration = 1.0;
+	
+	public static String[] turretSkins;
+	private static String[] turretSkinsDefaults = {
+			"ingotIron:iron",
+			"ingotGold:gold",
+			"stickWood:wood",
+			"ingotCopper:copper",
+			"ingotLead:lead",
+			"ingotSilver:silver",
+			"ingotDawnstone:dawnstone",
+			"ingotAluminum:aluminum",
+			"ingotAluminium:aluminum",
+			"ingotBronze:bronze",
+			"ingotElectrum:electrum",
+			"ingotNickel:nickel",
+			"ingotTin:tin",
+			"ingotAntimony:antimony",
+			"ingotBrass:brass",
+			"ingotThaumium:thaumium",
+			"ingotVoid:voidmetal",
+			"ingotManasteel:manasteel",
+			"ingotTerrasteel:terrasteel",
+			"ingotElvenElementium:elementium",
+			"ingotCrystalMatrix:crystalmatrix",
+			"ingotCosmicNeutronium:neutronium",
+			"ingotInfinity:infinity",
+	};
 
 	public static String[] gearStats;
 	private static String[] gearStatsDefaults = {
@@ -312,6 +339,13 @@ public class ConfigHandler {
 			TileEntityDrill.drillLevel = config.getInt("drillLevel", machine, TileEntityDrill.drillLevel, 0, 100, "The mining level of the drill.");
 			TileEntityDrillDiamond.diamondDrillSpeed = config.getFloat("diamondDrillSpeed", machine, TileEntityDrillDiamond.diamondDrillSpeed, 0, 100, "The mining speed of the diamond drill.");
 			TileEntityDrillDiamond.diamondDrillLevel = config.getInt("diamondDrillLevel", machine, TileEntityDrillDiamond.diamondDrillLevel, 0, 100, "The mining level of the diamond drill.");
+		}
+		if (turret) {
+			turretSkins = config.getStringList("turretSkins", general, turretSkinsDefaults, "Here you can change or add skins for turrets."
+					+ "\nThe syntax is: OredictName:SkinName"
+					+ "\nOredictName: The ore dictionary name of the item that applies the skin."
+					+ "\nSkinName: The name of the skin."
+					+ "Skins are loaded from the resource locations mystgears:textures/model/turret_base_SkinName.png and mystgears:textures/model/turret_overlay_SkinName.png");
 		}
 		if (emberGatlingGun) {
 			TileEntityGatlingGunEmber.maxPower = config.getFloat("emberGatlingGunMaxPower", machine, (float) TileEntityGatlingGunEmber.maxPower, 0, 100000000, "The amount of power the gatling gun takes to fire at max speed.");

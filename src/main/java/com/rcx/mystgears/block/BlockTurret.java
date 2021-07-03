@@ -39,38 +39,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreIngredient;
 
 public class BlockTurret extends Block {
 
 	public static HashMap<Ingredient, String> metalTextures = new HashMap<Ingredient, String>();
 	public static HashMap<Ingredient, IAttachmentBehavior> attachmentBehaviors = new HashMap<Ingredient, IAttachmentBehavior>();
-
-	static {
-		metalTextures.put(new OreIngredient("ingotIron"), "iron");
-		metalTextures.put(new OreIngredient("ingotGold"), "gold");
-		metalTextures.put(new OreIngredient("stickWood"), "wood");
-		metalTextures.put(new OreIngredient("ingotCopper"), "copper");
-		metalTextures.put(new OreIngredient("ingotLead"), "lead");
-		metalTextures.put(new OreIngredient("ingotSilver"), "silver");
-		metalTextures.put(new OreIngredient("ingotDawnstone"), "dawnstone");
-		metalTextures.put(new OreIngredient("ingotAluminum"), "aluminum");
-		metalTextures.put(new OreIngredient("ingotAluminium"), "aluminum");
-		metalTextures.put(new OreIngredient("ingotBronze"), "bronze");
-		metalTextures.put(new OreIngredient("ingotElectrum"), "electrum");
-		metalTextures.put(new OreIngredient("ingotNickel"), "nickel");
-		metalTextures.put(new OreIngredient("ingotTin"), "tin");
-		metalTextures.put(new OreIngredient("ingotAntimony"), "antimony");
-		metalTextures.put(new OreIngredient("ingotBrass"), "brass");
-		metalTextures.put(new OreIngredient("ingotThaumium"), "thaumium");
-		metalTextures.put(new OreIngredient("ingotVoid"), "voidmetal");
-		metalTextures.put(new OreIngredient("ingotManasteel"), "manasteel");
-		metalTextures.put(new OreIngredient("ingotTerrasteel"), "terrasteel");
-		metalTextures.put(new OreIngredient("ingotElvenElementium"), "elementium");
-		metalTextures.put(new OreIngredient("ingotCrystalMatrix"), "crystalmatrix");
-		metalTextures.put(new OreIngredient("ingotCosmicNeutronium"), "neutronium");
-		metalTextures.put(new OreIngredient("ingotInfinity"), "infinity");
-	}
 
 	public static boolean hasMetalTexture(ItemStack metal) {
 		for (Ingredient ingredient : metalTextures.keySet()) {
